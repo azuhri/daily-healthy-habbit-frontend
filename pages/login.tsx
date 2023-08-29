@@ -108,9 +108,9 @@ export default function LoginPage({API}:any) {
               <a href="#" className="text-sm font-light text-ds-tosca-200">Lupa password?</a>
           </div>
           <div className="mt-10 flex flex-col">
-           {isLoading ? <button className="w-full text-center bg-gradient-to-tr from-ds-tosca-100 to-ds-tosca-200 py-4 text-white font-semibold rounded-lg text-xl">
+           {isLoading ? <button className="w-full text-center bg-ds-blue-100 shadow py-4 text-white font-semibold rounded-lg text-xl">
               <Loading />
-            </button> : <button className="w-full text-center bg-gradient-to-tr from-ds-tosca-100 to-ds-tosca-200 py-4 text-white font-semibold rounded-lg text-xl">
+            </button> : <button className="w-full text-center bg-ds-blue-100 shadow py-4 text-white font-semibold rounded-lg text-xl">
               Login
             </button>}
             <span className="text-center mt-2 font-light text-md text-gray-500">
@@ -125,7 +125,7 @@ export default function LoginPage({API}:any) {
           </div>
         </form>
       </div>
-      <div className="hidden md:block w-1/2 bg-gradient-to-r from-ds-tosca-200 to-blue-900">
+      <div className="hidden md:block w-1/2 bg-gradient-to-tl from-ds-tosca-200 from-10% via-ds-tosca-100 via-50% to-blue-500 to-90%">
         <div className="flex h-full p-4 justify-center items-center flex-col">
           <style global jsx>{`
               .banner {
@@ -148,10 +148,10 @@ export default function LoginPage({API}:any) {
               }
           `}</style>
           <Image
-            src="/images/Ilustrasi-login.png"
+            src="/images/Ilustrasi-login2.png"
             alt="Banner Login"
-            width="350"
-            height="350"
+            width="450"
+            height="450"
             className="banner"
           />          
           <p className="font-semibold text-2xl mt-6 my-2 mt-10 text-white text-center">
