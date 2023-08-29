@@ -60,17 +60,17 @@ export default function LoginPage({API}:any) {
       <Head>
         <title>Daily Habit | Login</title>
       </Head>
-      <div className="w-full md:w-1/2 md:px-[100px] px-10 flex bg-white flex-col">
-        <div className="flex justify-center mt-8 mb-[150px] flex-col items-center">
+      <div className="w-full md:w-1/2 md:px-[100px] px-10 flex justify-center items-center bg-white flex-col relative">
+        <div className="flex justify-center mt-8 flex-col items-center absolute top-0">
           <Image src="/images/logo.png" alt="Stuck2Code Icon" width="80" height={0} />
           <p className="font-semibold text-gray-500"> Daily <span className="text-ds-tosca-100">Healthy</span> Habit</p>
         </div>
-        <p className="text-4xl font-bold text-ds-tosca-100">Masuk</p>
-        <p className="font-normal text-md text-gray-500">
+        <p className="w-full text-4xl font-bold text-ds-tosca-100">Masuk</p>
+        <p className="w-full font-normal text-md text-gray-500">
           Buat Perencanaan Rutinitasmu dengan Registrasi di <span className="font-semibold text-ds-tosca-100">Daily Healthy Habit</span>
         </p>
         <form
-          className="my-4">
+          className="my-4 w-full">
           <div id="responseMessage" style={displayNone} className="border-red-500 text-red-500 bg-red-200 mt-2 text-center p-3 border border-green-500 bg-green-200 rounded-lg text-green-500 font-bold"></div>
           <div className="my-2 flex flex-col">
             <label htmlFor="email" className="my-1 text-ds-tosca-200 text-md">
