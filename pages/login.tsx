@@ -148,7 +148,7 @@ export default function LoginPage({API}:any) {
                 }
               }
           `}</style>
-          <img src="./images/ilustrasi-login.png" alt="Ilustrasi Login"  className="banner" />
+          <img src="/images/ilustrasi-login.png" alt="Ilustrasi Login"  className="banner" />
           <p className="font-semibold text-2xl mt-6 my-2 mt-10 text-white text-center">
             Daily <span className="text-color-cyan10">Healthy</span> Habit
           </p>
