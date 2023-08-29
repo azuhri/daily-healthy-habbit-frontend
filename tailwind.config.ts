@@ -24,12 +24,14 @@ const config: Config = {
           pink10: '#FFE2F2',
           pink20: '#FFB1D9',
           donker: '#233563',
-          gray: '#D9D9D9',
+          gray: '#848484',
+          orange: '#EF9610',
           tosca: {
            '100': '#287F89',
            '200': '#1D5B63',
           },
           blue: {
+            "50": "#77B8F5",
             "100": "#2D92F0",
           }
         }
