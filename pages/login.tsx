@@ -148,7 +148,7 @@ export default function LoginPage({API}:any) {
               }
           `}</style>
           <Image
-            src="/images/ilustrasi-login.png"
+            src="/images/Ilustrasi-login.png"
             alt="Banner Login"
             width="450"
             height="350"
