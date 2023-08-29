@@ -62,8 +62,7 @@ export default function LoginPage({API}:any) {
       </Head>
       <div className="w-full md:w-1/2 md:px-[100px] px-10 flex bg-white flex-col">
         <div className="flex justify-center mt-8 mb-[150px] flex-col items-center">
-          {/* <Image src={iconDailyHabit} alt="Stuck2Code Icon" width="80" /> */}
-          <img src="/images/logo.png" alt="Ilustrasi Login" />
+          <Image src="/images/logo.png" alt="Stuck2Code Icon" width="80" height={0} />
           <p className="font-semibold text-gray-500"> Daily <span className="text-ds-tosca-100">Healthy</span> Habit</p>
         </div>
         <p className="text-4xl font-bold text-ds-tosca-100">Masuk</p>
@@ -148,7 +147,13 @@ export default function LoginPage({API}:any) {
                 }
               }
           `}</style>
-          <img src="/images/ilustrasi-login.png" alt="Ilustrasi Login"  className="banner" />
+          <Image
+            src="/images/ilustrasi-login.png"
+            alt="Banner Login"
+            width="450"
+            height="350"
+            className="banner"
+          />          
           <p className="font-semibold text-2xl mt-6 my-2 mt-10 text-white text-center">
             Daily <span className="text-color-cyan10">Healthy</span> Habit
           </p>
