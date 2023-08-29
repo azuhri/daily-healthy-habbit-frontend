@@ -62,10 +62,10 @@ export default function LoginPage({API}:any) {
       </Head>
       <div className="w-full md:w-1/2 md:px-[100px] px-10 flex justify-center items-center bg-white flex-col relative">
         <div className="flex justify-center mt-8 flex-col items-center absolute top-0">
-          <Image src="/images/logo.png" alt="Stuck2Code Icon" width="80" height={0} />
+          <Image src="/images/logo.png" alt="Daily Healthy Habit Icon" width="80" height={0} />
           <p className="font-semibold text-gray-500"> Daily <span className="text-ds-tosca-100">Healthy</span> Habit</p>
         </div>
-        <p className="w-full text-4xl font-bold text-ds-tosca-100">Masuk</p>
+        <p className="w-full text-4xl font-bold text-ds-tosca-100 mt-24">Masuk</p>
         <p className="w-full font-normal text-md text-gray-500">
           Buat Perencanaan Rutinitasmu dengan Registrasi di <span className="font-semibold text-ds-tosca-100">Daily Healthy Habit</span>
         </p>
@@ -150,7 +150,7 @@ export default function LoginPage({API}:any) {
           <Image
             src="/images/Ilustrasi-login.png"
             alt="Banner Login"
-            width="450"
+            width="350"
             height="350"
             className="banner"
           />          
