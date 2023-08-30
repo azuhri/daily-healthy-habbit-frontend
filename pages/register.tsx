@@ -8,7 +8,7 @@ const displayNone = {
   display: "none",
 };
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [nama, setNama] = useState("");
   const [email, setEmail] = useState("");
@@ -42,7 +42,7 @@ export default function LoginPage() {
     );
   };
 
-  const formLogin = () => {
+  const formRegister = () => {
     return (
       <div className="h-screen w-full flex">
         <form className="my-4 w-full">
@@ -106,7 +106,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen w-full flex overflow-y-auto bg-white">
       <Head>
-        <title>Daily Habit | Login</title>
+        <title>Daily Habit | Register</title>
       </Head>
       <div className="hidden min-h-[116vh] md:block md:w-1/2 bg-gradient-to-tl from-ds-tosca-200 from-10% via-ds-tosca-100 via-50% to-blue-500 to-90%">
         <div className="flex h-full p-4 justify-center items-center flex-col">
@@ -132,7 +132,7 @@ export default function LoginPage() {
           `}</style>
           <Image
             src="/images/ilustrasi-register.png"
-            alt="Banner Login"
+            alt="Banner Register"
             width="450"
             height="450"
             className="banner"
@@ -164,7 +164,7 @@ export default function LoginPage() {
               Daily Healthy Habit
             </span>
           </p>
-          {formLogin()}
+          {formRegister()}
         </div>
       </div>
     </div>
