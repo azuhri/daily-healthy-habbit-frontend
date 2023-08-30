@@ -44,8 +44,8 @@ export default function RegisterPage() {
 
   const formRegister = () => {
     return (
-      <div className="h-screen w-full flex">
-        <form className="my-4 w-full">
+      <div className="w-full flex items-center">
+        <form className="my-4 w-full flex flex-col justify-center">
           {InputForm(
             "Nama",
             "text",
@@ -104,11 +104,11 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen w-full flex overflow-y-auto bg-white">
+    <div className="min-h-[100vh] w-full flex overflow-y-auto bg-white">
       <Head>
         <title>Daily Habit | Register</title>
       </Head>
-      <div className="hidden min-h-[116vh] md:block md:w-1/2 bg-gradient-to-tl from-ds-tosca-200 from-10% via-ds-tosca-100 via-50% to-blue-500 to-90%">
+      <div className="hidden sm:block sm:w-1/2 bg-gradient-to-tl from-ds-tosca-200 from-10% via-ds-tosca-100 via-50% to-blue-500 to-90%">
         <div className="flex h-full p-4 justify-center items-center flex-col">
           <style global jsx>{`
             .banner {
@@ -137,7 +137,7 @@ export default function RegisterPage() {
             height="450"
             className="banner"
           />
-          <p className="font-semibold text-2xl mt-6 my-2 mt-10 text-white text-center">
+          <p className="font-semibold text-2xl mt-10 text-white text-center">
             Daily <span className="text-color-cyan10">Healthy</span> Habit
           </p>
           <p className="text-white font-white text-center">
@@ -145,18 +145,20 @@ export default function RegisterPage() {
           </p>
         </div>
       </div>
-      <div className="w-full md:w-1/2 md:px-10 flex justify-center items-center bg-white flex-col relative">
-        <div className="flex justify-center mt-8 flex-col items-center absolute top-0">
-          <Image
-            src="/images/logo.png"
-            alt="Daily Healthy Habit Icon"
-            width="80"
-            height={0}
-          />
-          <p className="font-semibold text-gray-500">
-            {" "}
-            Daily <span className="text-ds-tosca-100">Healthy</span> Habit
-          </p>
+      <div className="w-full sm:w-1/2 sm:px-[100px] px-10 flex justify-center items-center bg-white flex-col relative">
+          <div className="absolute top-0 mt-8 flex flex-col justify-center items-center">
+            <Image
+              src="/images/logo.png"
+              alt="Daily Healthy Habit Icon"
+              width="80"
+              height={0}
+            />
+            <p className="font-semibold text-gray-500">
+              {" "}
+              Daily <span className="text-ds-tosca-100">Healthy</span> Habit
+            </p>
+          </div>
+        <div className="flex flex-col mt-32 items-center">
           <p className="w-full text-4xl font-bold text-ds-tosca-100">Daftar</p>
           <p className="w-full font-normal text-md text-gray-500">
             Buat Perencanaan Rutinitasmu dengan Registrasi di{" "}
