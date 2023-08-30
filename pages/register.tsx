@@ -8,7 +8,7 @@ const displayNone = {
   display: "none",
 };
 
-export default function RegisterPage() {
+export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [nama, setNama] = useState("");
   const [email, setEmail] = useState("");
@@ -42,7 +42,7 @@ export default function RegisterPage() {
     );
   };
 
-  const formRegister = () => {
+  const formLogin = () => {
     return (
       <div className="h-screen w-full flex">
         <form className="my-4 w-full">
@@ -85,16 +85,16 @@ export default function RegisterPage() {
               </button>
             ) : (
               <button className="w-full text-center bg-ds-blue-100 shadow py-4 text-white font-semibold rounded-lg text-xl">
-                Register
+                Daftar
               </button>
             )}
             <span className="text-center mt-2 font-light text-md text-gray-500">
               Sudah punya akun ? yuk{" "}
               <Link
-                href="/register"
+                href="/login"
                 className="font-bold text-ds-blue-100 hover:text-color-cyan20"
               >
-                Register
+                Masuk
               </Link>
             </span>
           </div>
@@ -104,11 +104,11 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen w-full flex overflow-scroll bg-white">
+    <div className="min-h-screen w-full flex overflow-y-auto bg-white">
       <Head>
-        <title>Daily Habit | Register</title>
+        <title>Daily Habit | Login</title>
       </Head>
-      <div className="hidden min-h-[120vh] md:block md:w-1/2 bg-gradient-to-tl from-ds-tosca-200 from-10% via-ds-tosca-100 via-50% to-blue-500 to-90%">
+      <div className="hidden min-h-[116vh] md:block md:w-1/2 bg-gradient-to-tl from-ds-tosca-200 from-10% via-ds-tosca-100 via-50% to-blue-500 to-90%">
         <div className="flex h-full p-4 justify-center items-center flex-col">
           <style global jsx>{`
             .banner {
@@ -164,7 +164,7 @@ export default function RegisterPage() {
               Daily Healthy Habit
             </span>
           </p>
-          {formRegister()}
+          {formLogin()}
         </div>
       </div>
     </div>
