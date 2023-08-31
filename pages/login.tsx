@@ -15,6 +15,8 @@ import { log } from "console";
 import Loading from "@/components/loadingButton";
 import Head from "next/head";
 
+import InputForm from "@/components/forms/InputForm";
+
 // export const getServerSideProps: GetServerSideProps = async () => {
 //   const API = process.env.API;
 
@@ -91,36 +93,22 @@ export default function LoginPage({ API }: any) {
             className="border-red-500 text-red-500 bg-red-200 mt-2 text-center p-3 border border-green-500 bg-green-200 rounded-lg text-green-500 font-bold"
           ></div>
           <div className="my-2 flex flex-col">
-            <label htmlFor="email" className="my-1 text-ds-tosca-200 text-md">
-              Email
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              id="email"
-              required
-              title="Email harus di isi yah !"
-              className="border-2 focus:outline-none focus:border-ds-blue-100 px-4 text-gray-500 border-gray-300 shadow p-2 py-3 rounded-lg"
-              placeholder="Masukan email disini yah..."
-            />
-          </div>
-          <div className="my-2 flex flex-col">
-            <label
-              htmlFor="password"
-              className="my-1 text-ds-tosca-200 text-md"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              id="password"
-              className="border-2 focus:outline-none focus:border-ds-blue-100 text-gray-500 border-gray-300 shadow p-2 px-4 py-3 rounded-lg outline-noe"
-              placeholder="Masukan password disini yah..."
-            />
+            {InputForm(
+              "Email",
+              "email",
+              email,
+              (e) => setEmail(e.target.value),
+              "Email harus di isi yah !",
+              "Masukan email disini yah..."
+            )}
+            {InputForm(
+              "Password",
+              "password",
+              password,
+              (e) => setPassword(e.target.value),
+              "Password harus di isi yah !",
+              "Masukan password disini yah..."
+            )}
           </div>
           <div className="flex justify-end">
             <a href="#" className="text-sm font-light text-ds-tosca-200">
