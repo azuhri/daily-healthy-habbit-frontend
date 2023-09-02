@@ -17,7 +17,7 @@ const InputForm = (
         type={type}
         value={value}
         onChange={onChange}
-        id="email"
+        id={value}
         required
         title={title}
         className="border-2 focus:outline-none focus:border-ds-blue-100 px-4 text-gray-500 border-gray-300 shadow p-2 py-3 rounded-lg"
