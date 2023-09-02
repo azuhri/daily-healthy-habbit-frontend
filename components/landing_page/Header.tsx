@@ -30,7 +30,7 @@ export default function HeaderLandingPage() {
               <a href="#">Kontak Kami</a>
             </li>
             <li className="mx-6">
-              <a href="/register">Register</a>
+              <Link href="/register">Register</Link>
             </li>
             <li className="mx-6">
               <Link
