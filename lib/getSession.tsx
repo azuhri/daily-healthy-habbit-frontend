@@ -5,7 +5,7 @@ export const getServerSideProps = withSessionSsr(
   async function getServersideProps({ req, res }: GetServerSidePropsContext) {
     try {
       const user = req.session.user || null;
-      console.log(user);
+      console.log("test");
       if (!user) {
         return {
           redirect: {
