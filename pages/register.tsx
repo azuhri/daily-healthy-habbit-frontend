@@ -2,10 +2,21 @@ import Head from "next/head";
 import Image from "next/image";
 import React from "react";
 import Link from "next/link";
+import { GetStaticProps, GetServerSideProps } from "next";
 
 import FormRegister from "@/components/forms/FormRegister";
 
-export default function RegisterPage() {
+export const getServerSideProps: GetServerSideProps = async () => {
+  const API = process.env.API;
+
+  return {
+    props: {
+      API,
+    },
+  };
+};
+
+export default function RegisterPage({ API }: any) {
   return (
     <div className="min-h-[100vh] w-full flex overflow-y-auto bg-white">
       <Head>
@@ -49,17 +60,20 @@ export default function RegisterPage() {
         </div>
       </div>
       <div className="w-full sm:w-1/2 sm:px-[100px] px-10 flex justify-center items-center bg-white flex-col relative">
-        <Link href="/" className="absolute top-0 mt-8 flex flex-col justify-center items-center">
-            <Image
-              src="/images/logo.png"
-              alt="Daily Healthy Habit Icon"
-              width="80"
-              height={0}
-            />
-            <p className="font-semibold text-gray-500">
-              {" "}
-              Daily <span className="text-ds-tosca-100">Healthy</span> Habit
-            </p>
+        <Link
+          href="/"
+          className="absolute top-0 mt-8 flex flex-col justify-center items-center"
+        >
+          <Image
+            src="/images/logo.png"
+            alt="Daily Healthy Habit Icon"
+            width="80"
+            height={0}
+          />
+          <p className="font-semibold text-gray-500">
+            {" "}
+            Daily <span className="text-ds-tosca-100">Healthy</span> Habit
+          </p>
         </Link>
         <div className="flex flex-col mt-32 items-center">
           <p className="w-full text-4xl font-bold text-ds-tosca-100">Daftar</p>
