@@ -17,15 +17,15 @@ import Head from "next/head";
 
 import InputForm from "@/components/forms/InputForm";
 
-// export const getServerSideProps: GetServerSideProps = async () => {
-//   const API = process.env.API;
+export const getServerSideProps: GetServerSideProps = async () => {
+  const API = process.env.API;
 
-//   return {
-//     props: {
-//       API,
-//     },
-//   };
-// };
+  return {
+    props: {
+      API,
+    },
+  };
+};
 
 const displayNone = {
   display: "none",
@@ -37,27 +37,27 @@ export default function LoginPage({ API }: any) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
-  // const formLogin = async (el:any) => {
-  //   el.preventDefault();
-  //   try {
-  //     setIsLoading(true);
-  //     const response = await axios.post(`/api/login`, {
-  //       email, password
-  //     });
-  //     router.push('/dashboard');
-  //   } catch (error) {
-  //     const {data} = error.response;
+  const formLogin = async (el:any) => {
+    el.preventDefault();
+    try {
+      setIsLoading(true);
+      const response = await axios.post(`/api/login`, {
+        email, password
+      });
+      router.push('/dashboard');
+    } catch (error:any) {
+      const {data} = error.response;
 
-  //     $("#responseMessage").html(`${data.message}`);
-  //     $("#responseMessage").show(300);
-  //     setTimeout(() => {
-  //       $("#responseMessage").hide(300);
-  //     }, 3000);
-  //     setPassword('');
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // }
+      $("#responseMessage").html(`${data.message}`);
+      $("#responseMessage").show(300);
+      setTimeout(() => {
+        $("#responseMessage").hide(300);
+      }, 3000);
+      setPassword('');
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
     <div className="h-screen w-full flex">
@@ -89,11 +89,11 @@ export default function LoginPage({ API }: any) {
             Daily Healthy Habit
           </span>
         </p>
-        <form className="my-4 w-full">
+        <form onSubmit={formLogin} className="my-4 w-full">
           <div
             id="responseMessage"
             style={displayNone}
-            className="border-red-500 text-red-500 bg-red-200 mt-2 text-center p-3 border border-green-500 bg-green-200 rounded-lg text-green-500 font-bold"
+            className="border-red-500 text-red-400 bg-red-200 mt-2 text-center p-3 border rounded-lg font-bold"
           ></div>
           <div className="my-2 flex flex-col">
             {InputForm(
