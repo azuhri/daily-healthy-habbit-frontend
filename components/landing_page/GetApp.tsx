@@ -2,7 +2,7 @@ import Image from "next/image";
 export default function GetApp() {
   return (
     <>
-      <div className="py-2 px-32 bg-white text-gray-600">
+      <div className="py-32 bg-ds-white-100 px-32 text-gray-600">
         <div className="flex justify-between items-center">
           <div className="flex flex-col w-1/2">
             <p className="text-7xl font-semibold">
@@ -19,7 +19,7 @@ export default function GetApp() {
                 src="/images/google-get-it-on.png"
                 alt="Daily Healthy Habit Icon"
                 className=""
-                width="200"
+                width="400"
                 height={200}
               />
             </a>

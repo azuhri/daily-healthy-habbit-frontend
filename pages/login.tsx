@@ -65,7 +65,10 @@ export default function LoginPage({ API }: any) {
         <title>Daily Habit | Login</title>
       </Head>
       <div className="w-full md:w-1/2 md:px-[100px] px-10 flex justify-center items-center bg-white flex-col relative">
-        <div className="flex justify-center mt-8 flex-col items-center absolute top-0">
+        <Link
+          href="/"
+          className="absolute top-0 mt-8 flex flex-col justify-center items-center"
+        >
           <Image
             src="/images/logo.png"
             alt="Daily Healthy Habit Icon"
@@ -76,7 +79,7 @@ export default function LoginPage({ API }: any) {
             {" "}
             Daily <span className="text-ds-tosca-100">Healthy</span> Habit
           </p>
-        </div>
+        </Link>
         <p className="w-full text-4xl font-bold text-ds-tosca-100 mt-24">
           Masuk
         </p>

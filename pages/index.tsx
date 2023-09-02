@@ -5,6 +5,8 @@ import Link from "next/link";
 import HeaderLandingPage from "@/components/landing_page/Header";
 import Hero from "@/components/landing_page/Hero";
 import GetApp from "@/components/landing_page/GetApp";
+import Blog from "@/components/landing_page/BlogGrid/Blog";
+import Footer from "@/components/landing_page/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +18,9 @@ export default function Home() {
       </Head>
       <HeaderLandingPage />
       <Hero />
+      <Blog />
       <GetApp />
+      <Footer />
     </>
   );
 }

@@ -26,6 +26,9 @@ const config: Config = {
           donker: '#233563',
           gray: '#848484',
           orange: '#EF9610',
+          white: {
+            "100": '#F4F4F4',
+          },
           tosca: {
            '100': '#287F89',
            '200': '#1D5B63',
