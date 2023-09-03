@@ -1,9 +1,25 @@
 import Image from "next/image";
 import Link from "next/link";
 export default function HeaderLandingPage() {
+  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    // first prevent the default behavior
+    e.preventDefault();
+    // get the href and remove everything before the hash (#)
+    const href = e.currentTarget.href;
+    const targetId = href.replace(/.*\#/, "");
+    // get the element by id and use scrollIntoView
+    const elem = document.getElementById(targetId);
+    window.scrollTo({
+      top: elem?.getBoundingClientRect().top,
+      behavior: "smooth",
+    });
+  };
   return (
     <>
-      <header className="fixed z-10 top-0 w-full text-black bg-white shadow py-4 flex items-center justify-between px-32">
+      <header
+        id="navbar"
+        className="transition ease-in fixed z-10 top-0 w-full text-black  py-4 flex items-center justify-between px-32"
+      >
         <div>
           <div className="flex justify-center items-center">
             <Image
@@ -20,14 +36,20 @@ export default function HeaderLandingPage() {
         </div>
         <div>
           <ul className="flex">
-            <li className="mx-6">
-              <a href="#">Fitur</a>
+            <li id="featureNav" className="mx-6 transition ease-in-out delay-150">
+              <a href="#FeatureSection">Fitur</a>
+            </li>
+            <li
+              id="howToUseNav"
+              className="mx-6 transition ease-in-out delay-150"
+            >
+              <a href="#HowToUseSection">Tentang Aplikasi</a>
             </li>
             <li className="mx-6">
-              <a href="#">Tentang Aplikasi</a>
+              <Link href="#">Kontak Kami</Link>
             </li>
-            <li className="mx-6">
-              <a href="#">Kontak Kami</a>
+            <li id="blogNav" className="mx-6 transition ease-in-out delay-150">
+              <a href="#BlogSection">Blog</a>
             </li>
             <li className="mx-6">
               <Link href="/register">Register</Link>

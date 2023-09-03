@@ -1,11 +1,11 @@
 import Image from "next/image";
 
-const BlogChild = () => {
+const BlogChild = ({pathImage}:any) => {
   return (
     <div className="text-black">
-      <div className="h-1/2 bg-gray-100 p-2 rounded-lg overflow-hidden relative">
+      <div className="h-1/2 bg-ds-white-100 shadow p-2 rounded-lg overflow-hidden relative">
         <Image
-          src="/images/ilustrasi-register.png"
+          src={pathImage}
           alt="Banner Register"
           fill={true}
         />

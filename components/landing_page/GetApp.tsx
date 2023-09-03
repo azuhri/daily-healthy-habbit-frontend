@@ -16,11 +16,11 @@ export default function GetApp() {
             </p>
             <a href="#">
               <Image
-                src="/images/google-get-it-on.png"
+                src="/images/google-play-badge.png"
                 alt="Daily Healthy Habit Icon"
                 className=""
-                width="400"
-                height={200}
+                width="300"
+                height={0}
               />
             </a>
           </div>

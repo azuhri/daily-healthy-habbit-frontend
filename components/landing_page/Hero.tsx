@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Circle from "./components/Circle";
 export default function Hero() {
   return (
     <>
@@ -93,6 +94,7 @@ export default function Hero() {
             />
           </div>
         </section>
+        <Circle css="left-[-120px] bg-ds-blue-100"/>
       </div>
     </>
   );
