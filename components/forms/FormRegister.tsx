@@ -29,6 +29,7 @@ const FormRegister = () => {
         name,
         email,
         password,
+        password_confirmation,
       });
       router.push("/login");
     } catch (error: any) {
