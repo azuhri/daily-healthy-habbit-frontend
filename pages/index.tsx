@@ -22,7 +22,7 @@ export default function Home() {
       $(window).scroll(function () {
         
         var navbar = $("#navbar");
-        var scrollPos = $(window).scrollTop();
+        var scrollPos: any | undefined = $(window).scrollTop();
         console.log(scrollPos);
 
         if (scrollPos >= 500) {
