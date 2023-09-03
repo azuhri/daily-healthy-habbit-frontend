@@ -32,7 +32,7 @@ export default function Sidebar() {
               fill="none"
               stroke-linecap="round"
               stroke-linejoin="round"
-              class="css-i6dzq1"
+              className="css-i6dzq1"
             >
               <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
               <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
@@ -55,7 +55,7 @@ export default function Sidebar() {
               fill="none"
               stroke-linecap="round"
               stroke-linejoin="round"
-              class="css-i6dzq1"
+              className="css-i6dzq1"
             >
               <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
               <line x1="16" y1="2" x2="16" y2="6"></line>
