@@ -15,6 +15,14 @@ export default withSessionRoute(async function handler(req, res) {
           return;
         }
 
+        if (password.length < 8) {
+          res.status(400).json({
+            message: "Password minimal 8 karakter",
+            status: false,
+          });
+          return;
+        }
+
         const response = await axios.post(`${API}/api/v1/register`, {
           name,
           email,
