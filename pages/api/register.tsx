@@ -30,6 +30,18 @@ export default withSessionRoute(async function handler(req, res) {
         });
         console.log(response);
 
+        const dataUser = {
+          id: response.data.data.id,
+          name: response.data.data.name,
+          email: response.data.data.email,
+          phonenumber: response.data.data.phonenumber,
+          access_token: response.data.access_token,
+        };
+        console.log(dataUser);
+
+        req.session.user = dataUser;
+        await req.session.save();
+
         res.status(200).json({
           message: response.data.message,
         });
