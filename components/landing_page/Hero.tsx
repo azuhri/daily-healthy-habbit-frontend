@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Circle from "./components/Circle";
+import Link from "next/link";
 export default function Hero() {
   return (
     <>
@@ -21,9 +22,9 @@ export default function Hero() {
               hasil besar melalui langkah-langkah kecil.
             </p>
             <div className="flex my-6">
-              <a
+              <Link
                 className="bg-ds-blue-100 flex px-6 py-3 text-white rounded-full font-semibold"
-                href="#"
+                href="#DownloadApp"
               >
                 <p className="mx-2">Unduh Sekarang</p>
                 <svg
@@ -41,10 +42,10 @@ export default function Hero() {
                   <polyline points="7 10 12 15 17 10"></polyline>
                   <line x1="12" y1="15" x2="12" y2="3"></line>
                 </svg>
-              </a>
-              <a
+              </Link>
+              <Link
                 className="bg-ds-orange mx-6 flex px-6 py-3 text-white rounded-full font-semibold"
-                href="#"
+                href="#FeatureSection"
               >
                 <p className="mx-2">Jelajahi Sekarang</p>
                 <svg
@@ -61,7 +62,7 @@ export default function Hero() {
                   <polyline points="7 13 12 18 17 13"></polyline>
                   <polyline points="7 6 12 11 17 6"></polyline>
                 </svg>
-              </a>
+              </Link>
             </div>
           </div>
           <div className="flex items-center">

@@ -37,7 +37,7 @@ export default function HeaderLandingPage() {
         <div>
           <ul className="flex">
             <li id="featureNav" className="mx-6 transition ease-in-out delay-150">
-              <a href="#FeatureSection">Fitur</a>
+              <Link href="#FeatureSection">Fitur</Link>
             </li>
             <li
               id="howToUseNav"
