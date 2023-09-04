@@ -31,7 +31,7 @@ const FormRegister = () => {
         password,
         password_confirmation,
       });
-      router.push("/login");
+      router.push("/dashboard");
     } catch (error: any) {
       const { data } = error.response;
 
