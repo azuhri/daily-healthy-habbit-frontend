@@ -1,12 +1,31 @@
+import React from 'react';
 import Link from "next/link";
 import Image from "next/image";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 export default function Sidebar() {
+  const router = useRouter();
+  
+  const handleLogout = async () => {
+    let confirmation = confirm("Apakah Anda ingin logout?");
+    if(confirmation) {
+        try {
+          await axios.post("/api/logout"); // Mengirim permintaan POST ke route logout
+          // Redirect atau lakukan tindakan lain setelah logout berhasil
+          router.push("/login"); // Contoh: Redirect ke halaman utama
+        } catch (error) {
+          console.error("Terjadi kesalahan saat logout:", error);
+          // Handle kesalahan jika diperlukan
+        }
+    }
+  };
+
   return (
     <div className="w-[8%] min-h-[100vh] flex flex-col items-center bg-white shadow-md relative">
       <div className="py-10">
         <Link
-          href="/"
+          href="/dashboard"
           className="flex flex-col justify-center items-center text-center"
         >
           <Image
@@ -66,7 +85,9 @@ export default function Sidebar() {
           </Link>
         </li>
       </ul>
-      <button className="absolute bottom-5 border-2 border-red-500 bg-red-100 text-red-500 p-2 rounded-lg flex items-center">
+      <button 
+        onClick={handleLogout}
+        className="absolute bottom-5 border-2 border-red-500 bg-red-100 text-red-500 p-2 rounded-lg flex items-center">
         <p className="text-sm font-semibold mr-1">Logout</p>
         <svg
           viewBox="0 0 24 24"
