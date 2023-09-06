@@ -58,38 +58,34 @@ const FormRegister = () => {
           style={displayNone}
           className="border-red-500 text-red-400 bg-red-200 mt-2 text-center p-3 border rounded-lg font-bold"
         ></div>
-        {InputForm(
-          "Nama",
-          "text",
-          name,
-          (e) => setName(e.target.value),
-          "Nama harus di isi yah !",
-          "Masukan nama disini yah..."
-        )}
-        {InputForm(
-          "Email",
-          "email",
-          email,
-          (e) => setEmail(e.target.value),
-          "Email harus di isi yah !",
-          "Masukan email disini yah..."
-        )}
-        {InputForm(
-          "Password",
-          "password",
-          password,
-          (e) => setPassword(e.target.value),
-          "Password harus di isi yah !",
-          "Masukan password disini yah..."
-        )}
-        {InputForm(
-          "Konfirmasi Password",
-          "password",
-          password_confirmation,
-          (e) => setPassword_confirmation(e.target.value),
-          "Konfirmasi Password harus di isi yah !",
-          "Masukan password disini yah..."
-        )}
+        <InputForm
+          label="Nama"
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Masukan nama disini yah..."
+        />
+        <InputForm
+          label="Email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Masukan email disini yah..."
+        />
+        <InputForm
+          label="Password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Masukan password disini yah..."
+        />
+        <InputForm
+          label="Konfirmasi Password"
+          type="password"
+          value={password_confirmation}
+          onChange={(e) => setPassword_confirmation(e.target.value)}
+          placeholder="Masukan konfirmasi password disini yah..."
+        />
         <div className="mt-10 flex flex-col">
           {isLoading ? (
             <button className="w-full text-center bg-ds-blue-100 shadow py-4 text-white font-semibold rounded-lg text-xl">

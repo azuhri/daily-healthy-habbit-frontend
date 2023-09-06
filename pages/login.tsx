@@ -37,27 +37,28 @@ export default function LoginPage({ API }: any) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
-  const formLogin = async (el:any) => {
+  const formLogin = async (el: any) => {
     el.preventDefault();
     try {
       setIsLoading(true);
       const response = await axios.post(`/api/login`, {
-        email, password
+        email,
+        password,
       });
-      router.push('/dashboard');
-    } catch (error:any) {
-      const {data} = error.response;
+      router.push("/dashboard");
+    } catch (error: any) {
+      const { data } = error.response;
 
       $("#responseMessage").html(`${data.message}`);
       $("#responseMessage").show(300);
       setTimeout(() => {
         $("#responseMessage").hide(300);
       }, 3000);
-      setPassword('');
+      setPassword("");
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className="h-screen w-full flex">
@@ -96,22 +97,20 @@ export default function LoginPage({ API }: any) {
             className="border-red-500 text-red-400 bg-red-200 mt-2 text-center p-3 border rounded-lg font-bold"
           ></div>
           <div className="my-2 flex flex-col">
-            {InputForm(
-              "Email",
-              "email",
-              email,
-              (e) => setEmail(e.target.value),
-              "Email harus di isi yah !",
-              "Masukan email disini yah..."
-            )}
-            {InputForm(
-              "Password",
-              "password",
-              password,
-              (e) => setPassword(e.target.value),
-              "Password harus di isi yah !",
-              "Masukan password disini yah..."
-            )}
+            <InputForm
+              label="Email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Masukan email disini yah..."
+            />
+            <InputForm
+              label="Password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Masukan password disini yah..."
+            />
           </div>
           <div className="flex justify-end">
             <a href="#" className="text-sm font-light text-ds-tosca-200">

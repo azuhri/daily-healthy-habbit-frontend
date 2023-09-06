@@ -12,15 +12,14 @@ import Circle from "@/components/landing_page/components/Circle";
 import { useEffect } from "react";
 import $ from "jquery";
 import Feature from "@/components/landing_page/Feature/Feature";
+import ContactUs from "@/components/landing_page/ContactUs/ContactUs";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-
   useEffect(() => {
     $(document).ready(function () {
       $(window).scroll(function () {
-        
         var navbar = $("#navbar");
         var scrollPos: any | undefined = $(window).scrollTop();
         console.log(scrollPos);
@@ -31,22 +30,34 @@ export default function Home() {
           navbar.removeClass("bg-white shadow");
         }
 
-        if(scrollPos >= 940 && scrollPos <= 1900) {
-          $("#featureNav").addClass("border-b-2 text-ds-blue-100 border-b-ds-blue-100 pb-2")
+        if (scrollPos >= 940 && scrollPos <= 1900) {
+          $("#featureNav").addClass(
+            "border-b-2 text-ds-blue-100 border-b-ds-blue-100 pb-2"
+          );
         } else {
-          $("#featureNav").removeClass("border-b-2 text-ds-blue-100 border-b-ds-blue-100 pb-2")
+          $("#featureNav").removeClass(
+            "border-b-2 text-ds-blue-100 border-b-ds-blue-100 pb-2"
+          );
         }
 
-        if(scrollPos > 1900 && scrollPos <= 3458) {
-          $("#howToUseNav").addClass("border-b-2 text-ds-blue-100 border-b-ds-blue-100 pb-2")
+        if (scrollPos > 1900 && scrollPos <= 3458) {
+          $("#howToUseNav").addClass(
+            "border-b-2 text-ds-blue-100 border-b-ds-blue-100 pb-2"
+          );
         } else {
-          $("#howToUseNav").removeClass("border-b-2 text-ds-blue-100 border-b-ds-blue-100 pb-2")
+          $("#howToUseNav").removeClass(
+            "border-b-2 text-ds-blue-100 border-b-ds-blue-100 pb-2"
+          );
         }
 
-        if(scrollPos >= 4400) {
-          $("#blogNav").addClass("border-b-2 text-ds-blue-100 border-b-ds-blue-100 pb-2")
+        if (scrollPos >= 4400) {
+          $("#blogNav").addClass(
+            "border-b-2 text-ds-blue-100 border-b-ds-blue-100 pb-2"
+          );
         } else {
-          $("#blogNav").removeClass("border-b-2 text-ds-blue-100 border-b-ds-blue-100 pb-2")
+          $("#blogNav").removeClass(
+            "border-b-2 text-ds-blue-100 border-b-ds-blue-100 pb-2"
+          );
         }
       });
     });
@@ -62,6 +73,7 @@ export default function Home() {
       <Docs />
       <GetApp />
       <Blog />
+      <ContactUs />
       <Footer />
     </>
   );
