@@ -22,7 +22,7 @@ export default function InputFormContactUs({
         id={value}
         required
         title={title}
-        className="bg-gray-100 focus:outline-none focus:border-ds-blue-100 px-4 text-black border-gray-300 shadow p-2 py-3 rounded-lg w-full"
+        className="bg-gray-100 focus:outline-none focus:border-ds-blue-100 px-4 text-black border-gray-300 shadow mb-4 py-3 rounded-lg w-full"
         placeholder={placeholder}
       />
     </div>

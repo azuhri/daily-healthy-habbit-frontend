@@ -24,7 +24,7 @@ const ContactUs = () => {
           <div className="bg-white flex justify-center w-full h-full">
             <Image
               src="/images/ilustrasi-contact-us.png"
-              alt="Banner Register"
+              alt="Banner Contact Us"
               width="450"
               height="400"
             />
