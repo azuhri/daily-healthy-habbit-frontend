@@ -21,12 +21,13 @@ const ContactUs = () => {
             </p>
             <FormContactUs />
           </div>
-          <div className="bg-white flex justify-center w-full h-full">
+          <div className="bg-white flex justify-center w-full items-center">
             <Image
+              className="w-3/4"
               src="/images/ilustrasi-contact-us.png"
               alt="Banner Register"
-              width="450"
-              height="400"
+              width="600"
+              height="0"
             />
           </div>
         </div>

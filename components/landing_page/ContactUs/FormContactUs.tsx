@@ -32,7 +32,7 @@ const FormContactUs = () => {
       />
       <textarea
         placeholder="Pesan"
-        rows={3}
+        rows={7}
         className="resize-none bg-gray-100 focus:outline-none focus:border-ds-blue-100 px-4 text-gray-400 border-gray-300 shadow p-2 py-3 rounded-lg w-full"
         onChange={(e) => setMessage(e.target.value)}
       ></textarea>
@@ -42,7 +42,7 @@ const FormContactUs = () => {
             <Loading />
           </button>
         ) : (
-          <button className="w-full text-center bg-ds-blue-50 shadow py-1 text-white font-semibold rounded-lg text-xl">
+          <button className="w-full text-center bg-ds-blue-50 shadow py-4 text-white font-semibold rounded-lg text-xl">
             Kirim pesan
           </button>
         )}
