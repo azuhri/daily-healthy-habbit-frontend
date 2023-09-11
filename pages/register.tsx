@@ -65,7 +65,7 @@ export default function RegisterPage({ API }: any) {
           className="absolute top-0 mt-8 flex flex-col justify-center items-center"
         >
           <Image
-            src="/images/logo.png"
+            src="/icons/new-logo.png"
             alt="Daily Healthy Habit Icon"
             width="80"
             height={0}

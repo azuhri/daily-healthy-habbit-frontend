@@ -29,7 +29,7 @@ export default function Sidebar() {
           className="flex flex-col justify-center items-center text-center"
         >
           <Image
-            src="/images/logo.png"
+            src="/icons/new-logo.png"
             alt="Daily Healthy Habit Icon"
             width="50"
             height={0}

@@ -3,11 +3,11 @@ import Image from "next/image";
 
 export default function Feature() {
   return (
-    <div className="bg-white py-[200px] px-32" id="FeatureSection">
+    <div className="bg-white py-[200px] px-16 md:px-32" id="FeatureSection">
       <p className="text-4xl text-ds-blue-100 text-center font-bold">
         FITUR
       </p>
-      <div className="flex my-20 justify-center items-center">
+      <div className="flex md:flex-row flex-col my-20 justify-center items-center">
         <ListFeature2
           title="Monitoring Kebiasaan (Habit Tracking)"
           desc="Anda memiliki kendali penuh atas perubahan positif dalam hidup Anda. kami ada di sini untuk membantu Anda mencapainya."

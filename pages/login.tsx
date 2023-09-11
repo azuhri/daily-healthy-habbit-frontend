@@ -1,4 +1,4 @@
-import iconDailyHabit from "public/images/logo.png";
+import iconDailyHabit from "public/icons/new-logo.png";
 import ilustration from "public/images/ilustrasi-login.png";
 import Image from "next/image";
 import Link from "next/link";
@@ -71,7 +71,7 @@ export default function LoginPage({ API }: any) {
           className="absolute top-0 mt-8 flex flex-col justify-center items-center"
         >
           <Image
-            src="/images/logo.png"
+            src="/icons/new-logo.png"
             alt="Daily Healthy Habit Icon"
             width="80"
             height={0}

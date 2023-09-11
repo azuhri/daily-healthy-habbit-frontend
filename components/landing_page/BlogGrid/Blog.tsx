@@ -3,15 +3,15 @@ import BlogChild from "./BlogChild";
 
 const Blog = () => {
   return (
-    <div className="h-screen flex flex-col items-center justify-center bg-white py-32 relative" id="BlogSection">
+    <div className="h-screen flex flex-col items-center justify-center bg-white py-32 md:px-32" id="BlogSection">
       <h1 className="text-4xl font-bold mt-8 mb-16 text-center text-ds-blue-100">
         BLOG
       </h1>
-      <div className="w-3/4 h-3/4 grid grid-cols-3 gap-24">
+      <div className="flex md:flex-row flex-col relative">
         <BlogChild pathImage="/images/ilustrasi-register.png" />
         <BlogChild pathImage="/images/ilustration-blog1.png" />
         <BlogChild pathImage="/images/ilustrasi-login.png" />
-        <Circle css="top-0 right-[-120px] bg-ds-blue-100"/>
+        {/* <Circle css="top-[-250px] right-[-320px] bg-ds-blue-100"/> */}
       </div>
     </div>
   );

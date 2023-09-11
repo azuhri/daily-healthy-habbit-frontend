@@ -3,8 +3,8 @@ import Image from "next/image";
 export default function LeftAppRightText() {
   return (
     <div className="my-5">
-      <div className="flex">
-        <div className="w-1/2 flex justify-start items-center relative">
+      <div className="flex md:flex-row flex-col">
+        <div className="w-full md:w-1/2 flex justify-center md:justify-start items-center relative">
             <Image
               src="/images/demo1.png"
               alt="Daily Healthy Habit Icon"
@@ -12,9 +12,9 @@ export default function LeftAppRightText() {
               height={0}
             />
         </div>
-        <div className="w-1/2 flex justify-center flex-col">
-          <div className="flex flex-col">
-            <p className="font-semibold text-gray-500 text-3xl">LOREM IPSUM</p>
+        <div className="w-full md:w-1/2 flex justify-center flex-col">
+          <div className="flex mx-8 text-justify flex-col">
+            <p className="font-semibold text-gray-500 text-3xl text-center">LOREM IPSUM</p>
             <p className="text-black text-lg my-2">
               Lorem ipsum, dolor sit amet consectetur adipisicing elit.
               Necessitatibus nihil ea adipisci architecto, velit odit modi ad

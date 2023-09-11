@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import $ from "jquery";
 import Feature from "@/components/landing_page/Feature/Feature";
 import ContactUs from "@/components/landing_page/ContactUs/ContactUs";
+import FAQ from "@/components/landing_page/FAQ/FAQ";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -72,8 +73,9 @@ export default function Home() {
       <Feature />
       <Docs />
       <GetApp />
-      <Blog />
+      {/* <Blog /> */}
       <ContactUs />
+      <FAQ />
       <Footer />
     </>
   );
