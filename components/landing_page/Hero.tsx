@@ -4,8 +4,8 @@ import Link from "next/link";
 export default function Hero() {
   return (
     <>
-      <div className="bg-[url('/images/bg-hero.jpeg')] bg-left">
-        <section className="min-h-[100vh] text-black md:px-32 flex flex-col-reverse md:flex-row justify-between">
+      <div className="bg-[url('/images/bg-hero.jpeg')] bg-center md:bg-left">
+        <section className="min-h-[100vh] w-full text-black md:px-32 flex flex-col-reverse md:flex-row justify-between">
           <div className="flex justify-center md:px-0 px-10 flex-col w-full md:w-1/2">
             <p className="text-center md:text-left text-5xl md:text-7xl font-semibold text-gray-600" data-aos="fade-left">
               DAILY HEALTHY
@@ -94,7 +94,7 @@ export default function Hero() {
               alt="Banner Login"
               width="700"
               height="0"
-              className="banner"
+              className="banner my-6 md:my-0"
             />
           </div>
         </section>

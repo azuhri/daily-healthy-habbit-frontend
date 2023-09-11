@@ -4,8 +4,10 @@ import FormContactUs from "./FormContactUs";
 
 const ContactUs = () => {
   return (
+    <>
+     <div id="contacUsSection"></div>
     <div className="py-32 bg-white flex flex-col justify-center items-center">
-      <p className="pt-8 text-4xl font-bold text-ds-blue-100 my-10" id="contacUsSection" data-aos="zoom-in-up">
+      <p className="pt-8 text-4xl font-bold text-ds-blue-100 my-10" data-aos="zoom-in-up">
         KONTAK KAMI
       </p>
       <div className="h-[90%] w-[90%] py-10 bg-white rounded-xl shadow-allSides" data-aos="zoom-in-down">
@@ -31,6 +33,7 @@ const ContactUs = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

@@ -29,13 +29,13 @@ export default function Home() {
         var scrollPos: any | undefined = $(window).scrollTop();
         console.log(scrollPos);
 
-        if (scrollPos >= 500) {
+        if (scrollPos >= 100) {
           navbar.addClass("bg-white shadow");
         } else if (scrollPos == 0) {
           navbar.removeClass("bg-white shadow");
         }
 
-        if (scrollPos >= 940 && scrollPos <= 1900) {
+        if (scrollPos >= 940 && scrollPos < 1656) {
           $("#featureNav").addClass(
             "border-b-2 text-ds-blue-100 border-b-ds-blue-100 pb-2"
           );
@@ -45,7 +45,7 @@ export default function Home() {
           );
         }
 
-        if (scrollPos > 1900 && scrollPos <= 3458) {
+        if (scrollPos >= 1656 && scrollPos < 4988) {
           $("#howToUseNav").addClass(
             "border-b-2 text-ds-blue-100 border-b-ds-blue-100 pb-2"
           );
@@ -55,12 +55,22 @@ export default function Home() {
           );
         }
 
-        if (scrollPos >= 4400) {
-          $("#blogNav").addClass(
+        if (scrollPos >= 4988 && scrollPos < 5803) {
+          $("#contactUsNav").addClass(
             "border-b-2 text-ds-blue-100 border-b-ds-blue-100 pb-2"
           );
         } else {
-          $("#blogNav").removeClass(
+          $("#contactUsNav").removeClass(
+            "border-b-2 text-ds-blue-100 border-b-ds-blue-100 pb-2"
+          );
+        }
+
+        if (scrollPos >= 5803 ) {
+          $("#FAQNav").addClass(
+            "border-b-2 text-ds-blue-100 border-b-ds-blue-100 pb-2"
+          );
+        } else {
+          $("#FAQNav").removeClass(
             "border-b-2 text-ds-blue-100 border-b-ds-blue-100 pb-2"
           );
         }

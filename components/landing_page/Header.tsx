@@ -58,13 +58,21 @@ export default function HeaderLandingPage() {
             >
               <a href="#HowToUseSection">Tentang Aplikasi</a>
             </li>
-            <li className="mx-6">
+            <li 
+              id="contactUsNav"
+              className="mx-6 transition ease-in-out delay-150">
+              
               <Link href="#contacUsSection">Kontak Kami</Link>
+            </li>
+            <li 
+              id="FAQNav"
+              className="mx-6 transition ease-in-out delay-150">
+              <Link href="#FAQSection">FAQ</Link>
             </li>
             {/* <li id="blogNav" className="mx-6 transition ease-in-out delay-150">
               <a href="#BlogSection">Blog</a>
             </li> */}
-            <li className="mx-6">
+            {/* <li className="mx-6">
               <Link href="/register">Register</Link>
             </li>
             <li className="mx-6">
@@ -74,8 +82,8 @@ export default function HeaderLandingPage() {
               >
                 Sign In
               </Link>
-            </li>
-          </ul>
+            </li>*/}
+          </ul> 
         </div>
       </header>
       <header className="md:hidden bg-gray-50 shadow-md fixed z-10 top-0 w-full text-black  py-4 px-2">
@@ -134,6 +142,9 @@ export default function HeaderLandingPage() {
               <Link href="#contacUsSection">Kontak Kami</Link>
             </li>
             <li className="my-4">
+              <Link href="#FAQSection">FAQ</Link>
+            </li>
+            {/* <li className="my-4">
               <Link href="/register">Register</Link>
             </li>
             <li className="my-6">
@@ -143,7 +154,7 @@ export default function HeaderLandingPage() {
               >
                 Sign In
               </Link>
-            </li>
+            </li> */}
           </ul>
         </div>
       </header>
