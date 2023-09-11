@@ -14,11 +14,15 @@ import $ from "jquery";
 import Feature from "@/components/landing_page/Feature/Feature";
 import ContactUs from "@/components/landing_page/ContactUs/ContactUs";
 import FAQ from "@/components/landing_page/FAQ/FAQ";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const inter = Inter({ subsets: ["latin"] });
 
+
 export default function Home() {
   useEffect(() => {
+    AOS.init();
     $(document).ready(function () {
       $(window).scroll(function () {
         var navbar = $("#navbar");

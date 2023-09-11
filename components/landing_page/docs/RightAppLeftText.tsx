@@ -3,7 +3,7 @@ import Image from "next/image";
 export default function RightAppLeftText() {
   return (
     <div className="my-5">
-      <div className="flex md:flex-row flex-col-reverse">
+      <div className="flex md:flex-row flex-col-reverse" data-aos="flip-right">
         <div className="w-full md:w-1/2 flex justify-center flex-col">
           <div className="flex mx-8 text-justify flex-col">
             <p className="font-semibold text-gray-500 text-center text-3xl">LOREM IPSUM</p>

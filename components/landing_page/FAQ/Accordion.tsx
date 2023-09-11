@@ -28,6 +28,7 @@ export default function Accordion({ title, desc }: ContentAccordion) {
 
   return (
     <button
+      data-aos="zoom-in"
       onClick={openArcodion}
       data-hide="true"
       className="button-accordion my-4 bg-gray-100 text-gray-500 shadow-lg px-6 md:px-10  py-2 rounded-xl relative"

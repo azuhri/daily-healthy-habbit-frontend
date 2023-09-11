@@ -3,7 +3,7 @@ import Image from "next/image";
 export default function LeftAppRightText() {
   return (
     <div className="my-5">
-      <div className="flex md:flex-row flex-col">
+      <div className="flex md:flex-row flex-col" data-aos="fade-left">
         <div className="w-full md:w-1/2 flex justify-center md:justify-start items-center relative">
             <Image
               src="/images/demo1.png"

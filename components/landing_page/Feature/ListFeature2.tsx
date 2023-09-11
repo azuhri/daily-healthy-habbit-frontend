@@ -9,7 +9,7 @@ interface ListFeatureProps {
 
 export default function ListFeature({ children, title, desc }: ListFeatureProps) {
   return (
-    <div className="flex flex-col justify-center items-center mx-4 my-4">
+    <div className="flex flex-col justify-center items-center mx-4 my-4" data-aos="zoom-in">
         <div className="h-[200px] shadow-lg w-[200px] bg-ds-blue-50 rounded-full flex justify-center items-center">
             <div className="h-[185px] w-[185px] border-[4px] border-white bg-blue-100 rounded-full flex justify-center items-center">
                 {children}
