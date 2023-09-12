@@ -14,7 +14,7 @@ export default function InputFormContactUs({
   placeholder?: string;
 }) {
   return (
-    <div className="my-2 flex flex-col">
+    <div className="my-3 flex flex-col">
       <input
         type={type}
         value={value}

@@ -4,26 +4,27 @@ import Link from "next/link";
 export default function Hero() {
   return (
     <>
-      <div className="bg-[url('/images/bg-hero.jpeg')] bg-left">
-        <section className="min-h-[100vh] text-black px-32 flex justify-between">
-          <div className="flex justify-center flex-col w-1/2">
-            <p className="text-7xl font-semibold text-gray-600">
+      <div className="bg-[url('/images/bg-hero.jpeg')] bg-center md:bg-left">
+        <section className="min-h-[100vh] w-full text-black md:px-32 flex flex-col-reverse md:flex-row justify-between">
+          <div className="flex justify-center md:px-0 px-10 flex-col w-full md:w-1/2">
+            <p className="text-center md:text-left text-5xl md:text-7xl font-semibold text-gray-600" data-aos="fade-left">
               DAILY HEALTHY
             </p>
-            <p className="text-7xl font-semibold text-ds-blue-50 mt-2">
+            <p className="text-center md:text-left text-5xl md:text-7xl font-semibold text-ds-blue-50 mt-2" data-aos="fade-right">
               HABIT APP
             </p>
-            <p className="text-2xl font-semibold text-[#979797] mt-2">
+            <p className="text-center md:text-left text-2xl font-semibold text-[#979797] mt-2" data-aos="zoom-in-down">
               Mulai kebiasaan Baik Dengan Perencanaan Setiap Hari{" "}
             </p>
-            <p className="text-sm font-normal text-gray-400 mt-2">
+            <p className=" text-center md:text-left text-sm font-normal text-gray-400 mt-2" data-aos="zoom-in-down">
               Solusi terbaik untuk membantu Anda membentuk dan menjaga kebiasaan
               sehat. Kami menyediakan alat yang Anda perlukan untuk mencapai
               hasil besar melalui langkah-langkah kecil.
             </p>
-            <div className="flex my-6">
+            <div className="flex flex-col md:flex-row  my-6">
               <Link
-                className="bg-ds-blue-100 flex px-6 py-3 text-white rounded-full font-semibold"
+                data-aos="flip-left"
+                my-2 className="md:w-1/2 text-md py-4 md:mx-4 md:mr-4 flex justify-center my-2 bg-ds-blue-100 flex px-6 py-3 text-white rounded-full font-semibold"
                 href="#DownloadApp"
               >
                 <p className="mx-2">Unduh Sekarang</p>
@@ -44,7 +45,8 @@ export default function Hero() {
                 </svg>
               </Link>
               <Link
-                className="bg-ds-orange mx-6 flex px-6 py-3 text-white rounded-full font-semibold"
+                data-aos="flip-right"
+                className="md:w-1/2 text-md py-4 md:mx-4 md:ml-4 flex justify-center my-2 bg-ds-orange flex px-6 py-3 text-white rounded-full font-semibold"
                 href="#FeatureSection"
               >
                 <p className="mx-2">Jelajahi Sekarang</p>
@@ -65,7 +67,7 @@ export default function Hero() {
               </Link>
             </div>
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center w-full md:w-1/2">
             <style global jsx>{`
               .banner {
                 position: relative;
@@ -87,15 +89,16 @@ export default function Hero() {
               }
             `}</style>
             <Image
+              data-aos="zoom-in-up"
               src="/images/banner-landing.png"
               alt="Banner Login"
               width="700"
               height="0"
-              className="banner"
+              className="banner my-6 md:my-0"
             />
           </div>
         </section>
-        <Circle css="left-[-120px] bg-ds-blue-100"/>
+        {/* <Circle css="left-[-120px] bg-ds-blue-100"/> */}
       </div>
     </>
   );

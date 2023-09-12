@@ -2,20 +2,21 @@ import Image from "next/image";
 export default function GetApp() {
   return (
     <>
-      <div className="py-32 bg-ds-white-100 px-32 text-gray-600" id="DownloadApp">
-        <div className="flex justify-between items-center">
-          <div className="flex flex-col w-1/2">
-            <p className="text-7xl font-semibold">
+      <div className="py-32 bg-ds-white-100 md:px-32 text-gray-600" id="DownloadApp">
+        <div className="flex w-full flex-col md:flex-row justify-between items-center">
+          <div className="flex flex-col w-full justify-center md:justify-start md:w-1/2">
+            <p className="text-7xl text-center md:text-left font-semibold" data-aos="zoom-in">
               Download <br /> App
             </p>
-            <p className="mt-6 mb-2 text-sm">
+            <p className="mt-6 mx-8 md:mx-0 mb-2 text-center md:text-left text-center md:text-left text-sm" data-aos="fade-right">
               Dapatkan Aplikasi Kami Sekarang!. Ubah perjalanan menuju gaya
               hidup sehat dengan satu langkah mudah. Unduh aplikasi Daily
               Healthy Habit sekarang dan mulai pencapaian Anda menuju
               kesejahteraan yang lebih baik.
             </p>
-            <a href="https://play.google.com/store/apps/details?id=com.hl1.daily_healthy_habit_mobile&pcampaignid=web_share">
+            <a className="flex justify-center md:justify-start" href="https://play.google.com/store/apps/details?id=com.hl1.daily_healthy_habit_mobile&pcampaignid=web_share">
               <Image
+                data-aos="zoom-in"
                 src="/images/google-play-badge.png"
                 alt="Daily Healthy Habit Icon"
                 className=""
@@ -24,12 +25,14 @@ export default function GetApp() {
               />
             </a>
           </div>
-          <div className="w-1/2 flex justify-center">
-            <Image
-              src="/images/ilustrasi-mobile1.png"
+          <div className="w-full md:w-1/2 flex md:justify-end justify-center text-center md:text-left">
+             <Image
+              data-aos="zoom-in"
+              className="my-10"
+              src="/images/mobile-apps.png"
               alt="Daily Healthy Habit Icon"
-              width="400"
-              height={400}
+              width="250"
+              height={0}
             />
           </div>
         </div>
