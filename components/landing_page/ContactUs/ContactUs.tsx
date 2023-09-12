@@ -5,7 +5,7 @@ import FormContactUs from "./FormContactUs";
 const ContactUs = () => {
   return (
     <div className="h-screen bg-white flex justify-center items-center">
-      <div className="h-[90%] w-[90%] bg-white rounded-lg shadow-allSides">
+      <div className="h-[95%] w-[95%] bg-white rounded-lg shadow-allSides">
         <div className="text-center h-[15%]">
           <p className="pt-8 text-4xl font-bold text-ds-blue-100">
             KONTAK KAMI
