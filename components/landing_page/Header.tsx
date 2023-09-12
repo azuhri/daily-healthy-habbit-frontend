@@ -38,7 +38,7 @@ export default function HeaderLandingPage() {
               height={0}
               className="mx-4"
             />
-            <p className="font-semibold text-ds-gray">
+            <p className="font-semibold text-gray-500">
               {" "}
               Daily <span className="text-ds-tosca-100">Healthy</span> Habit
             </p>
@@ -88,13 +88,16 @@ export default function HeaderLandingPage() {
       </header>
       <header className="md:hidden bg-gray-50 shadow-md fixed z-10 top-0 w-full text-black  py-4 px-2">
         <div className="flex justify-between items-center">
-          <Image
-            src="/icons/new-logo.png"
-            alt="Daily Healthy Habit Icon"
-            width="45"
-            height={0}
-            className="mx-4"
-          />
+          <div className="flex items-center">
+            <Image
+              src="/icons/new-logo.png"
+              alt="Daily Healthy Habit Icon"
+              width="45"
+              height={0}
+              className="mx-2"
+            />
+            <p className="text-sm text-gray-500 font-semibold">Daily <span className="text-ds-tosca-200">Healthy</span> Habit</p>
+          </div>
           <button onClick={showNavbarResponsive} className="mr-6">
             <svg
               id="hamburger"
