@@ -12,24 +12,32 @@ export default function Accordion({ title, desc }: ContentAccordion) {
     display: "none",
   };
 
-  const openArcodion = (event: any) => {
-    if (!isHide) {
-      $(".accordion").slideDown(300);
-      setIsHide(true);
-      $(".upAccordion").hide(300);
-      $(".downAccordion").show(300);
-    } else {
-      $(".accordion").slideUp(300);
-      setIsHide(false);
-      $(".downAccordion").hide(300);
-      $(".upAccordion").show(300);
-    }
+  // const openArcodion = (event: any) => {
+  //   if (!isHide) {
+  //     $(".accordion").slideDown(300);
+  //     setIsHide(true);
+  //     $(".upAccordion").hide(300);
+  //     $(".downAccordion").show(300);
+  //   } else {
+  //     $(".accordion").slideUp(300);
+  //     setIsHide(false);
+  //     $(".downAccordion").hide(300);
+  //     $(".upAccordion").show(300);
+  //   }
+  // };
+
+  const openAccordion = () => {
+    setIsHide((prevIsHide) => !prevIsHide);
+  };
+
+  const accordionStyle = {
+    display: isHide ? "none" : "block",
   };
 
   return (
     <button
       data-aos="zoom-in"
-      onClick={openArcodion}
+      onClick={openAccordion}
       data-hide="true"
       className="button-accordion my-4 bg-gray-100 text-gray-500 shadow-lg px-6 md:px-10  py-2 rounded-xl relative"
     >
@@ -65,7 +73,10 @@ export default function Accordion({ title, desc }: ContentAccordion) {
           </svg>
         </div>
       </div>
-      <div className="my-2 accordion text-left text-sm py-4" style={dNone}>
+      <div
+        className="my-2 accordion text-left text-sm py-4"
+        style={accordionStyle}
+      >
         <p>{desc}</p>
       </div>
     </button>
