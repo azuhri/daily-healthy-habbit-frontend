@@ -38,7 +38,7 @@ export default function HeaderLandingPage() {
               height={0}
               className="mx-4"
             />
-            <p className="font-semibold text-gray-500">
+            <p className="font-semibold text-gray-600">
               {" "}
               Daily <span className="text-ds-tosca-100">Healthy</span> Habit
             </p>
@@ -96,7 +96,7 @@ export default function HeaderLandingPage() {
               height={0}
               className="mx-2"
             />
-            <p className="text-sm text-gray-500 font-semibold">Daily <span className="text-ds-tosca-200">Healthy</span> Habit</p>
+            <p className="text-sm text-gray-600 font-semibold">Daily <span className="text-ds-tosca-200">Healthy</span> Habit</p>
           </div>
           <button onClick={showNavbarResponsive} className="mr-6">
             <svg
