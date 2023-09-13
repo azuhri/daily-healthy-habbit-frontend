@@ -25,13 +25,13 @@ export default function Home() {
     $(document).ready(function () {
       $(window).scroll(function () {
         var navbar = $("#navbar");
-        var scrollPos = $(window).scrollTop();
+        var scrollPos : number = $(window).scrollTop();
         
         // Offset dari setiap section
-        var featureOffset : number | undefined = $('#FeatureSection').offset()?.top;
-        var howToUseOffset : number | undefined = $('#HowToUseSection').offset()?.top;
-        var contactUsOffset : number | undefined = $('#contacUsSection2').offset()?.top;
-        var faqOffset : number | undefined = $('#FAQSection2').offset()?.top;
+        var featureOffset : number = $('#FeatureSection').offset()?.top;
+        var howToUseOffset : number = $('#HowToUseSection').offset()?.top;
+        var contactUsOffset : number = $('#contacUsSection2').offset()?.top;
+        var faqOffset : number = $('#FAQSection2').offset()?.top;
     
         // Fungsi untuk menghapus kelas-kelas yang memberikan highlight pada semua menu navbar
         function removeHighlightClasses() {
