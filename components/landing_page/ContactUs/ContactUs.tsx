@@ -109,7 +109,7 @@ const ContactUs = () => {
   const newFormData = (inputs:any) => {
     const formData = new FormData();
     const newArr = Object.entries(inputs);
-    newArr.map((item) => {
+    newArr.map((item: any) => {
       return formData.append(`${item[0]}`, item[1]);
     });
     return formData;
