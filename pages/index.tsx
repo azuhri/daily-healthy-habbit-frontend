@@ -28,10 +28,10 @@ export default function Home() {
         var scrollPos = $(window).scrollTop();
         
         // Offset dari setiap section
-        var featureOffset = $('#FeatureSection').offset().top;
-        var howToUseOffset = $('#HowToUseSection').offset().top;
-        var contactUsOffset = $('#contacUsSection2').offset().top;
-        var faqOffset = $('#FAQSection2').offset().top;
+        var featureOffset : number = $('#FeatureSection').offset().top;
+        var howToUseOffset : number = $('#HowToUseSection').offset().top;
+        var contactUsOffset : number = $('#contacUsSection2').offset().top;
+        var faqOffset : number = $('#FAQSection2').offset().top;
     
         // Fungsi untuk menghapus kelas-kelas yang memberikan highlight pada semua menu navbar
         function removeHighlightClasses() {
@@ -41,7 +41,7 @@ export default function Home() {
         }
     
         // Fungsi untuk menambahkan highlight ke menu navbar yang sesuai
-        function highlightNavbar(navbarId) {
+        function highlightNavbar(navbarId: any) {
           removeHighlightClasses();
           $(navbarId).addClass("border-b-2 text-ds-blue-100 border-b-ds-blue-100 pb-2");
         }
