@@ -33,10 +33,6 @@ export default function FAQ() {
             title="Apa kelebihan yang ditawarkan daily healthy habit ?"
             desc="Daily healthy habit menawarkan kelebihan untuk pencatatan dan pemantauan kebiasaan (habit trakcing) dengan notifikasi pengigat kegiatan"
           />
-          <Accordion
-            title="Apa kelebihan yang ditawarkan daily healthy habit 2 ?"
-            desc="Daily healthy habit menawarkan kelebihan untuk pencatatan dan pemantauan kebiasaan (habit trakcing) dengan notifikasi pengigat kegiatan"
-          />
         </div>
       </section>
     </>

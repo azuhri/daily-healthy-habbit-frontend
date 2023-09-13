@@ -1,5 +1,4 @@
 import { useState } from "react";
-import $ from "jquery";
 
 interface ContentAccordion {
   title: string;
@@ -8,38 +7,16 @@ interface ContentAccordion {
 
 export default function Accordion({ title, desc }: ContentAccordion) {
   const [isHide, setIsHide] = useState(false);
-  const dNone = {
-    display: "none",
-  };
-
-  // const openArcodion = (event: any) => {
-  //   if (!isHide) {
-  //     $(".accordion").slideDown(300);
-  //     setIsHide(true);
-  //     $(".upAccordion").hide(300);
-  //     $(".downAccordion").show(300);
-  //   } else {
-  //     $(".accordion").slideUp(300);
-  //     setIsHide(false);
-  //     $(".downAccordion").hide(300);
-  //     $(".upAccordion").show(300);
-  //   }
-  // };
 
   const openAccordion = () => {
     setIsHide((prevIsHide) => !prevIsHide);
-  };
-
-  const accordionStyle = {
-    display: isHide ? "none" : "block",
   };
 
   return (
     <button
       data-aos="zoom-in"
       onClick={openAccordion}
-      data-hide="true"
-      className="button-accordion my-4 bg-gray-100 text-gray-500 shadow-lg px-6 md:px-10  py-2 rounded-xl relative"
+      className="button-accordion my-4 bg-gray-100 text-gray-500 shadow-lg px-6 md:px-10  py-2 rounded-xl relative transition-all duration-300 ease-in-out"
     >
       <div className="flex justify-between items-center my-4 font-bold">
         <p className="text-left">{title}</p>
@@ -53,7 +30,6 @@ export default function Accordion({ title, desc }: ContentAccordion) {
             fill="none"
             stroke-linecap="round"
             stroke-linejoin="round"
-            style={dNone}
             className="downAccordion"
           >
             <polyline points="6 9 12 15 18 9"></polyline>
@@ -74,8 +50,11 @@ export default function Accordion({ title, desc }: ContentAccordion) {
         </div>
       </div>
       <div
-        className="my-2 accordion text-left text-sm py-4"
-        style={accordionStyle}
+        className={`accordion text-left text-sm transition-all duration-500 ease-in-out ${
+          isHide
+            ? "max-h-0 overflow-hidden"
+            : "max-h-[1000px] overflow-visible my-4 py-2"
+        }`}
       >
         <p>{desc}</p>
       </div>

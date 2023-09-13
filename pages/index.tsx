@@ -14,11 +14,10 @@ import $ from "jquery";
 import Feature from "@/components/landing_page/Feature/Feature";
 import ContactUs from "@/components/landing_page/ContactUs/ContactUs";
 import FAQ from "@/components/landing_page/FAQ/FAQ";
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const inter = Inter({ subsets: ["latin"] });
-
 
 export default function Home() {
   useEffect(() => {
@@ -65,7 +64,7 @@ export default function Home() {
           );
         }
 
-        if (scrollPos >= 5803 ) {
+        if (scrollPos >= 5803) {
           $("#FAQNav").addClass(
             "border-b-2 text-ds-blue-100 border-b-ds-blue-100 pb-2"
           );
