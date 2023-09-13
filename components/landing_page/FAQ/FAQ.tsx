@@ -6,7 +6,7 @@ export default function FAQ() {
   return (
     <>
       <div id="FAQSection"></div>
-      <section className="py-32 px-10 md:px-32 bg-white">
+      <section className="py-64 px-10 md:px-32 bg-white">
         <div className="flex justify-center my-4 flex flex-col">
           <p className="text-4xl text-ds-blue-100 text-center font-bold">FAQs</p>
           <p className="text-xl text-ds-gray text-center mt-6 font-semibold">

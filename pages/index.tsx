@@ -26,56 +26,49 @@ export default function Home() {
     $(document).ready(function () {
       $(window).scroll(function () {
         var navbar = $("#navbar");
-        var scrollPos: any | undefined = $(window).scrollTop();
-        console.log(scrollPos);
-
+        var scrollPos = $(window).scrollTop();
+        
+        // Offset dari setiap section
+        var featureOffset = $('#FeatureSection').offset().top;
+        var howToUseOffset = $('#HowToUseSection').offset().top;
+        var contactUsOffset = $('#contacUsSection2').offset().top;
+        var faqOffset = $('#FAQSection2').offset().top;
+    
+        // Fungsi untuk menghapus kelas-kelas yang memberikan highlight pada semua menu navbar
+        function removeHighlightClasses() {
+          $("#featureNav, #howToUseNav, #contactUsNav, #FAQNav").removeClass(
+            "border-b-2 text-ds-blue-100 border-b-ds-blue-100 pb-2"
+          );
+        }
+    
+        // Fungsi untuk menambahkan highlight ke menu navbar yang sesuai
+        function highlightNavbar(navbarId) {
+          removeHighlightClasses();
+          $(navbarId).addClass("border-b-2 text-ds-blue-100 border-b-ds-blue-100 pb-2");
+        }
+    
+        // Mengatur highlight berdasarkan posisi scroll
+        if (scrollPos >= faqOffset) {
+          highlightNavbar("#FAQNav");
+        } else if (scrollPos >= contactUsOffset) {
+          highlightNavbar("#contactUsNav");
+        } else if (scrollPos >= howToUseOffset) {
+          highlightNavbar("#howToUseNav");
+        } else if (scrollPos >= featureOffset) {
+          highlightNavbar("#featureNav");
+        } else {
+          removeHighlightClasses();
+        }
+    
+        // Menambahkan atau menghapus kelas CSS pada navbar saat scrolling
         if (scrollPos >= 100) {
           navbar.addClass("bg-white shadow");
-        } else if (scrollPos == 0) {
+        } else {
           navbar.removeClass("bg-white shadow");
-        }
-
-        if (scrollPos >= 940 && scrollPos < 1656) {
-          $("#featureNav").addClass(
-            "border-b-2 text-ds-blue-100 border-b-ds-blue-100 pb-2"
-          );
-        } else {
-          $("#featureNav").removeClass(
-            "border-b-2 text-ds-blue-100 border-b-ds-blue-100 pb-2"
-          );
-        }
-
-        if (scrollPos >= 1656 && scrollPos < 4988) {
-          $("#howToUseNav").addClass(
-            "border-b-2 text-ds-blue-100 border-b-ds-blue-100 pb-2"
-          );
-        } else {
-          $("#howToUseNav").removeClass(
-            "border-b-2 text-ds-blue-100 border-b-ds-blue-100 pb-2"
-          );
-        }
-
-        if (scrollPos >= 4988 && scrollPos < 5803) {
-          $("#contactUsNav").addClass(
-            "border-b-2 text-ds-blue-100 border-b-ds-blue-100 pb-2"
-          );
-        } else {
-          $("#contactUsNav").removeClass(
-            "border-b-2 text-ds-blue-100 border-b-ds-blue-100 pb-2"
-          );
-        }
-
-        if (scrollPos >= 5803 ) {
-          $("#FAQNav").addClass(
-            "border-b-2 text-ds-blue-100 border-b-ds-blue-100 pb-2"
-          );
-        } else {
-          $("#FAQNav").removeClass(
-            "border-b-2 text-ds-blue-100 border-b-ds-blue-100 pb-2"
-          );
         }
       });
     });
+    
   }, []);
   return (
     <>
