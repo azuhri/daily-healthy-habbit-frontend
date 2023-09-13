@@ -3,11 +3,15 @@ import axios from "axios";
 import FormContactUs from "./FormContactUs";
 import InputFormContactUs from "./InputFormContactUs";
 import Loading from "@/components/loadingButton";
-import { useState } from "react";
+import { useState, useCallback} from "react";
 import { log } from "console";
+import ModalDialog from "@/components/ModalDialog";
+import { useRouter } from "next/router";
 
 const ContactUs = () => {
+  const router = useRouter();
   const [trySend, setTrySend] = useState(0);
+  const [hideModal, setHideModal] = useState(true);
   const [name, setName] = useState("");
   const [errorName, setErrorName] = useState("");
   const [email, setEmail] = useState("");
@@ -22,10 +26,15 @@ const ContactUs = () => {
     const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     let status = regex.test(email);
     return !status;
-}
+  }
+
+  const handleUseCallback = useCallback(() => {
+    setHideModal(false);
+  }, [hideModal])
 
   const handleSubmitContactUs = async (e: any) => {
     e.preventDefault();
+  
     const formData: any = {
       "entry.175398728": name, 
       "entry.2095701307": noHP, 
@@ -60,6 +69,10 @@ const ContactUs = () => {
       setErrorMessage("");
     }
 
+    if(trySend > 3) {
+      alert("Maaf Anda hanya bisa mengirim form masukan sebanyak 3 kali!");
+      return
+    }
 
     if(name && email && noHP && message) {
       try {
@@ -81,6 +94,10 @@ const ContactUs = () => {
         setErrorMessage("");
         setErrorEmail("");
         
+        handleUseCallback();
+        setTimeout(() => {
+          router.reload();
+        }, 3500);
       } catch (error) {
         console.error("Error:", error);
       } finally {
@@ -100,6 +117,13 @@ const ContactUs = () => {
 
   return (
     <>
+     <ModalDialog
+        text="Berhasil submit form, Terimakasih untuk masukannya"
+        src={trySend > 3 ? "/images/error.png" : "/images/submit-success.png"}
+        isHide={hideModal}
+        timer={3000}
+        type={trySend > 3 ? "error" : "info"}
+     />
       <div  id="contacUsSection"></div>
       <div  className="py-32 bg-white flex flex-col justify-center items-center">
         <p

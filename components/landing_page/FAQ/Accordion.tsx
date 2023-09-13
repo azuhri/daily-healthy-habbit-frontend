@@ -50,7 +50,7 @@ export default function Accordion({ title, desc }: ContentAccordion) {
         </div>
       </div>
       <div
-        className={`accordion text-left text-sm transition-all duration-00 ease-in-out ${
+        className={`accordion text-left text-sm transition-all duration-100 ease-in-out ${
           isHide
             ? "max-h-0 overflow-hidden"
             : "max-h-[1000px] overflow-visible my-4 py-2"

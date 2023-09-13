@@ -30,9 +30,9 @@ export default function GetApp() {
              <Image
               data-aos="zoom-in"
               className="my-10"
-              src="/images/mobile-apps.png"
+              src="/images/ilustrasion-mobile.png"
               alt="Daily Healthy Habit Icon"
-              width="250"
+              width="1000"
               height={0}
             />
           </div>
