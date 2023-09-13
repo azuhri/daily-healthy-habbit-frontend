@@ -6,24 +6,26 @@ export default function InputFormContactUs({
   onChange,
   title,
   placeholder,
+  name,
 }: {
   type: string;
   value: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   title?: string;
   placeholder?: string;
+  name: any;
 }) {
   return (
-    <div className="my-3 flex flex-col">
+    <div className="mt-3 flex flex-col">
       <input
         type={type}
         value={value}
         onChange={onChange}
         id={value}
-        required
         title={title}
-        className="bg-gray-100 focus:outline-none focus:border-ds-blue-100 px-4 text-black border-gray-300 shadow mb-4 py-3 rounded-lg w-full"
-        placeholder={placeholder}
+        className="bg-gray-100 focus:outline-none focus:border-ds-blue-100 px-4 text-black border-gray-300 text-gray-600 shadow p-2 py-3 rounded-lg w-full"
+        placeholder={placeholder} 
+        name={name}
       />
     </div>
   );
