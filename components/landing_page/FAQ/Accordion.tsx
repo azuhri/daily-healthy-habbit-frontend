@@ -6,7 +6,7 @@ interface ContentAccordion {
 }
 
 export default function Accordion({ title, desc }: ContentAccordion) {
-  const [isHide, setIsHide] = useState(false);
+  const [isHide, setIsHide] = useState(true);
 
   const openAccordion = () => {
     setIsHide((prevIsHide) => !prevIsHide);
@@ -30,7 +30,7 @@ export default function Accordion({ title, desc }: ContentAccordion) {
             fill="none"
             stroke-linecap="round"
             stroke-linejoin="round"
-            className="downAccordion"
+            className={`downAccordion transition-all duration-00 ease-in-out ${isHide ? 'hidden' : ''}`}
           >
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
@@ -43,14 +43,14 @@ export default function Accordion({ title, desc }: ContentAccordion) {
             fill="none"
             stroke-linecap="round"
             stroke-linejoin="round"
-            className="upAccordion"
+            className={`upAccordion transition-all duration-00 ease-in-out ${!isHide ? 'hidden' : ''}`}
           >
             <polyline points="18 15 12 9 6 15"></polyline>
           </svg>
         </div>
       </div>
       <div
-        className={`accordion text-left text-sm transition-all duration-500 ease-in-out ${
+        className={`accordion text-left text-sm transition-all duration-00 ease-in-out ${
           isHide
             ? "max-h-0 overflow-hidden"
             : "max-h-[1000px] overflow-visible my-4 py-2"
