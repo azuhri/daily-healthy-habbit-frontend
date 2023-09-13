@@ -67,7 +67,7 @@ export default function FormContactUs() {
       >{message}</textarea>
       <div className="mt-10 flex flex-col">
         {isLoading ? (
-          <button className="w-full text-center bg-ds-blue-50 shadow py-1 text-white font-semibold rounded-lg text-xl">
+          <button className="w-full text-center bg-ds-blue-50 shadow py-1.5 text-white font-semibold rounded-lg text-xl">
             <Loading />
           </button>
         ) : (
