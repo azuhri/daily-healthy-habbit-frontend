@@ -24,7 +24,7 @@ export default function Hero() {
             <div className="flex flex-col md:flex-row  my-6">
               <Link
                 data-aos="flip-left"
-                my-2 className="md:w-1/2 text-md py-4 md:mx-4 md:mr-4 flex justify-center my-2 bg-ds-blue-100 flex px-6 py-3 text-white rounded-full font-semibold"
+                my-2 className="md:w-1/2 text-md md:mr-4 flex justify-center my-2 bg-ds-blue-100 flex px-6 py-3 text-white rounded-full font-semibold"
                 href="#DownloadApp"
               >
                 <p className="mx-2">Unduh Sekarang</p>
@@ -46,7 +46,7 @@ export default function Hero() {
               </Link>
               <Link
                 data-aos="flip-right"
-                className="md:w-1/2 text-md py-4 md:mx-4 md:ml-4 flex justify-center my-2 bg-ds-orange flex px-6 py-3 text-white rounded-full font-semibold"
+                className="md:w-1/2 text-md md:ml-4 flex justify-center my-2 bg-ds-orange flex px-6 py-3 text-white rounded-full font-semibold"
                 href="#FeatureSection"
               >
                 <p className="mx-2">Jelajahi Sekarang</p>
