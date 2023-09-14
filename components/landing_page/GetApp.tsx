@@ -14,7 +14,7 @@ export default function GetApp() {
               Healthy Habit sekarang dan mulai pencapaian Anda menuju
               kesejahteraan yang lebih baik.
             </p>
-            <a className="flex justify-center md:justify-start" href="https://play.google.com/store/apps/details?id=com.hl1.daily_healthy_habit_mobile&pcampaignid=web_share">
+            <a className="flex justify-center md:justify-start" href="https://play.google.com/store/apps/details?id=com.hl1.daily_healthy_habit_mobile&pcampaignid=web_share" target="_blank">
               <Image
                 data-aos="zoom-in"
                 src="/images/google-play-badge.png"
