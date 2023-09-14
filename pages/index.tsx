@@ -32,6 +32,8 @@ export default function Home() {
         var howToUseOffset : number = $('#HowToUseSection').offset()?.top ?? 0;
         var contactUsOffset : number = $('#contacUsSection2').offset()?.top ?? 0;
         var faqOffset : number = $('#FAQSection2').offset()?.top ?? 0;
+        
+        
     
         // Fungsi untuk menghapus kelas-kelas yang memberikan highlight pada semua menu navbar
         function removeHighlightClasses() {
@@ -47,6 +49,7 @@ export default function Home() {
         }
     
         // Mengatur highlight berdasarkan posisi scroll
+        console.log(faqOffset);
         if (scrollPos >= faqOffset) {
           highlightNavbar("#FAQNav");
         } else if (scrollPos >= contactUsOffset) {
@@ -79,7 +82,6 @@ export default function Home() {
       <Feature />
       <Docs />
       <GetApp />
-      {/* <Blog /> */}
       <ContactUs />
       <FAQ />
       <Footer />

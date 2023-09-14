@@ -145,6 +145,7 @@ const ContactUs = () => {
           </div>
         </div>
       </div>
+      <div id="FAQSection2"></div>
     </div>
     </>
   );

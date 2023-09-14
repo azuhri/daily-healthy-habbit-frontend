@@ -10,33 +10,32 @@ export default function Docs() {
           HOW TO USE APP ?
         </p>
         <LeftAppRightText
-          imagePath="/images/fitur_home.svg"
-          alt="Fitur Home"
+          image="/images/fitur_home.svg"
+          imageAlt="Fitur Home"
           title="FITUR HOME"
-          desc="Pusat kebiasaanmu,
-          lihat dan kelola kebiasaanmu dengan mudah.
-          Catat kesuksesanmu, baik sedang dilakukan, gagal, atau selesai.
-          Akses riwayat kebiasaan dan lihat perkembanganmu.
-          Lacak, refleksi, dan tingkatkan kebiasaanmu!"
+          description="Pusat semua kebiasaanmu ada di sini. 
+          Lacak, kelola, dan catat setiap langkah menuju perubahan yang lebih baik. 
+          Saksikan perkembanganmu dalam riwayat kebiasaan yang informatif. 
+          Saatnya untuk mencatat, refleksi, dan mengembangkan diri!"
         />
         <RightAppLeftText
-          imagePath="/images/fitur_auth.svg"
-          alt="Fitur Autentikasi"
-          title="FITUR AUTENTIKASI"
-          desc="Buat akun dan login untuk menggunakan aplikasi. 
-          Dengan akun yang sama, kamu dapat menggunakan aplikasi di perangkat lain. 
-          Tidak lagi khawatir kehilangan datamu, 
-          Kamu dapat mengakses kebiasaanmu dimanapun dan kapanpun!"
+          image="/images/fitur_auth.svg"
+          imageAlt="Fitur Auth"
+          title="FITUR AKUN"
+          description="Buat akun dan login untuk mulai bersama kami.
+          Dengan akun yang sama, kamu akan lebih terhubung di berbagai perangkat.
+          Lupakan kekhawatiran kehilangan data,
+          akses kebiasaanmu kapanpun dan dimanapun!"
         />
         <LeftAppRightText
-          imagePath="/images/fitur_create.svg"
-          alt="Fitur Create"
-          title="FITUR CREATE"
-          desc="Baik belajar, olahraga, atau apapun itu,
+          image="/images/fitur_create.svg"
+          imageAlt="Fitur Create"
+          title="FITUR BUAT KEBIASAAN"
+          description="Baik belajar, olahraga, atau apapun itu,
           daftarkan kebiasaan yang ingin anda lacak.
-          Atur reminder, akan kami ingatkan agar kamu dapat mempertahankan kebiasaanmu.
-          Dan warna untuk menciptakan lingkungan aplikasi yang tepat untukmu.
-          Mulai membentuk kebiasaan baik dari sekarang!"
+          Kamu dapat atur kapan kami akan mengingatkanmu pada waktu yang tepat.
+          Jangan lupa sesuaikan warna untuk mempermudah mengenali kebiasaanmu.
+          Mulai membentuk kebiasaan yang baik, dan mulai sekarang!"
         />
       </div>
     </>
