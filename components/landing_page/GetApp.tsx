@@ -25,18 +25,21 @@ export default function GetApp() {
               />
             </a>
           </div>
-          <div className="w-full md:w-1/2 flex md:justify-end justify-center text-center md:text-left">
+          <div
+             className="w-full md:w-1/2 flex md:justify-end justify-center text-center md:text-left">
              <Image
               data-aos="zoom-in"
               className="my-10"
-              src="/images/mobile-apps.png"
+              src="/images/ilustrasion-mobile.png"
               alt="Daily Healthy Habit Icon"
-              width="250"
+              width="1000"
               height={0}
             />
           </div>
         </div>
+        <div  id="contacUsSection2"></div>
       </div>
+      
     </>
   );
 }
