@@ -5,7 +5,7 @@ export default function GetApp() {
       <div className="py-32 bg-ds-white-100 md:px-32 text-gray-600" id="DownloadApp">
         <div className="flex w-full flex-col md:flex-row justify-between items-center">
           <div className="flex flex-col w-full justify-center md:justify-start md:w-1/2">
-            <p className="text-7xl text-center md:text-left font-semibold" data-aos="zoom-in">
+            <p className="text-5xl md:text-7xl text-center md:text-left font-semibold" data-aos="zoom-in">
               Download <br /> App
             </p>
             <p className="mt-6 mx-8 md:mx-0 mb-2 text-center md:text-left text-center md:text-left text-sm" data-aos="fade-right">

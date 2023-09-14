@@ -7,10 +7,10 @@ export default function Hero() {
       <div className="bg-[url('/images/bg-hero.jpeg')] bg-center md:bg-left">
         <section className="min-h-[100vh] w-full text-black md:px-32 flex flex-col-reverse md:flex-row justify-between">
           <div className="flex justify-center md:px-0 px-10 flex-col w-full md:w-1/2">
-            <p className="text-center md:text-left text-5xl md:text-7xl font-semibold text-gray-600" data-aos="fade-left">
+            <p className="text-center md:text-left text-5xl md:text-7xl font-semibold text-gray-600" data-aos="zoom-in">
               DAILY HEALTHY
             </p>
-            <p className="text-center md:text-left text-5xl md:text-7xl font-semibold text-ds-blue-50 mt-2" data-aos="fade-right">
+            <p className="text-center md:text-left text-5xl md:text-7xl font-semibold text-ds-blue-50 mt-2" data-aos="zoom-in">
               HABIT APP
             </p>
             <p className="text-center md:text-left text-2xl font-semibold text-[#979797] mt-2" data-aos="zoom-in-down">
@@ -23,7 +23,7 @@ export default function Hero() {
             </p>
             <div className="flex flex-col md:flex-row  my-6">
               <Link
-                data-aos="flip-left"
+                data-aos="zoom-in"
                 my-2 className="md:w-1/2 text-md md:mr-4 flex justify-center my-2 bg-ds-blue-100 flex px-6 py-3 text-white rounded-full font-semibold"
                 href="#DownloadApp"
               >
@@ -45,7 +45,7 @@ export default function Hero() {
                 </svg>
               </Link>
               <Link
-                data-aos="flip-right"
+                data-aos="zoom-in"
                 className="md:w-1/2 text-md md:ml-4 flex justify-center my-2 bg-ds-orange flex px-6 py-3 text-white rounded-full font-semibold"
                 href="#FeatureSection"
               >
@@ -89,7 +89,7 @@ export default function Hero() {
               }
             `}</style>
             <Image
-              data-aos="zoom-in-up"
+              data-aos="zoom-in"
               src="/images/banner-landing.png"
               alt="Banner Login"
               width="700"
