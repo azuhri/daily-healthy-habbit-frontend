@@ -6,7 +6,7 @@ interface ContentAccordion {
 }
 
 export default function Accordion({ title, desc }: ContentAccordion) {
-  const [isHide, setIsHide] = useState(false);
+  const [isHide, setIsHide] = useState(true);
 
   const openAccordion = () => {
     setIsHide((prevIsHide) => !prevIsHide);
