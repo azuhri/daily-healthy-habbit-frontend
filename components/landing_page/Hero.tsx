@@ -13,13 +13,11 @@ export default function Hero() {
             <p className="text-center md:text-left text-5xl md:text-7xl font-semibold text-ds-blue-50 mt-2" data-aos="zoom-in">
               HABIT APP
             </p>
-            <p className="text-center md:text-left text-2xl font-semibold text-[#979797] mt-2" data-aos="zoom-in-down">
-              Mulai kebiasaan Baik Dengan Perencanaan Setiap Hari{" "}
+            <p className="text-center md:text-left text-2x1 font-semibold text-[#979797] mt-2" data-aos="zoom-in-down">
+              Mulai kebiasaan Baik Dengan Perencanaan Setiap Hari
             </p>
             <p className=" text-center md:text-left text-sm font-normal text-gray-400 mt-2" data-aos="zoom-in-down">
-              Solusi terbaik untuk membantu Anda membentuk dan menjaga kebiasaan
-              sehat. Kami menyediakan alat yang Anda perlukan untuk mencapai
-              hasil besar melalui langkah-langkah kecil.
+              Daily Healthy Habit, teman setia kesehatanmu yang selalu siap membantu menjalani hari-hari lebih sehat.
             </p>
             <div className="flex flex-col md:flex-row  my-6">
               <Link
