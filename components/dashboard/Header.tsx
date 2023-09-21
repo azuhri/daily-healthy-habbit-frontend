@@ -1,21 +1,24 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const Header = () => {
   return (
-    <div className="grid grid-cols-3 px-4 items-center pt-4">
-      <div className="flex">
-        <Image
-          src="/icons/new-logo.png"
-          alt="Daily Healthy Habit Icon"
-          width="50"
-          height={0}
-          className="object-contain"
-        />
-        <p className="font-semibold text-gray-500 ml-2 text-xs">
-          Daily
-          <br /> <span className="text-primary-100">Healthy</span>
-          <br /> Habit
-        </p>
+    <div className="grid grid-cols-3 items-center pt-4">
+      <div>
+        <Link href="/dashboard" className="flex">
+          <Image
+            src="/icons/new-logo.png"
+            alt="Daily Healthy Habit Icon"
+            width="60"
+            height={0}
+            className="object-contain"
+          />
+          <p className="font-semibold text-gray-500 ml-2 text-sm">
+            Daily
+            <br /> <span className="text-primary-100">Healthy</span>
+            <br /> Habit
+          </p>
+        </Link>
       </div>
 
       <div className="flex items-center bg-white px-2 rounded justify-center">
