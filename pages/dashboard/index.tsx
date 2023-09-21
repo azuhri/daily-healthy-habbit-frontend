@@ -18,6 +18,8 @@ const DashboardPage = ({ user }: any) => {
       <Head>
         <title>Dashboard</title>
       </Head>
+      <LayoutDashboard user={user}>hi</LayoutDashboard>
+      {/* Punya Azis yg kemaren 
       <LayoutDashboard user={user}>
         <div className="grid grid-cols-2 mt-10">
           <div className="flex col-span-2 mt-2 sm:col-span-1 mr-4 shadow rounded-xl border">
@@ -72,7 +74,7 @@ const DashboardPage = ({ user }: any) => {
             </div>
           </div>
         </div>
-      </LayoutDashboard>
+      </LayoutDashboard> */}
     </>
   );
 };

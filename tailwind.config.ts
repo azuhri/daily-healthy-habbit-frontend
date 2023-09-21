@@ -13,11 +13,16 @@ const config: Config = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "gradient-dashboard":
+          "linear-gradient(122deg, #F3F3F3 -6.51%, #BFD5D8 109.37%, #287F89 158.29%)",
       },
       fontFamily: {
         sans: "Poppins",
       },
       colors: {
+        primary: {
+          "100": "#287F89;",
+        },
         ds: {
           cyan10: "#4ED0C8",
           cyan20: "#00B0A5",
