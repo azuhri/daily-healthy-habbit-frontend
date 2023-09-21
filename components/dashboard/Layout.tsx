@@ -15,7 +15,7 @@ const LayoutDashboard = ({
 
   return (
     <>
-      <div className="bg-gradient-dashboard min-h-screen w-full px-4 flex flex-col">
+      <div className="bg-gradient-dashboard min-h-screen w-full px-8 flex flex-col">
         <Header />
         <div className="flex flex-row justify-between pt-8 text-black">
           <div>
@@ -30,17 +30,7 @@ const LayoutDashboard = ({
             <p className="text-black">Kalender</p>
           </div>
         </div>
-        <div className="flex-grow flex-col flex justify-center items-center">
-          <Image
-            src="/images/dashboard-kosong.svg"
-            alt="Centered Image"
-            width={250}
-            height={0}
-          />
-          <h1 className="text-primary-100 text-2xl pt-4 font-semibold">
-            Ayoooo buat Habitmu !!
-          </h1>
-        </div>
+        {children}
       </div>
 
       <div className="h-screen bg-black" />
