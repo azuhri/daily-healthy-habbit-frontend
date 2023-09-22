@@ -13,7 +13,10 @@ const HabitSidebar = ({ type }: { type: string }) => {
           {type === "create" && (
             <HabitForm>
               <div className="w-full flex justify-center">
-                <button className="my-8 py-2 bg-primary-100 rounded-full w-[70%] text-xl font-bold text-white hover:bg-primary-hover">
+                <button
+                  type="submit"
+                  className="my-8 py-2 bg-primary-100 rounded-full w-[70%] text-xl font-bold text-white hover:bg-primary-hover"
+                >
                   Buat
                 </button>
               </div>
@@ -22,12 +25,18 @@ const HabitSidebar = ({ type }: { type: string }) => {
           {type === "edit" && (
             <HabitForm>
               <div className="w-full flex justify-center">
-                <button className="my-2 mt-6 py-2 bg-primary-100 rounded-full w-[70%] text-xl font-bold text-white hover:bg-primary-hover">
+                <button
+                  type="submit"
+                  className="my-2 mt-6 py-2 bg-primary-100 rounded-full w-[70%] text-xl font-bold text-white hover:bg-primary-hover"
+                >
                   Edit
                 </button>
               </div>
               <div className="w-full flex justify-center">
-                <button className="my-2 py-2 bg-danger-100 rounded-full w-[70%] text-xl font-bold text-white hover:bg-danger-hover">
+                <button
+                  type="submit"
+                  className="my-2 py-2 bg-danger-100 rounded-full w-[70%] text-xl font-bold text-white hover:bg-danger-hover"
+                >
                   Hapus
                 </button>
               </div>
