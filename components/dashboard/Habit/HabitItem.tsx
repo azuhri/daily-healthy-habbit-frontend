@@ -2,9 +2,9 @@ import Image from "next/image";
 
 const HabitItem = () => {
   return (
-    <div className="relative flex rounded-full w-full bg-white h-28">
-      <div className="w-1/6 h-full bg-blue-500 rounded-l-lg"></div>
-      <div className="w-4/6 h-full bg-white rounded-r-lg text-black py-2 px-2">
+    <div className="relative flex rounded-lg w-full bg-ds-gray h-28">
+      <div className="w-1/6 h-full bg-blue-500 rounded-l-lg" />
+      <div className="w-4/6 h-full text-black py-2 px-2">
         <h1 className="font-bold">Nama Habit</h1>
         <div className="flex space-x-2 text-xs">
           <p>• 5:00 AM</p>
@@ -24,7 +24,7 @@ const HabitItem = () => {
           laudantium deserunt dignissimos corrupti illum enim voluptatum cumque.
         </p>
       </div>
-      <div className="w-1/6 bg-white flex justify-center items-center text-black rounded-r-lg">
+      <div className="w-1/6 flex justify-center items-center text-black rounded-r-lg">
         <Image
           src="/icons/status-sukses.svg"
           alt="icon sukses"
@@ -32,7 +32,7 @@ const HabitItem = () => {
           height={40}
         />
       </div>
-      <button className="absolute top-2 right-2 bg-white">
+      <button className="absolute top-2 right-2">
         <Image src="/icons/edit.svg" alt="your icon" width={25} height={25} />
       </button>
     </div>

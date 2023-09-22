@@ -7,6 +7,12 @@ const HabitList = () => {
       <HabitItem />
       <HabitItem />
       <HabitItem />
+      <HabitItem />
+      <HabitItem />
+      <HabitItem />
+      <HabitItem />
+      <HabitItem />
+      <HabitItem />
     </div>
   );
 };

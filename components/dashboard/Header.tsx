@@ -1,11 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 const Header = () => {
   return (
-    <div className="grid grid-cols-3 items-center pt-4">
+    <div className="grid grid-cols-3 items-center">
       <div>
-        <Link href="/dashboard" className="flex">
+        <Link href="#" className="flex">
           <Image
             src="/icons/new-logo.png"
             alt="Daily Healthy Habit Icon"
@@ -52,23 +53,44 @@ const Header = () => {
           />
         </button>
         <div className="border min-h-10 border-black" />
-        <button className="text-black flex items-center space-x-2">
-          <Image
-            src="/icons/profile.svg"
-            alt="Profile Icon"
-            width={20}
-            height={20}
-          />
-          <span className="flex">
-            <p className="text-sm">Username</p>
+        <div className="group relative text-black">
+          <button className="flex items-center space-x-2">
             <Image
-              src="/icons/chevron-down.svg"
-              alt="Chevron Down Icon"
+              src="/icons/profile.svg"
+              alt="Profile Icon"
               width={20}
               height={20}
             />
-          </span>
-        </button>
+            <span className="flex">
+              <p className="text-sm">Username</p>
+              <Image
+                src="/icons/chevron-down.svg"
+                alt="Chevron Down Icon"
+                width={20}
+                height={20}
+              />
+            </span>
+          </button>
+          <nav className="invisible rounded w-60 absolute right-0 top-full transition-all opacity-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-1">
+            <ul className="my-2 divide-y bg-white">
+              <li>
+                <Link href="#" className="block px-4 py-2 hover:bg-gray-100">
+                  Akun
+                </Link>
+              </li>
+              <li>
+                <Link href="#" className="block px-4 py-2 hover:bg-gray-100">
+                  Akun
+                </Link>
+              </li>
+              <li>
+                <Link href="#" className="block px-4 py-2 hover:bg-gray-100">
+                  Akun
+                </Link>
+              </li>
+            </ul>
+          </nav>
+        </div>
       </div>
     </div>
   );

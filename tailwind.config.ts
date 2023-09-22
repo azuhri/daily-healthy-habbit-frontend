@@ -22,6 +22,7 @@ const config: Config = {
       colors: {
         primary: {
           "100": "#287F89;",
+          hover: "#1F5F66",
         },
         ds: {
           cyan10: "#4ED0C8",
@@ -29,7 +30,7 @@ const config: Config = {
           pink10: "#FFE2F2",
           pink20: "#FFB1D9",
           donker: "#233563",
-          gray: "#848484",
+          gray: "#EDEDED",
           orange: "#EF9610",
           white: {
             "100": "#F4F4F4",

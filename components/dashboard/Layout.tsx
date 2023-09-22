@@ -15,7 +15,7 @@ const LayoutDashboard = ({
 
   return (
     <>
-      <div className="bg-gradient-dashboard min-h-screen w-full px-8 flex flex-col">
+      <div className="bg-gradient-dashboard min-h-screen w-full px-8 flex flex-col py-8">
         <Header />
         <div className="flex flex-row justify-between pt-8 text-black">
           <div>
@@ -23,7 +23,10 @@ const LayoutDashboard = ({
             <p className="text-xs">
               Berikut daftar
               <span className="text-primary-100"> Habit </span>
-              pada Hari (September 12, 1998)
+              pada
+              <span className="text-primary-100">
+                &nbsp;Hari (September 12, 1998)
+              </span>
             </p>
           </div>
           <div>
@@ -32,8 +35,9 @@ const LayoutDashboard = ({
         </div>
         {children}
       </div>
-
-      <div className="h-screen bg-black" />
+      <button className="fixed bottom-4 right-8 bg-primary-100 text-white px-2 rounded-full text-6xl hover:bg-primary-hover">
+        +
+      </button>
     </>
   );
 };
