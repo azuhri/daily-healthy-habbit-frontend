@@ -24,6 +24,10 @@ const config: Config = {
           "100": "#287F89;",
           hover: "#1F5F66",
         },
+        danger: {
+          "100": "#98344A",
+          hover: "#712536",
+        },
         ds: {
           cyan10: "#4ED0C8",
           cyan20: "#00B0A5",

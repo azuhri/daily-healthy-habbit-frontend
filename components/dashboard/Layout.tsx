@@ -1,7 +1,7 @@
 import { selectAuthState } from "@/features/test/testSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "./Header";
-import Image from "next/image";
+import HabitSidebar from "./Habit/Detail/HabitSidebar";
 
 const LayoutDashboard = ({
   children,
@@ -38,6 +38,8 @@ const LayoutDashboard = ({
       <button className="fixed bottom-4 right-8 bg-primary-100 text-white px-2 rounded-full text-6xl hover:bg-primary-hover">
         +
       </button>
+      {/* Tambahin logika Show Sidebar */}
+      {/* <HabitSidebar type="edit" /> */}
     </>
   );
 };
