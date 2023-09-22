@@ -2,6 +2,7 @@ import { selectAuthState } from "@/features/test/testSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "./Header";
 import HabitSidebar from "./Habit/Detail/HabitSidebar";
+import ConfirmationModal from "./ConfirmationModal";
 
 const LayoutDashboard = ({
   children,
@@ -40,6 +41,10 @@ const LayoutDashboard = ({
       </button>
       {/* Tambahin logika Show Sidebar */}
       {/* <HabitSidebar type="edit" /> */}
+      {/* <ConfirmationModal
+        title="Apakah Anda yakin ingin keluar?"
+        imagePath="/images/konfirmasi-logout.svg"
+      /> */}
     </>
   );
 };

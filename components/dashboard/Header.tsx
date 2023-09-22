@@ -71,21 +71,36 @@ const Header = () => {
               />
             </span>
           </button>
-          <nav className="invisible rounded w-60 absolute right-0 top-full transition-all opacity-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-1">
-            <ul className="my-2 divide-y bg-white">
+          <nav className="invisible w-56 absolute right-0 top-full transition-all opacity-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-1 z-20">
+            <ul className="my-2 bg-white rounded-lg font-semibold">
               <li>
-                <Link href="#" className="block px-4 py-2 hover:bg-gray-100">
-                  Akun
-                </Link>
+                <h1 className="block px-4 py-2 rounded-lg text-lg">Akun</h1>
+              </li>
+              <hr />
+              <li>
+                <p className="block px-4 my-2 rounded-lg text-sm">Username</p>
               </li>
               <li>
-                <Link href="#" className="block px-4 py-2 hover:bg-gray-100">
-                  Akun
+                <p className="block px-4 my-2 rounded-lg text-sm font-normal">
+                  email@email.com
+                </p>
+              </li>
+              <hr />
+              <li>
+                <Link
+                  href="#"
+                  className="block px-4 py-2 rounded-lg text-lg hover:bg-gray-100"
+                >
+                  Profil
                 </Link>
               </li>
+              <hr />
               <li>
-                <Link href="#" className="block px-4 py-2 hover:bg-gray-100">
-                  Akun
+                <Link
+                  href="#"
+                  className="block px-4 py-2 rounded-lg text-lg text-danger-50 hover:bg-gray-100"
+                >
+                  Keluar
                 </Link>
               </li>
             </ul>

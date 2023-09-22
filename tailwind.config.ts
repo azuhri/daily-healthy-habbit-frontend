@@ -25,6 +25,7 @@ const config: Config = {
           hover: "#1F5F66",
         },
         danger: {
+          "50": "#D61743",
           "100": "#98344A",
           hover: "#712536",
         },
