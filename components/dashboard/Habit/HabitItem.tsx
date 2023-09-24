@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const HabitItem = () => {
   return (
-    <div className="relative flex rounded-lg w-full bg-ds-gray h-28">
+    <div className="cursor-pointer hover:bg-gray-300 relative shadow-md flex rounded-lg w-full bg-ds-gray h-28 my-1">
       <div className="w-1/6 h-full bg-blue-500 rounded-l-lg" />
       <div className="w-4/6 h-full text-black py-2 px-2">
         <h1 className="font-bold">Nama Habit</h1>

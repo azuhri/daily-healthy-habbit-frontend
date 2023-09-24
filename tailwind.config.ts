@@ -6,6 +6,7 @@ const config: Config = {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}'
   ],
   theme: {
     extend: {
@@ -14,7 +15,7 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         "gradient-dashboard":
-          "linear-gradient(122deg, #F3F3F3 -6.51%, #BFD5D8 109.37%, #287F89 158.29%)",
+          "linear-gradient(122deg, #EDEDED -6.51%, #BFD5D8 109.37%, #2C818B 158.29%)",
       },
       fontFamily: {
         sans: "Poppins",
@@ -49,12 +50,24 @@ const config: Config = {
             "100": "#2D92F0",
           },
         },
+        mobile: {
+          "0": "#0xFFE17055",
+          "1": "#0xff8373a0",
+          "2": "#0xff46aab9",
+          "3": "#0xff60a588",
+          "4": "#0xffd58734",
+          "5": "#0xffa5647c",
+          "6": "#0xff4d9b9d",
+          "7": "#0xff5686aa",
+        }
       },
       boxShadow: {
         allSides: "0px 0px 10px rgba(0, 0, 0, 0.25)",
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('flowbite/plugin'),
+  ],
 };
 export default config;

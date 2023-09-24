@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Header from "./Header";
 import HabitSidebar from "./Habit/Detail/HabitSidebar";
 import ConfirmationModal from "./ConfirmationModal";
+import { use } from "react";
+import { useState } from "react";
 
 const LayoutDashboard = ({
   children,
@@ -13,14 +15,15 @@ const LayoutDashboard = ({
 }) => {
   const dispatch = useDispatch();
   const authState = useSelector(selectAuthState);
+  
 
   return (
     <>
       <div className="bg-gradient-dashboard min-h-screen w-full px-8 flex flex-col py-8">
-        <Header />
+        <Header user={user} />
         <div className="flex flex-row justify-between pt-8 text-black">
           <div>
-            <h1 className="text-2xl font-semibold">Halo, User!</h1>
+            <h1 className="text-2xl font-semibold">Halo, {user.name}!</h1>
             <p className="text-xs">
               Berikut daftar
               <span className="text-primary-100"> Habit </span>
@@ -36,7 +39,7 @@ const LayoutDashboard = ({
         </div>
         {children}
       </div>
-      <button className="fixed bottom-4 right-8 bg-primary-100 text-white px-2 rounded-full text-6xl hover:bg-primary-hover">
+      <button className="fixed bottom-10 shadow-xl right-8 bg-primary-100 text-white px-2 rounded-full text-6xl hover:bg-primary-hover">
         +
       </button>
       {/* Tambahin logika Show Sidebar */}
