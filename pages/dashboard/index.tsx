@@ -11,6 +11,7 @@ import Image from "next/image";
 import Gravatar from "@/components/Gravatar";
 import Sidebar from "@/components/dashboard/Sidebar";
 import LayoutDashboard from "@/components/dashboard/Layout";
+import HabitList from "@/components/dashboard/Habit/HabitList";
 
 const DashboardPage = ({ user }: any) => {
   return (
@@ -18,6 +19,27 @@ const DashboardPage = ({ user }: any) => {
       <Head>
         <title>Dashboard</title>
       </Head>
+      <LayoutDashboard user={user}>
+        {/* Habit Kosong */}
+        {/* <div className="flex-grow flex-col flex justify-center items-center">
+          <Image
+            src="/images/dashboard-kosong.svg"
+            alt="Centered Image"
+            width={250}
+            height={0}
+          />
+          <h1 className="text-primary-100 text-2xl pt-4 font-semibold">
+            Ayoooo buat Habitmu !!
+          </h1>
+        </div> */}
+        {/* Habit Ada */}
+        <div className="flex flex-col flex-grow">
+          <div className="flex-grow pt-8">
+            <HabitList />
+          </div>
+        </div>
+      </LayoutDashboard>
+      {/* Punya Azis yg kemaren 
       <LayoutDashboard user={user}>
         <div className="grid grid-cols-2 mt-10">
           <div className="flex col-span-2 mt-2 sm:col-span-1 mr-4 shadow rounded-xl border">
@@ -72,7 +94,7 @@ const DashboardPage = ({ user }: any) => {
             </div>
           </div>
         </div>
-      </LayoutDashboard>
+      </LayoutDashboard> */}
     </>
   );
 };

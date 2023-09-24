@@ -72,7 +72,7 @@ export default function HeaderLandingPage() {
             {/* <li id="blogNav" className="mx-6 transition ease-in-out delay-150">
               <a href="#BlogSection">Blog</a>
             </li> */}
-            {/* <li className="mx-6">
+            <li className="mx-6">
               <Link href="/register">Register</Link>
             </li>
             <li className="mx-6">
@@ -82,7 +82,7 @@ export default function HeaderLandingPage() {
               >
                 Sign In
               </Link>
-            </li>*/}
+            </li>
           </ul> 
         </div>
       </header>
@@ -147,7 +147,7 @@ export default function HeaderLandingPage() {
             <li className="my-4">
               <Link href="#FAQSection">FAQ</Link>
             </li>
-            {/* <li className="my-4">
+            <li className="my-4">
               <Link href="/register">Register</Link>
             </li>
             <li className="my-6">
@@ -157,7 +157,7 @@ export default function HeaderLandingPage() {
               >
                 Sign In
               </Link>
-            </li> */}
+            </li>
           </ul>
         </div>
       </header>
