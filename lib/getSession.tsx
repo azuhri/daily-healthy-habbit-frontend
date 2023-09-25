@@ -1,11 +1,11 @@
 import { withSessionSsr } from '@/lib/withSession';
+import axios from 'axios';
 import { GetServerSidePropsContext } from 'next';
 
 export const getServerSideProps = withSessionSsr(
   async function getServersideProps({ req, res }: GetServerSidePropsContext) {
     try {
       const user = req.session.user || null;
-      console.log("test");
       if (!user) {
         return {
           redirect: {
@@ -16,7 +16,7 @@ export const getServerSideProps = withSessionSsr(
       }
       return {
         props: {
-          user: user
+          user
         }
       };
     } catch (err) {

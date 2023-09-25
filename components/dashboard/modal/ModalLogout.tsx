@@ -31,7 +31,7 @@ export default function ModalLogout({ props }: any) {
         <Modal.Body>
           <div className="text-center flex flex-col items-center">
             <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-              Apakah Kamu{" "}
+              Apakah Kamu yakin{" "}
               <span className="font-semibold text-red-500">ingin logout</span> ?
             </h3>
             <Image
