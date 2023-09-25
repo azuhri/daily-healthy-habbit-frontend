@@ -7,10 +7,13 @@ import Image from "next/image";
 const apiEndpoint =
   process.env.API || "https://staging-api-health2023.agileteknik.com";
 
-const HabitList = ({ access_token,date }: {
-    access_token: string,
-    date: string
-   }) => {
+const HabitList = ({
+  access_token,
+  date,
+}: {
+  access_token: string;
+  date: string;
+}) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<any[]>(Array);
 
@@ -39,7 +42,6 @@ const HabitList = ({ access_token,date }: {
   useEffect(() => {
     getDataHabit();
   }, [date]);
-  console.log(data);
 
   if (data.length < 1) {
     return (
@@ -52,17 +54,17 @@ const HabitList = ({ access_token,date }: {
           </div>
         )}
         {!loading && (
-           <div className="h-[500px] flex justify-center items-center flex-col">
-           <Image
-             src="/images/icon-empty.png"
-             width={300}
-             height={300}
-             alt="empty icon"
-           />
-           <p className="text-xl font-bold text-cyan-800 my-2">
-             Ayoo buat habitmu
-           </p>
-         </div>
+          <div className="h-[500px] flex justify-center items-center flex-col">
+            <Image
+              src="/images/icon-empty.png"
+              width={300}
+              height={300}
+              alt="empty icon"
+            />
+            <p className="text-xl font-bold text-cyan-800 my-2">
+              Ayoo buat habitmu
+            </p>
+          </div>
         )}
       </>
     );

@@ -1,16 +1,25 @@
 import Image from "next/image";
 import HabitForm from "./HabitForm";
+import { useDispatch, useSelector } from "react-redux";
+import { closeSidebar } from "@/redux/features/habitSidebar/habitSidebarSlice";
 
-const HabitSidebar = ({ type }: { type: string }) => {
+const HabitSidebar = () => {
+  const dispatch = useDispatch();
+  const sidebar = useSelector((state: any) => state.sidebar);
+
   return (
     <div className="w-screen">
-      <div className="fixed bottom-0 right-0 h-screen bg-ds-gray rounded-l-lg text-black w-[35%]">
-        <button className="my-4 mx-4">
+      <div
+        className={`absolute bottom-0 right-0 h-screen bg-ds-gray rounded-l-lg transition-all duration-300 ease-in-out text-black ${
+          sidebar.isOpen ? "w-[35%] overflow-visible" : "w-0 overflow-hidden"
+        }`}
+      >
+        <button className="my-4 mx-4" onClick={() => dispatch(closeSidebar())}>
           <Image src="/icons/x-icon.svg" alt="X" width={20} height={0} />
         </button>
         <div className="px-8 w-full mt-4">
           <h1 className="font-semibold text-xl">Definisikan Habitmu!</h1>
-          {type === "create" && (
+          {sidebar.type === "create" && (
             <HabitForm>
               <div className="w-full flex justify-center">
                 <button
@@ -22,7 +31,7 @@ const HabitSidebar = ({ type }: { type: string }) => {
               </div>
             </HabitForm>
           )}
-          {type === "edit" && (
+          {sidebar.type === "edit" && (
             <HabitForm>
               <div className="w-full flex justify-center">
                 <button

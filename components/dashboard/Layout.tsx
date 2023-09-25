@@ -1,35 +1,29 @@
-import { selectAuthState } from "@/redux/features/test/testSlice";
 import { useDispatch, useSelector } from "react-redux";
-import Header from "./Header";
-import HabitSidebar from "./Habit/Detail/HabitSidebar";
-import ConfirmationModal from "./ConfirmationModal";
 import { Datepicker } from "flowbite-react";
-
 import axios from "axios";
+import moment from "moment";
+import "moment/locale/id";
 import type {
   InferGetServerSidePropsType,
   GetStaticProps,
   GetServerSideProps,
 } from "next";
 import { useState, useEffect, useMemo } from "react";
-import HabitList from "./Habit/HabitList";
-import moment from "moment";
 
-const LayoutDashboard = ({
-  children,
-  user,
-}: {
-  children: React.ReactNode;
-  user: any;
-}) => {
+import Header from "./Header";
+import HabitSidebar from "./Habit/Detail/HabitSidebar";
+import ConfirmationModal from "./ConfirmationModal";
+import HabitList from "./Habit/HabitList";
+import { openSidebar } from "@/redux/features/habitSidebar/habitSidebarSlice";
+
+const LayoutDashboard = ({ user }: { user: any }) => {
+  const dispatch = useDispatch();
+
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const changeDate = (val: any) => {
     const format = moment(val).format("YYYY-MM-DD");
     setDate(format);
   };
-
-  // const dispatch = useDispatch();
-  // const authState = useSelector(selectAuthState);
 
   return (
     <>
@@ -43,7 +37,8 @@ const LayoutDashboard = ({
               <span className="text-primary-100"> Habit </span>
               pada
               <span className="text-primary-100">
-                &nbsp;({moment(date).format("DD MMMM YYYY")})
+                &nbsp;
+                {moment().locale("id").format("dddd, DD MMMM YYYY").toString()}
               </span>
             </p>
           </div>
@@ -60,17 +55,16 @@ const LayoutDashboard = ({
             <HabitList access_token={user.token} date={date} />
           </div>
         </div>
-        {children}
       </div>
-      <button className="fixed bottom-10 shadow-xl right-8 bg-primary-100 text-white px-2 rounded-full text-6xl hover:bg-primary-hover">
+      <button
+        className="fixed bottom-10 shadow-xl right-8 bg-primary-100 text-white px-2 rounded-full text-6xl hover:bg-primary-hover"
+        onClick={() => {
+          dispatch(openSidebar({ type: "create" }));
+        }}
+      >
         +
       </button>
-      {/* Tambahin logika Show Sidebar */}
-      {/* <HabitSidebar type="edit" /> */}
-      {/* <ConfirmationModal
-        title="Apakah Anda yakin ingin keluar?"
-        imagePath="/images/konfirmasi-logout.svg"
-      /> */}
+      <HabitSidebar />
     </>
   );
 };

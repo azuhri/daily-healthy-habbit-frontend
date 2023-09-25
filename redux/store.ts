@@ -1,11 +1,13 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
-import { authSlice } from "./features/test/testSlice";
 import { createWrapper } from "next-redux-wrapper";
+import { modalSlice } from "./features/modal/modalSlice";
+import { sidebarSlice } from "./features/habitSidebar/habitSidebarSlice";
 
 const makeStore = () =>
   configureStore({
     reducer: {
-      [authSlice.name]: authSlice.reducer,
+      modal: modalSlice.reducer,
+      sidebar: sidebarSlice.reducer,
     },
     devTools: true,
   });
