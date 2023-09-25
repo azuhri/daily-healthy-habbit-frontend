@@ -60,7 +60,7 @@ const config: Config = {
             "200" : "#D61743",
           },
           yellow: "#FFF500",
-          color: {
+          type: {
             "0": "#E17055",
             "1": "#8373a0",
             "2": "#46aab9",

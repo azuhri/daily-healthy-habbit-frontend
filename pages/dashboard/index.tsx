@@ -13,7 +13,10 @@ import Sidebar from "@/components/dashboard/Sidebar";
 import LayoutDashboard from "@/components/dashboard/Layout";
 import HabitList from "@/components/dashboard/Habit/HabitList";
 
-const DashboardPage = ({ user }: any) => {
+const DashboardPage = ({ user, date }: {
+  user:any,
+  date: any
+}) => {
   return (
     <>
       <Head>
@@ -33,11 +36,11 @@ const DashboardPage = ({ user }: any) => {
           </h1>
         </div> */}
         {/* Habit Ada */}
-        <div className="flex flex-col flex-grow">
+        {/* <div className="flex flex-col flex-grow">
           <div className="flex-grow pt-8">
-            <HabitList />
+            <HabitList access_token={user.token}  date={date} />
           </div>
-        </div>
+        </div> */}
       </LayoutDashboard>
       {/* Punya Azis yg kemaren 
       <LayoutDashboard user={user}>
