@@ -1,4 +1,4 @@
-import { selectAuthState } from "@/features/test/testSlice";
+import { selectAuthState } from "@/redux/features/test/testSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "./Header";
 import HabitSidebar from "./Habit/Detail/HabitSidebar";
@@ -6,7 +6,11 @@ import ConfirmationModal from "./ConfirmationModal";
 import { Datepicker } from "flowbite-react";
 
 import axios from "axios";
-import type { InferGetServerSidePropsType, GetStaticProps, GetServerSideProps } from 'next';
+import type {
+  InferGetServerSidePropsType,
+  GetStaticProps,
+  GetServerSideProps,
+} from "next";
 import { useState, useEffect, useMemo } from "react";
 import HabitList from "./Habit/HabitList";
 import moment from "moment";
@@ -19,11 +23,11 @@ const LayoutDashboard = ({
   user: any;
 }) => {
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
-  const changeDate = (val:any) => {
+  const changeDate = (val: any) => {
     const format = moment(val).format("YYYY-MM-DD");
     setDate(format);
-  }
-  
+  };
+
   // const dispatch = useDispatch();
   // const authState = useSelector(selectAuthState);
 
@@ -53,7 +57,7 @@ const LayoutDashboard = ({
         </div>
         <div className="flex flex-col flex-grow">
           <div className="flex-grow pt-8">
-            <HabitList access_token={user.token}  date={date} />
+            <HabitList access_token={user.token} date={date} />
           </div>
         </div>
         {children}
