@@ -8,6 +8,8 @@ const SkeletonHabit = ({props}:any) => {
     width={400}
     height={200}
     title="Loading news..."
+    backgroundColor="#BFD5D8"
+    foregroundColor="#EDEDED"
     {...props}
   >
     <rect x="42.84" y="9.93" rx="5" ry="5" width="143.55" height="86.59" />

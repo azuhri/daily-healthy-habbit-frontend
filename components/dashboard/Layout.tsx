@@ -9,6 +9,7 @@ import axios from "axios";
 import type { InferGetServerSidePropsType, GetStaticProps, GetServerSideProps } from 'next';
 import { useState, useEffect, useMemo } from "react";
 import HabitList from "./Habit/HabitList";
+import moment from "moment";
 
 const LayoutDashboard = ({
   children,
@@ -17,10 +18,10 @@ const LayoutDashboard = ({
   children: React.ReactNode;
   user: any;
 }) => {
-
+  const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const changeDate = (val:any) => {
-    console.log(val);
-    
+    const format = moment(val).format("YYYY-MM-DD");
+    setDate(format);
   }
   
   // const dispatch = useDispatch();
@@ -31,7 +32,7 @@ const LayoutDashboard = ({
       <div className="bg-gradient-dashboard min-h-screen w-full px-8 flex flex-col py-8">
         <Header user={user} />
         <div className="flex flex-row justify-between pt-8 text-black">
-          <div>
+          <div className="hidden md:block">
             <h1 className="text-2xl font-semibold">Halo, {user.name}!</h1>
             <p className="text-xs">
               Berikut daftar
@@ -45,13 +46,17 @@ const LayoutDashboard = ({
           <div>
             <Datepicker
               maxDate={new Date()}
-              className=""
-              onChange={changeDate}
+              className="w-full"
+              onSelectedDateChanged={changeDate}
             />
           </div>
         </div>
-        {/* {children} */}
-        <HabitList access_token={user.token} />
+        <div className="flex flex-col flex-grow">
+          <div className="flex-grow pt-8">
+            <HabitList access_token={user.token}  date={date} />
+          </div>
+        </div>
+        {children}
       </div>
       <button className="fixed bottom-10 shadow-xl right-8 bg-primary-100 text-white px-2 rounded-full text-6xl hover:bg-primary-hover">
         +
