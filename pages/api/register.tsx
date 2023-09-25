@@ -35,7 +35,7 @@ export default withSessionRoute(async function handler(req, res) {
           name: response.data.data.name,
           email: response.data.data.email,
           phonenumber: response.data.data.phonenumber,
-          access_token: response.data.access_token,
+          token: response.data.data.access_token,
         };
         console.log(dataUser);
 
