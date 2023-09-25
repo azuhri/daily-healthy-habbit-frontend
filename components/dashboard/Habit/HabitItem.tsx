@@ -51,10 +51,10 @@ const HabitItem = ({data}:{data:any}) => {
         </p>
       </div>
       <div className="w-1/6 flex justify-center items-center text-black rounded-r-lg">
-        {(typeof data.progress == "string" && data.progress == "completed") || data.progress == data.target_per_day  ? <button className="p-[3px] shadow border border-mobile-green-200 bg-mobile-green-200 text-mobile-green-100 rounded-full">
+        {(typeof data.progress == "string" && data.progress == "completed") || data.progress == data.target_perday  ? <button className="p-[3px] shadow border border-mobile-green-200 bg-mobile-green-200 text-mobile-green-100 rounded-full">
           <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" className="css-i6dzq1"><polyline points="20 6 9 17 4 12"></polyline></svg>
         </button> : ""}
-        {(typeof data.progress == "string" && data.progress == "pending") || data.progress < data.target_per_day  ?
+        {(typeof data.progress == "string" && data.progress == "pending") || data.progress < data.target_perday  ?
          <button className="p-[4px] shadow border border-yellow-300 bg-yellow-300 text-white rounded-full">
          <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round" className="css-i6dzq1"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
        </button> : ""}
