@@ -8,7 +8,7 @@ declare module "iron-session" {
         name: string,
         email: string,
         phonenumber: string | null
-        access_token: string
+        token: string
     }
   }
 }

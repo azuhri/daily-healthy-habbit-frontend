@@ -3,8 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import Header from "./Header";
 import HabitSidebar from "./Habit/Detail/HabitSidebar";
 import ConfirmationModal from "./ConfirmationModal";
-import { use } from "react";
-import { useState } from "react";
+import { Datepicker } from "flowbite-react";
+
+import axios from "axios";
+import type { InferGetServerSidePropsType, GetStaticProps, GetServerSideProps } from 'next';
+import { useState, useEffect, useMemo } from "react";
+import HabitList from "./Habit/HabitList";
 
 const LayoutDashboard = ({
   children,
@@ -13,9 +17,14 @@ const LayoutDashboard = ({
   children: React.ReactNode;
   user: any;
 }) => {
-  const dispatch = useDispatch();
-  const authState = useSelector(selectAuthState);
+
+  const changeDate = (val:any) => {
+    console.log(val);
+    
+  }
   
+  // const dispatch = useDispatch();
+  // const authState = useSelector(selectAuthState);
 
   return (
     <>
@@ -34,10 +43,15 @@ const LayoutDashboard = ({
             </p>
           </div>
           <div>
-            <p className="text-black">Kalender</p>
+            <Datepicker
+              maxDate={new Date()}
+              className=""
+              onChange={changeDate}
+            />
           </div>
         </div>
-        {children}
+        {/* {children} */}
+        <HabitList access_token={user.token} />
       </div>
       <button className="fixed bottom-10 shadow-xl right-8 bg-primary-100 text-white px-2 rounded-full text-6xl hover:bg-primary-hover">
         +
