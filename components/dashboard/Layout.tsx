@@ -39,7 +39,7 @@ const LayoutDashboard = ({
               <span className="text-primary-100"> Habit </span>
               pada
               <span className="text-primary-100">
-                &nbsp;Hari (September 12, 1998)
+                &nbsp;({moment(date).format("DD MMMM YYYY")})
               </span>
             </p>
           </div>

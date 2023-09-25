@@ -2,10 +2,44 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 
 const HabitItem = ({data}:{data:any}) => {
+  const [color, setColor] = useState("");
+  useEffect(() => {
+    switch (data.color) {
+        case 0:
+           setColor("#E17055");
+           break;
+        case 1:
+           setColor("#8373a0");
+           break;
+        case 2:
+           setColor("#46aab9");
+           break;
+        case 3:
+           setColor("#60a588");
+           break;
+        case 4:
+           setColor("#d58734");
+           break;
+        case 5:
+           setColor("#a5647c");
+           break;
+        case 6:
+           setColor("#4d9b9d");
+           break;
+        case 7:
+           setColor("#5686aa");
+           break;
+      default:
+          setColor("#E17055");
+          break;
+    }
+  }, [data]);
+
+  console.log(color);
   
   return (
-    <div className="cursor-pointer hover:bg-gray-300 relative shadow-md flex rounded-lg w-full bg-ds-gray min-h-[100px] max-h-28 my-1">
-      <div className={`w-1/6 h-full bg-mobile-type-${data.color} rounded-l-lg `} />
+    <div className="cursor-pointer hover:bg-gray-300 relative shadow-md flex rounded-lg w-full bg-ds-gray min-h-[100px] max-h-28 m-1">
+      <div className={`w-1/6 h-full bg-[${color}] rounded-l-lg`} />
       <div className="w-4/6 h-full text-black text-gray-600 px-3 flex justify-center flex-col">
         <h1 className="font-bold">{data.name}</h1>
         <div className="flex space-x-2 text-xs">
