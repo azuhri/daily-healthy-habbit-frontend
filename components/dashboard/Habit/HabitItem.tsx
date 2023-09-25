@@ -6,31 +6,31 @@ const HabitItem = ({data}:{data:any}) => {
   useEffect(() => {
     switch (data.color) {
         case 0:
-           setColor("#E17055");
+           setColor("bg-[#E17055]");
            break;
         case 1:
-           setColor("#8373a0");
+           setColor("bg-[#8373a0]");
            break;
         case 2:
-           setColor("#46aab9");
+           setColor("bg-[#46aab9]");
            break;
         case 3:
-           setColor("#60a588");
+           setColor("bg-[#60a588]");
            break;
         case 4:
-           setColor("#d58734");
+           setColor("bg-[#d58734]");
            break;
         case 5:
-           setColor("#a5647c");
+           setColor("bg-[#a5647c]");
            break;
         case 6:
-           setColor("#4d9b9d");
+           setColor("bg-[#4d9b9d]");
            break;
         case 7:
-           setColor("#5686aa");
+           setColor("bg-[#5686aa]");
            break;
       default:
-          setColor("#E17055");
+          setColor("bg-[#E17055]");
           break;
     }
   }, [data]);
@@ -39,7 +39,7 @@ const HabitItem = ({data}:{data:any}) => {
   
   return (
     <div className="cursor-pointer hover:bg-gray-300 relative shadow-md flex rounded-lg w-full bg-ds-gray min-h-[100px] max-h-28 m-1">
-      <div className={`w-1/6 h-full bg-[${color}] rounded-l-lg`} />
+      <div className={`w-1/6 h-full ${color} rounded-l-lg`} />
       <div className="w-4/6 h-full text-black text-gray-600 px-3 flex justify-center flex-col">
         <h1 className="font-bold">{data.name}</h1>
         <div className="flex space-x-2 text-xs">
