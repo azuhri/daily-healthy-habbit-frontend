@@ -12,7 +12,7 @@ const Header = ({ user }: any) => {
   return (
     <div className="grid grid-cols-7 items-center">
       <div className="col-span-1 md:mx-0 mx-2">
-        <Link href="#" className="flex absolute">
+        <Link href="#" className="flex">
           <Image
             src="/icons/new-logo.png"
             alt="Daily Healthy Habit Icon"

@@ -10,7 +10,7 @@ const HabitSidebar = () => {
   return (
     <div className="w-screen">
       <div
-        className={`fixed bottom-0 right-0 h-screen bg-ds-gray rounded-l-lg transition-all duration-300 ease-in-out text-black ${
+        className={`fixed top-0 right-0 h-screen overflow-y-auto bg-ds-gray rounded-l-lg transition-all duration-300 ease-in-out text-black ${
           sidebar.isOpen ? "w-[35%] overflow-visible" : "w-0 overflow-hidden"
         }`}
       >
