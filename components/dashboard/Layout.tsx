@@ -14,15 +14,15 @@ import Header from "./Header";
 import HabitSidebar from "./Habit/Detail/HabitSidebar";
 import ConfirmationModal from "./ConfirmationModal";
 import HabitList from "./Habit/HabitList";
+import { changeDate } from "@/redux/features/time/timeStateSlice";
 import { openSidebar } from "@/redux/features/habitSidebar/habitSidebarSlice";
 
 const LayoutDashboard = ({ user }: { user: any }) => {
   const dispatch = useDispatch();
+  const { currentTime, date } = useSelector((state: any) => state.time);
 
-  const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
-  const changeDate = (val: any) => {
-    const format = moment(val).format("YYYY-MM-DD");
-    setDate(format);
+  const handleChangeDate = (date: any) => {
+    dispatch(changeDate({ date: date }));
   };
 
   return (
@@ -38,7 +38,10 @@ const LayoutDashboard = ({ user }: { user: any }) => {
               pada
               <span className="text-primary-100">
                 &nbsp;
-                {moment().locale("id").format("dddd, DD MMMM YYYY").toString()}
+                {currentTime
+                  .locale("id")
+                  .format("dddd, DD MMMM YYYY")
+                  .toString()}
               </span>
             </p>
           </div>
@@ -46,7 +49,7 @@ const LayoutDashboard = ({ user }: { user: any }) => {
             <Datepicker
               maxDate={new Date()}
               className="w-full"
-              onSelectedDateChanged={changeDate}
+              onSelectedDateChanged={handleChangeDate}
             />
           </div>
         </div>

@@ -38,8 +38,6 @@ const HabitItem = ({ data }: { data: any }) => {
     }
   }, [data]);
 
-  console.log(color);
-
   return (
     <div
       className="cursor-pointer hover:bg-gray-300 relative shadow-md flex rounded-lg w-full bg-ds-gray min-h-[100px] max-h-28 m-1"

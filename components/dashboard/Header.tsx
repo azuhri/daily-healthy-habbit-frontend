@@ -7,13 +7,12 @@ import Gravatar from "../Gravatar";
 import ModalLogout from "./modal/ModalLogout";
 
 const Header = ({ user }: any) => {
-  // const [openModal, setOpenModal] = useState<string | undefined>();
   const dispatch = useDispatch();
 
   return (
     <div className="grid grid-cols-7 items-center">
       <div className="col-span-1 md:mx-0 mx-2">
-        <Link href="#" className="flex">
+        <Link href="#" className="flex absolute">
           <Image
             src="/icons/new-logo.png"
             alt="Daily Healthy Habit Icon"

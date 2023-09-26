@@ -1,13 +1,16 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import { createWrapper } from "next-redux-wrapper";
-import { modalSlice } from "./features/modal/modalSlice";
-import { sidebarSlice } from "./features/habitSidebar/habitSidebarSlice";
+
+import modalSlice from "./features/modal/modalSlice";
+import habitSidebarSlice from "./features/habitSidebar/habitSidebarSlice";
+import timeStateSlice from "./features/time/timeStateSlice";
 
 const makeStore = () =>
   configureStore({
     reducer: {
-      modal: modalSlice.reducer,
-      sidebar: sidebarSlice.reducer,
+      modal: modalSlice,
+      sidebar: habitSidebarSlice,
+      time: timeStateSlice,
     },
     devTools: true,
   });
