@@ -6,18 +6,29 @@ import moment from "moment";
 const HabitForm = ({ children }: { children: React.ReactNode }) => {
   const data = useSelector((state: any) => state.sidebar.data);
   const [bgColor, setBgColor] = useState("bg-[#E17055]");
-  const [color, setColor] = useState(data ? data.color : 0);
-  const [name, setName] = useState(data ? data.name : "");
-  const [description, setDescription] = useState(data ? data.description : "");
-  const [target_perday, setTarget_perday] = useState(
-    data ? data.target_perday : 1
-  );
-  const [priority, setPriority] = useState(data ? data.priority : 1);
-  const [reminder, setReminder] = useState(data ? data.start_time : "00:00");
   const [isTimepickerOpen, setIsTimepickerOpen] = useState(false);
+  const [inputValue, setInputValue] = useState(
+    data
+      ? {
+          name: data.name,
+          description: data.description,
+          target_perday: data.target_perday,
+          priority: data.priority,
+          color: data.color,
+          start_time: data.start_time,
+        }
+      : {
+          name: "",
+          description: "",
+          target_perday: 1,
+          priority: 1,
+          color: 0,
+          start_time: "00:00",
+        }
+  );
 
   useEffect(() => {
-    switch (color) {
+    switch (inputValue.color) {
       case 0:
         setBgColor("bg-[#E17055]");
         break;
@@ -46,21 +57,11 @@ const HabitForm = ({ children }: { children: React.ReactNode }) => {
         setBgColor("bg-[#E17055]");
         break;
     }
-  }, [color]);
-
-  useEffect(() => {
-    if (!data) return;
-    setName(data.name);
-    setDescription(data.description ? data.description : "");
-    setTarget_perday(data.target_perday ? data.target_perday : 1);
-    setPriority(data.priority);
-    setReminder(data.start_time ? data.start_time : "00:00");
-    setColor(data.color);
-  }, [data]);
+  }, [inputValue.color]);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log(name, description, target_perday, priority, color);
+    // console.log(name, description, target_perday, priority, color);
   };
 
   const colorSelector = [];
@@ -79,9 +80,12 @@ const HabitForm = ({ children }: { children: React.ReactNode }) => {
       <button
         key={i}
         className={`rounded-lg text-black h-full ` + color[i]}
-        onClick={() => {
-          setColor(i);
-        }}
+        onClick={() =>
+          setInputValue({
+            ...inputValue,
+            color: i,
+          })
+        }
       >
         <p className="invisible">0</p>
       </button>
@@ -96,8 +100,10 @@ const HabitForm = ({ children }: { children: React.ReactNode }) => {
           type="text"
           className="w-full border-0 border-b-2 border-gray-300 px-1 my-1 focus:outline-none focus:ring-0 focus:border-primary-100 placeholder-gray-300"
           placeholder="Jawaban Anda"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={inputValue.name}
+          onChange={(e) =>
+            setInputValue({ ...inputValue, name: e.target.value })
+          }
         />
       </div>
       <div className="bg-white w-full rounded-lg py-2 px-3 my-2">
@@ -106,8 +112,10 @@ const HabitForm = ({ children }: { children: React.ReactNode }) => {
           type="text"
           className="w-full border-0 border-b-2 border-gray-300 px-1 my-1 focus:outline-none focus:ring-0 focus:border-primary-100 placeholder-gray-300"
           placeholder="Jawaban Anda"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          value={inputValue.description}
+          onChange={(e) => {
+            setInputValue({ ...inputValue, description: e.target.value });
+          }}
         />
       </div>
       <button
@@ -116,7 +124,7 @@ const HabitForm = ({ children }: { children: React.ReactNode }) => {
       >
         <p className="">Pengingat</p>
         <div className="flex gap-2">
-          {reminder}
+          {inputValue.start_time}
           <div className="h-full bg-primary-100 rounded-lg px-2 text-white group-hover:bg-primary-hover">
             +
           </div>
@@ -128,8 +136,13 @@ const HabitForm = ({ children }: { children: React.ReactNode }) => {
         } overflow-hidden`}
       >
         <StaticTimePicker
-          value={moment(reminder, "HH:mm")}
-          onChange={(e: any) => setReminder(e.format("HH:mm"))}
+          value={moment(inputValue.start_time, "HH:mm")}
+          onChange={(newValue) => {
+            setInputValue({
+              ...inputValue,
+              start_time: moment(newValue).format("HH:mm"),
+            });
+          }}
         />
       </div>
       <div className="grid grid-cols-2 gap-2">
@@ -137,7 +150,7 @@ const HabitForm = ({ children }: { children: React.ReactNode }) => {
           <button className="group flex justify-between w-full bg-white rounded-lg py-2 px-3">
             <p className="text-primary-100">Perulangan</p>
             <div className="h-full bg-primary-100 rounded-lg px-2 text-white group-hover:bg-primary-hover">
-              {target_perday}
+              {inputValue.target_perday}
             </div>
           </button>
           <div className="absolute right-0 invisible w-56 transition-all opacity-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-1 z-20">
@@ -145,17 +158,26 @@ const HabitForm = ({ children }: { children: React.ReactNode }) => {
               <button
                 className="bg-primary-100 rounded-lg px-2 text-white"
                 onClick={() => {
-                  if (target_perday > 1) setTarget_perday(target_perday - 1);
+                  if (inputValue.target_perday > 1)
+                    setInputValue({
+                      ...inputValue,
+                      target_perday: inputValue.target_perday - 1,
+                    });
                 }}
               >
                 -
               </button>
               <div className="bg-primary-100 rounded-lg px-2 text-white">
-                {target_perday}
+                {inputValue.target_perday}
               </div>
               <button
                 className="bg-primary-100 rounded-lg px-2 text-white"
-                onClick={() => setTarget_perday(target_perday + 1)}
+                onClick={() => {
+                  setInputValue({
+                    ...inputValue,
+                    target_perday: inputValue.target_perday + 1,
+                  });
+                }}
               >
                 +
               </button>
@@ -167,7 +189,7 @@ const HabitForm = ({ children }: { children: React.ReactNode }) => {
           <button className="group flex justify-between w-full bg-white rounded-lg py-2 px-3">
             <p className="text-primary-100">Prioritas</p>
             <div className="h-full bg-primary-100 rounded-lg px-2 text-white group-hover:bg-primary-hover">
-              {priority}
+              {inputValue.priority}
             </div>
           </button>
           <div className="absolute right-0 invisible w-56 transition-all opacity-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-1 z-20">
@@ -175,17 +197,25 @@ const HabitForm = ({ children }: { children: React.ReactNode }) => {
               <button
                 className="bg-primary-100 rounded-lg px-2 text-white"
                 onClick={() => {
-                  setPriority(priority - 1);
+                  setInputValue({
+                    ...inputValue,
+                    priority: inputValue.priority - 1,
+                  });
                 }}
               >
                 -
               </button>
               <div className="bg-primary-100 rounded-lg px-2 text-white">
-                {priority}
+                {inputValue.priority}
               </div>
               <button
                 className="bg-primary-100 rounded-lg px-2 text-white"
-                onClick={() => setPriority(priority + 1)}
+                onClick={() =>
+                  setInputValue({
+                    ...inputValue,
+                    priority: inputValue.priority + 1,
+                  })
+                }
               >
                 +
               </button>
