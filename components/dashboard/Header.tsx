@@ -10,13 +10,6 @@ import { filterHabits } from "@/redux/features/habits/habitsSlice";
 
 const Header = ({ user }: any) => {
   const dispatch = useAppDispatch();
-  const habits = useSelector((state: any) => state.habits.habits);
-  const [search, setSearch] = useState("");
-
-  const handleSearch = (e: any) => {
-    e.preventDefault();
-    dispatch(filterHabits(search));
-  };
 
   return (
     <div className="grid grid-cols-7 items-center">
@@ -37,10 +30,7 @@ const Header = ({ user }: any) => {
         </Link>
       </div>
 
-      <form
-        className="col-span-3 md:col-span-4 mx-2 flex items-center rounded justify-center relative"
-        onSubmit={handleSearch}
-      >
+      <form className="col-span-3 md:col-span-4 mx-2 flex items-center rounded justify-center relative">
         <Image
           src="/icons/carbon-search.svg"
           alt="Search Icon"
