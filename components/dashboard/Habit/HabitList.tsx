@@ -12,13 +12,13 @@ const apiEndpoint =
 
 const HabitList = ({
   access_token,
-  date,
 }: {
   access_token: string;
   date: string;
 }) => {
   const dispatch = useAppDispatch();
   const { filteredHabits } = useSelector((state: any) => state.habits);
+  const { date } = useSelector((state: any) => state.time);
 
   const [loading, setLoading] = useState(false);
 

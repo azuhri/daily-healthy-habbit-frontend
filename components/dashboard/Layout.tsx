@@ -17,7 +17,7 @@ import moment from "moment";
 
 const LayoutDashboard = ({ user }: { user: any }) => {
   const dispatch = useDispatch();
-  const { currentTime, date } = useSelector((state: any) => state.time);
+  const { date } = useSelector((state: any) => state.time);
 
   const handleChangeDate = (date: any) => {
     dispatch(changeDate({ date: date }));
