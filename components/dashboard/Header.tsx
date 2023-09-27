@@ -1,13 +1,22 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch } from "@/redux/store";
+import { useSelector } from "react-redux";
+import { useState } from "react";
 
 import { openModal } from "@/redux/features/modal/modalSlice";
 import Gravatar from "../Gravatar";
-import ModalLogout from "./modal/ModalLogout";
+import { filterHabits } from "@/redux/features/habits/habitsSlice";
 
 const Header = ({ user }: any) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const habits = useSelector((state: any) => state.habits.habits);
+  const [search, setSearch] = useState("");
+
+  const handleSearch = (e: any) => {
+    e.preventDefault();
+    dispatch(filterHabits(search));
+  };
 
   return (
     <div className="grid grid-cols-7 items-center">
@@ -28,7 +37,10 @@ const Header = ({ user }: any) => {
         </Link>
       </div>
 
-      <div className="col-span-3 md:col-span-4 mx-2 flex items-center rounded justify-center relative">
+      <form
+        className="col-span-3 md:col-span-4 mx-2 flex items-center rounded justify-center relative"
+        onSubmit={handleSearch}
+      >
         <Image
           src="/icons/carbon-search.svg"
           alt="Search Icon"
@@ -38,10 +50,12 @@ const Header = ({ user }: any) => {
         />
         <input
           type="text"
+          onChange={(e) => setSearch(e.target.value)}
           className="w-full px-4 my-2 text-black text-xs outline-none text-gray-500 shadow rounded-lg p-3 pl-8"
           placeholder="cari habit mu disini..."
         />
-      </div>
+      </form>
+
       <div className="col-span-3 md:col-span-2 flex space-x-5 justify-end">
         <button>
           <Image

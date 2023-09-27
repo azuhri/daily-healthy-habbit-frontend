@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import HabitItem from "./HabitItem";
 import SkeletonHabit from "./SkeletonHabit";
 import Image from "next/image";
+import { useAppDispatch } from "@/redux/store";
+import { useSelector } from "react-redux";
+import { setHabits } from "@/redux/features/habits/habitsSlice";
 
 const apiEndpoint =
   process.env.API || "https://staging-api-health2023.agileteknik.com";
@@ -14,8 +17,10 @@ const HabitList = ({
   access_token: string;
   date: string;
 }) => {
+  const dispatch = useAppDispatch();
+  const { filteredHabits } = useSelector((state: any) => state.habits);
+
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<any[]>(Array);
 
   const getDataHabit = async () => {
     try {
@@ -30,7 +35,9 @@ const HabitList = ({
         }
       );
       if (response.status === 200) {
-        setData(response.data.data);
+        dispatch(
+          setHabits(response.data.data.sort((a: any, b: any) => b.id - a.id))
+        );
       } else {
         throw new Error(response.statusText);
       }
@@ -39,11 +46,13 @@ const HabitList = ({
       console.error("Error:", error);
     }
   };
+
   useEffect(() => {
     getDataHabit();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date]);
 
-  if (data.length < 1) {
+  if (filteredHabits.length < 1) {
     return (
       <>
         {loading && (
@@ -73,7 +82,7 @@ const HabitList = ({
   return (
     <div className="my-4 grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-2">
       {loading && <SkeletonHabit />}
-      {data.map((val: any, index: any) => (
+      {filteredHabits.map((val: any, index: any) => (
         <HabitItem key={index} data={val} />
       ))}
     </div>
