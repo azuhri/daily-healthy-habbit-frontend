@@ -2,12 +2,10 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import moment from "moment";
 
 interface TimeState {
-  currentTime: moment.Moment;
   date?: string;
 }
 
 const initialState: TimeState = {
-  currentTime: moment(),
   date: moment().format("YYYY-MM-DD"),
 };
 

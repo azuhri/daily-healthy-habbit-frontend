@@ -17,7 +17,7 @@ const Header = ({ user }: any) => {
             src="/icons/new-logo.png"
             alt="Daily Healthy Habit Icon"
             width="60"
-            height={0}
+            height="60"
             className="object-contain"
           />
           <p className="hidden md:block font-semibold text-gray-500 ml-2 text-sm">

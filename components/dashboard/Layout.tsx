@@ -1,7 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Datepicker } from "flowbite-react";
-import axios from "axios";
-import moment from "moment";
 import "moment/locale/id";
 import type {
   InferGetServerSidePropsType,
@@ -12,10 +10,10 @@ import { useState, useEffect, useMemo } from "react";
 
 import Header from "./Header";
 import HabitSidebar from "./Habit/Detail/HabitSidebar";
-import ConfirmationModal from "./ConfirmationModal";
 import HabitList from "./Habit/HabitList";
 import { changeDate } from "@/redux/features/time/timeStateSlice";
 import { openSidebar } from "@/redux/features/habitSidebar/habitSidebarSlice";
+import moment from "moment";
 
 const LayoutDashboard = ({ user }: { user: any }) => {
   const dispatch = useDispatch();
@@ -38,10 +36,7 @@ const LayoutDashboard = ({ user }: { user: any }) => {
               pada
               <span className="text-primary-100">
                 &nbsp;
-                {currentTime
-                  .locale("id")
-                  .format("dddd, DD MMMM YYYY")
-                  .toString()}
+                {moment().locale("id").format("dddd, DD MMMM YYYY").toString()}
               </span>
             </p>
           </div>

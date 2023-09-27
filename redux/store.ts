@@ -1,17 +1,27 @@
-import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
+import {
+  configureStore,
+  ThunkAction,
+  Action,
+  combineReducers,
+} from "@reduxjs/toolkit";
 import { createWrapper } from "next-redux-wrapper";
 
 import modalSlice from "./features/modal/modalSlice";
 import habitSidebarSlice from "./features/habitSidebar/habitSidebarSlice";
 import timeStateSlice from "./features/time/timeStateSlice";
+import { useDispatch } from "react-redux";
+import habitsSlice from "./features/habits/habitsSlice";
+
+const reducer = combineReducers({
+  modal: modalSlice,
+  sidebar: habitSidebarSlice,
+  time: timeStateSlice,
+  habits: habitsSlice,
+});
 
 const makeStore = () =>
   configureStore({
-    reducer: {
-      modal: modalSlice,
-      sidebar: habitSidebarSlice,
-      time: timeStateSlice,
-    },
+    reducer,
     devTools: true,
   });
 
@@ -23,5 +33,7 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action
 >;
+export type AppDispatch = AppStore["dispatch"];
 
+export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const wrapper = createWrapper<AppStore>(makeStore);

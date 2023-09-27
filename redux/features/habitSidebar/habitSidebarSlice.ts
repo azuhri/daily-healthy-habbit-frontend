@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
 interface SidebarState {
   isOpen: boolean;
@@ -11,6 +12,38 @@ const initialState: SidebarState = {
   type: "",
   data: {},
 };
+
+
+
+export const createHabit = createAsyncThunk(
+  "habitSidebar/createHabit",
+  async (habit: any) => {
+    const API =
+      process.env.API || "https://staging-api-health2023.agileteknik.com";
+    const response = await axios.post(`${API}/v2/habbit`, habit);
+    return response.data;
+  }
+);
+
+export const updateHabit = createAsyncThunk(
+  "habitSidebar/updateHabit",
+  async (habit: any) => {
+    const API =
+      process.env.API || "https://staging-api-health2023.agileteknik.com";
+    const response = await axios.put(`${API}/v2/habbit/${habit.id}`, habit);
+    return response.data;
+  }
+);
+
+export const deleteHabit = createAsyncThunk(
+  "habitSidebar/deleteHabit",
+  async (habit: any) => {
+    const API =
+      process.env.API || "https://staging-api-health2023.agileteknik.com";
+    const response = await axios.delete(`${API}/v2/habbit/${habit.id}`);
+    return response.data;
+  }
+);
 
 export const sidebarSlice = createSlice({
   name: "sidebar",
@@ -26,6 +59,13 @@ export const sidebarSlice = createSlice({
       state.type = "";
       state.data = {};
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(createHabit.fulfilled, (state, action) => {
+      state.isOpen = false;
+      state.type = "";
+      state.data = {};
+    });
   },
 });
 
