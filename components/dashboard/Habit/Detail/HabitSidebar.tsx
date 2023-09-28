@@ -3,7 +3,7 @@ import HabitForm from "./HabitForm";
 import { useDispatch, useSelector } from "react-redux";
 import { closeSidebar } from "@/redux/features/habitSidebar/habitSidebarSlice";
 
-const HabitSidebar = () => {
+const HabitSidebar = ({ user }: { user: any }) => {
   const dispatch = useDispatch();
   const sidebar = useSelector((state: any) => state.sidebar);
 
@@ -19,41 +19,7 @@ const HabitSidebar = () => {
         </button>
         <div className="px-8 w-full mt-4">
           <h1 className="font-semibold text-xl">Definisikan Habitmu!</h1>
-          {sidebar.type === "create" && (
-            <HabitForm>
-              <div className="w-full flex justify-center">
-                <button
-                  type="submit"
-                  name="create"
-                  className="my-8 py-2 bg-primary-100 rounded-full w-[70%] text-xl font-bold text-white hover:bg-primary-hover"
-                >
-                  Buat
-                </button>
-              </div>
-            </HabitForm>
-          )}
-          {sidebar.type === "edit" && (
-            <HabitForm>
-              <div className="w-full flex justify-center">
-                <button
-                  type="submit"
-                  name="edit"
-                  className="my-2 mt-6 py-2 bg-primary-100 rounded-full w-[70%] text-xl font-bold text-white hover:bg-primary-hover"
-                >
-                  Edit
-                </button>
-              </div>
-              <div className="w-full flex justify-center">
-                <button
-                  type="submit"
-                  name="delete"
-                  className="my-2 py-2 bg-danger-100 rounded-full w-[70%] text-xl font-bold text-white hover:bg-danger-hover"
-                >
-                  Hapus
-                </button>
-              </div>
-            </HabitForm>
-          )}
+          <HabitForm user={user} />
         </div>
       </div>
     </div>

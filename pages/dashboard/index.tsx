@@ -13,7 +13,7 @@ import axios from "axios";
 import LayoutDashboard from "@/components/dashboard/Layout";
 import ConfirmationModal from "@/components/dashboard/ConfirmationModal";
 
-const DashboardPage = ({ user, date }: { user: any; date: any }) => {
+const DashboardPage = ({ user }: { user: any;}) => {
   const router = useRouter();
   const modal = useSelector((state: any) => state.modal);
 

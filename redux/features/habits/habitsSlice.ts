@@ -18,10 +18,14 @@ export const habitsSlice = createSlice({
       state.habits = action.payload;
       state.filteredHabits = action.payload;
     },
-    // temporarily filter habits by name
     filterHabits: (state, action) => {
-      state.filteredHabits = state.habits.filter((habit) =>
-        habit.name.toLowerCase().includes(action.payload.toLowerCase())
+      state.filteredHabits = state.habits.filter(
+        (habit) =>
+          habit.name.toLowerCase().includes(action.payload.toLowerCase()) ||
+          (habit.description &&
+            habit.description
+              .toLowerCase()
+              .includes(action.payload.toLowerCase()))
       );
     },
   },

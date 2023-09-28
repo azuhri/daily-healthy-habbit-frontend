@@ -62,7 +62,7 @@ const LayoutDashboard = ({ user }: { user: any }) => {
       >
         +
       </button>
-      <HabitSidebar />
+      <HabitSidebar user={user} />
     </>
   );
 };

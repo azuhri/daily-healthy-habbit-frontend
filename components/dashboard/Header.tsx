@@ -1,8 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useAppDispatch } from "@/redux/store";
-import { useSelector } from "react-redux";
-import { useState } from "react";
 
 import { openModal } from "@/redux/features/modal/modalSlice";
 import Gravatar from "../Gravatar";

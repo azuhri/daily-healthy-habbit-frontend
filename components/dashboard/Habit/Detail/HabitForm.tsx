@@ -3,27 +3,32 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import moment from "moment";
 
-import {
-  createHabit,
-  deleteHabit,
-  updateHabit,
-} from "@/redux/features/habitSidebar/habitSidebarSlice";
+// import {
+//   createHabit,
+//   deleteHabit,
+//   updateHabit,
+// } from "@/redux/features/habitSidebar/habitSidebarSlice";
 import { useAppDispatch } from "@/redux/store";
 
-const HabitForm = ({ children }: { children: React.ReactNode }) => {
+const HabitForm = ({ user }: { user: any }) => {
   const dispatch = useAppDispatch();
-  const data = useSelector((state: any) => state.sidebar.data);
+  const { type, index } = useSelector((state: any) => state.sidebar);
+  const { filteredHabits } = useSelector((state: any) => state.habits);
   const [bgColor, setBgColor] = useState("bg-[#E17055]");
   const [isTimepickerOpen, setIsTimepickerOpen] = useState(false);
   const [inputValue, setInputValue] = useState(
-    data
+    filteredHabits[index]
       ? {
-          name: data.name,
-          description: data.description ? data.description : "",
-          start_time: data.start_time,
-          target_perday: data.target_perday ? data.target_perday : 1,
-          priority: data.priority,
-          color: data.color,
+          name: filteredHabits[index].name,
+          description: filteredHabits[index].description
+            ? filteredHabits[index].description
+            : "",
+          start_time: filteredHabits[index].start_time,
+          target_perday: filteredHabits[index].target_perday
+            ? filteredHabits[index].target_perday
+            : 1,
+          priority: filteredHabits[index].priority,
+          color: filteredHabits[index].color,
         }
       : {
           name: "",
@@ -68,35 +73,39 @@ const HabitForm = ({ children }: { children: React.ReactNode }) => {
   }, [inputValue.color]);
 
   useEffect(() => {
-    if (!data) return;
+    if (!filteredHabits[index]) return;
     setInputValue({
       ...inputValue,
-      name: data.name,
-      description: data.description ? data.description : "",
-      start_time: data.start_time,
-      target_perday: data.target_perday ? data.target_perday : 1,
-      priority: data.priority,
-      color: data.color,
+      name: filteredHabits[index].name,
+      description: filteredHabits[index].description
+        ? filteredHabits[index].description
+        : "",
+      start_time: filteredHabits[index].start_time,
+      target_perday: filteredHabits[index].target_perday
+        ? filteredHabits[index].target_perday
+        : 1,
+      priority: filteredHabits[index].priority,
+      color: filteredHabits[index].color,
     });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  }, [filteredHabits[index]]);
 
   const handleSubmit = (e: any) => {
-    try {
-      e.preventDefault();
-      if (e.nativeEvent.submitter.name === "create") {
-        dispatch(createHabit(inputValue));
-      }
-      if (e.nativeEvent.submitter.name === "edit") {
-        dispatch(updateHabit({ ...inputValue, id: data.id }));
-      }
-      if (e.nativeEvent.submitter.name === "delete") {
-        dispatch(deleteHabit(data.id));
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    // try {
+    //   e.preventDefault();
+    //   if (e.nativeEvent.submitter.name === "create") {
+    //     dispatch(createHabit({ ...inputValue, access_token: user.token }));
+    //   }
+    //   if (e.nativeEvent.submitter.name === "edit") {
+    //     dispatch(updateHabit({ ...inputValue, id: data.id }));
+    //   }
+    //   if (e.nativeEvent.submitter.name === "delete") {
+    //     dispatch(deleteHabit(data.id));
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   const colorSelector = [];
@@ -285,7 +294,39 @@ const HabitForm = ({ children }: { children: React.ReactNode }) => {
           </div>
         </div>
       </div>
-      {children}
+      {type === "create" && (
+        <div className="w-full flex justify-center">
+          <button
+            type="submit"
+            name="create"
+            className="my-8 py-2 bg-primary-100 rounded-full w-[70%] text-xl font-bold text-white hover:bg-primary-hover"
+          >
+            Buat
+          </button>
+        </div>
+      )}
+      {type === "edit" && (
+        <>
+          <div className="w-full flex justify-center">
+            <button
+              type="submit"
+              name="edit"
+              className="my-2 mt-6 py-2 bg-primary-100 rounded-full w-[70%] text-xl font-bold text-white hover:bg-primary-hover"
+            >
+              Edit
+            </button>
+          </div>
+          <div className="w-full flex justify-center">
+            <button
+              type="submit"
+              name="delete"
+              className="my-2 py-2 bg-danger-100 rounded-full w-[70%] text-xl font-bold text-white hover:bg-danger-hover"
+            >
+              Hapus
+            </button>
+          </div>
+        </>
+      )}
     </form>
   );
 };

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { openSidebar } from "@/redux/features/habitSidebar/habitSidebarSlice";
 
-const HabitItem = ({ data }: { data: any }) => {
+const HabitItem = ({ data, index }: { data: any; index: number }) => {
   const [color, setColor] = useState("");
   const dispatch = useDispatch();
 
@@ -41,7 +41,7 @@ const HabitItem = ({ data }: { data: any }) => {
   return (
     <div
       className="cursor-pointer hover:bg-gray-300 relative shadow-md flex rounded-lg w-full bg-ds-gray min-h-[100px] max-h-28 m-1"
-      onClick={() => dispatch(openSidebar({ type: "edit", data: data }))}
+      onClick={() => dispatch(openSidebar({ type: "edit", index: index }))}
     >
       <div className={`w-1/6 h-full ${color} rounded-l-lg`} />
       <div className="w-4/6 h-full text-black text-gray-600 px-3 flex justify-center flex-col">
