@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import moment from "moment";
 import axios from "axios";
+import $ from "jquery";
 
 import { useAppDispatch } from "@/redux/store";
 import { closeSidebar } from "@/redux/features/habitSidebar/habitSidebarSlice";
@@ -14,6 +15,7 @@ const HabitForm = ({ user }: { user: any }) => {
   const { filteredHabits } = useSelector((state: any) => state.habits);
   const { date } = useSelector((state: any) => state.time);
 
+  const [responseMessage, setResponseMessage] = useState("");
   const [bgColor, setBgColor] = useState("bg-[#E17055]");
   const [isTimepickerOpen, setIsTimepickerOpen] = useState(false);
   const [inputValue, setInputValue] = useState(
@@ -113,63 +115,58 @@ const HabitForm = ({ user }: { user: any }) => {
           Authorization: `${access_token}`,
         },
       };
-      const data = {
-        ...inputValue,
-      };
+      let response;
       switch (e.nativeEvent.submitter.name) {
         case "create":
-          const response = await axios.post(
+          if (!inputValue.start_time) throw new Error("Pengingat belum diisi");
+          response = await axios.post(
             `${API}/api/v2/habbit`,
-            data,
+            { ...inputValue },
             config
           );
           break;
         case "edit":
           const dataEdit = {
-            ...data,
+            ...inputValue,
             // TEMPORARY FIX NANTI DIHAPUS
             alarm_code: 1,
           };
-          const response2 = await axios.put(
+          response = await axios.put(
             `${API}/api/v2/habbit/${filteredHabits[index].id}`,
             dataEdit,
             config
           );
           break;
         case "delete":
-          const response3 = await axios.delete(
+          response = await axios.delete(
             `${API}/api/v2/habbit/${filteredHabits[index].id}`,
             config
           );
           break;
         default:
-          break;
+          throw new Error("Terjadi kesalahan");
       }
-    } catch (error) {
-      console.error("Error:", error);
-    } finally {
-      const API =
-        process.env.API || "https://staging-api-health2023.agileteknik.com";
-      const access_token = `Bearer ${user.token}`;
-      const config = {
-        headers: {
-          Authorization: `${access_token}`,
-        },
-      };
-      // axios getAllHabit
-      const response4 = await axios.get(
-        `${API}/api/v2/user?date=${date}`,
-        config
-      );
-
-      if (response4.status === 200) {
-        dispatch(
-          setHabits(response4.data.data.sort((a: any, b: any) => b.id - a.id))
+      if (response.status === 200) {
+        dispatch(closeSidebar());
+        const response4 = await axios.get(
+          `${API}/api/v2/user?date=${date}`,
+          config
         );
-      } else {
-        throw new Error(response4.statusText);
+
+        if (response4.status === 200) {
+          dispatch(
+            setHabits(response4.data.data.sort((a: any, b: any) => b.id - a.id))
+          );
+        } else {
+          throw new Error(response4.statusText);
+        }
       }
-      dispatch(closeSidebar());
+    } catch (error: any) {
+      $("#responseMessage").html(`${error.message}`);
+      $("#responseMessage").show(300);
+      setTimeout(() => {
+        $("#responseMessage").hide(300);
+      }, 3000);
     }
   };
 
@@ -202,8 +199,17 @@ const HabitForm = ({ user }: { user: any }) => {
     );
   }
 
+  const displayNone = {
+    display: "none",
+  };
+
   return (
     <form className="pt-8" onSubmit={handleSubmit}>
+      <div
+        id="responseMessage"
+        style={displayNone}
+        className="border-red-500 text-red-400 bg-red-200 mt-2 text-center p-3 border rounded-lg font-bold"
+      />
       <div className="bg-white w-full rounded-lg py-2 px-3">
         <p className="text-primary-100">Nama Habit</p>
         <input
@@ -317,10 +323,11 @@ const HabitForm = ({ user }: { user: any }) => {
                 type="button"
                 className="bg-primary-100 rounded-lg px-2 text-white"
                 onClick={() => {
-                  setInputValue({
-                    ...inputValue,
-                    priority: inputValue.priority - 1,
-                  });
+                  if (inputValue.priority > 1)
+                    setInputValue({
+                      ...inputValue,
+                      priority: inputValue.priority - 1,
+                    });
                 }}
               >
                 -
