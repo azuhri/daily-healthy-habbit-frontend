@@ -39,7 +39,7 @@ const HabitList = ({
           setHabits(response.data.data.sort((a: any, b: any) => b.id - a.id))
         );
       } else {
-        throw new Error(response.statusText);
+        console.log("Error:", response);
       }
       setLoading(false);
     } catch (error) {

@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Datepicker } from "flowbite-react";
 import "moment/locale/id";
 import type {
@@ -14,9 +14,10 @@ import HabitList from "./Habit/HabitList";
 import { changeDate } from "@/redux/features/time/timeStateSlice";
 import { openSidebar } from "@/redux/features/habitSidebar/habitSidebarSlice";
 import moment from "moment";
+import { useAppDispatch } from "@/redux/store";
 
 const LayoutDashboard = ({ user }: { user: any }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { date } = useSelector((state: any) => state.time);
 
   const handleChangeDate = (date: any) => {

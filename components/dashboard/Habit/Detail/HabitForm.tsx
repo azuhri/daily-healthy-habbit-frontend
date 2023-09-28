@@ -2,18 +2,18 @@ import { StaticTimePicker } from "@mui/x-date-pickers";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import moment from "moment";
+import axios from "axios";
 
-// import {
-//   createHabit,
-//   deleteHabit,
-//   updateHabit,
-// } from "@/redux/features/habitSidebar/habitSidebarSlice";
 import { useAppDispatch } from "@/redux/store";
+import { closeSidebar } from "@/redux/features/habitSidebar/habitSidebarSlice";
+import { setHabits } from "@/redux/features/habits/habitsSlice";
 
 const HabitForm = ({ user }: { user: any }) => {
   const dispatch = useAppDispatch();
   const { type, index } = useSelector((state: any) => state.sidebar);
   const { filteredHabits } = useSelector((state: any) => state.habits);
+  const { date } = useSelector((state: any) => state.time);
+
   const [bgColor, setBgColor] = useState("bg-[#E17055]");
   const [isTimepickerOpen, setIsTimepickerOpen] = useState(false);
   const [inputValue, setInputValue] = useState(
@@ -29,6 +29,7 @@ const HabitForm = ({ user }: { user: any }) => {
             : 1,
           priority: filteredHabits[index].priority,
           color: filteredHabits[index].color,
+          start_date: date,
         }
       : {
           name: "",
@@ -37,6 +38,7 @@ const HabitForm = ({ user }: { user: any }) => {
           target_perday: 1,
           priority: 1,
           color: 0,
+          start_date: date,
         }
   );
 
@@ -73,39 +75,119 @@ const HabitForm = ({ user }: { user: any }) => {
   }, [inputValue.color]);
 
   useEffect(() => {
-    if (!filteredHabits[index]) return;
-    setInputValue({
-      ...inputValue,
-      name: filteredHabits[index].name,
-      description: filteredHabits[index].description
-        ? filteredHabits[index].description
-        : "",
-      start_time: filteredHabits[index].start_time,
-      target_perday: filteredHabits[index].target_perday
-        ? filteredHabits[index].target_perday
-        : 1,
-      priority: filteredHabits[index].priority,
-      color: filteredHabits[index].color,
-    });
+    filteredHabits[index]
+      ? setInputValue({
+          name: filteredHabits[index].name,
+          description: filteredHabits[index].description
+            ? filteredHabits[index].description
+            : "",
+          start_time: filteredHabits[index].start_time,
+          target_perday: filteredHabits[index].target_perday
+            ? filteredHabits[index].target_perday
+            : 1,
+          priority: filteredHabits[index].priority,
+          color: filteredHabits[index].color,
+          start_date: date,
+        })
+      : setInputValue({
+          name: "",
+          description: "",
+          start_time: null,
+          target_perday: 1,
+          priority: 1,
+          color: 0,
+          start_date: date,
+        });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filteredHabits[index]]);
 
-  const handleSubmit = (e: any) => {
-    // try {
-    //   e.preventDefault();
-    //   if (e.nativeEvent.submitter.name === "create") {
-    //     dispatch(createHabit({ ...inputValue, access_token: user.token }));
-    //   }
-    //   if (e.nativeEvent.submitter.name === "edit") {
-    //     dispatch(updateHabit({ ...inputValue, id: data.id }));
-    //   }
-    //   if (e.nativeEvent.submitter.name === "delete") {
-    //     dispatch(deleteHabit(data.id));
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
+  const handleSubmit = async (e: any) => {
+    try {
+      e.preventDefault();
+      const API =
+        process.env.API || "https://staging-api-health2023.agileteknik.com";
+      const access_token = `Bearer ${user.token}`;
+      const config = {
+        headers: {
+          Authorization: `${access_token}`,
+        },
+      };
+      switch (e.nativeEvent.submitter.name) {
+        case "create":
+          const response = await axios.post(
+            `${API}/api/v2/habbit`,
+            {
+              name: inputValue.name,
+              description: inputValue.description,
+              start_time: inputValue.start_time,
+              target_perday: inputValue.target_perday,
+              priority: inputValue.priority,
+              color: inputValue.color,
+              start_date: inputValue.start_date,
+            },
+            config
+          );
+          if (response.status === 201) {
+            dispatch(closeSidebar());
+          } else {
+            throw new Error(response.statusText);
+          }
+          break;
+        case "edit":
+          const response2 = await axios.put(
+            `${API}/api/v2/habbit/${filteredHabits[index].id}`,
+            {
+              name: inputValue.name,
+              description: inputValue.description,
+              start_time: inputValue.start_time,
+              target_perday: inputValue.target_perday,
+              priority: inputValue.priority,
+              color: inputValue.color,
+              start_date: inputValue.start_date,
+            },
+            config
+          );
+          if (response2.status === 200) {
+            dispatch(closeSidebar());
+          } else {
+            throw new Error(response2.statusText);
+          }
+          break;
+        case "delete":
+          const response3 = await axios.delete(
+            `${API}/api/v2/habbit/${filteredHabits[index].id}`,
+            config
+          );
+          if (response3.status === 200) {
+            dispatch(closeSidebar());
+          } else {
+            throw new Error(response3.statusText);
+          }
+          break;
+        default:
+          break;
+      }
+
+      // axios getAllHabit
+      const response4 = await axios.get(`${API}/api/v2/user?date=${date}`, {
+        headers: {
+          Authorization: `${access_token}`,
+        },
+      });
+
+      if (response4.status === 200) {
+        dispatch(
+          setHabits(response4.data.data.sort((a: any, b: any) => b.id - a.id))
+        );
+      } else {
+        throw new Error(response4.statusText);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      dispatch(closeSidebar());
+    }
   };
 
   const colorSelector = [];
@@ -280,7 +362,10 @@ const HabitForm = ({ user }: { user: any }) => {
         </div>
       </div>
       <div className="group relative text-black">
-        <button className="group flex justify-between w-full bg-white rounded-lg py-2 px-3 my-2">
+        <button
+          className="group flex justify-between w-full bg-white rounded-lg py-2 px-3 my-2"
+          type="button"
+        >
           <p className="text-primary-100">Warna</p>
           <div className={`h-full rounded-lg px-2 text-white ${bgColor}`}>
             <p className="invisible">0</p>
