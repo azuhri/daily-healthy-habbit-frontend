@@ -17,7 +17,7 @@ const HabitList = ({
   date: string;
 }) => {
   const dispatch = useAppDispatch();
-  const { filteredHabits } = useSelector((state: any) => state.habits);
+  const { habits, filteredHabits } = useSelector((state: any) => state.habits);
   const { date } = useSelector((state: any) => state.time);
 
   const [loading, setLoading] = useState(false);
@@ -47,10 +47,13 @@ const HabitList = ({
     }
   };
 
-  useEffect(() => {
-    getDataHabit();
+  useEffect(
+    () => {
+      getDataHabit();
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [date]);
+    [date]
+  );
 
   if (filteredHabits.length < 1) {
     return (

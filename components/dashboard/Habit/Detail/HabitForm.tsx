@@ -113,68 +113,54 @@ const HabitForm = ({ user }: { user: any }) => {
           Authorization: `${access_token}`,
         },
       };
+      const data = {
+        ...inputValue,
+      };
       switch (e.nativeEvent.submitter.name) {
         case "create":
           const response = await axios.post(
             `${API}/api/v2/habbit`,
-            {
-              name: inputValue.name,
-              description: inputValue.description,
-              start_time: inputValue.start_time,
-              target_perday: inputValue.target_perday,
-              priority: inputValue.priority,
-              color: inputValue.color,
-              start_date: inputValue.start_date,
-            },
+            data,
             config
           );
-          if (response.status === 201) {
-            dispatch(closeSidebar());
-          } else {
-            throw new Error(response.statusText);
-          }
           break;
         case "edit":
+          const dataEdit = {
+            ...data,
+            // TEMPORARY FIX NANTI DIHAPUS
+            alarm_code: 1,
+          };
           const response2 = await axios.put(
             `${API}/api/v2/habbit/${filteredHabits[index].id}`,
-            {
-              name: inputValue.name,
-              description: inputValue.description,
-              start_time: inputValue.start_time,
-              target_perday: inputValue.target_perday,
-              priority: inputValue.priority,
-              color: inputValue.color,
-              start_date: inputValue.start_date,
-            },
+            dataEdit,
             config
           );
-          if (response2.status === 200) {
-            dispatch(closeSidebar());
-          } else {
-            throw new Error(response2.statusText);
-          }
           break;
         case "delete":
           const response3 = await axios.delete(
             `${API}/api/v2/habbit/${filteredHabits[index].id}`,
             config
           );
-          if (response3.status === 200) {
-            dispatch(closeSidebar());
-          } else {
-            throw new Error(response3.statusText);
-          }
           break;
         default:
           break;
       }
-
-      // axios getAllHabit
-      const response4 = await axios.get(`${API}/api/v2/user?date=${date}`, {
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      const API =
+        process.env.API || "https://staging-api-health2023.agileteknik.com";
+      const access_token = `Bearer ${user.token}`;
+      const config = {
         headers: {
           Authorization: `${access_token}`,
         },
-      });
+      };
+      // axios getAllHabit
+      const response4 = await axios.get(
+        `${API}/api/v2/user?date=${date}`,
+        config
+      );
 
       if (response4.status === 200) {
         dispatch(
@@ -183,9 +169,6 @@ const HabitForm = ({ user }: { user: any }) => {
       } else {
         throw new Error(response4.statusText);
       }
-    } catch (error) {
-      console.error("Error:", error);
-    } finally {
       dispatch(closeSidebar());
     }
   };
