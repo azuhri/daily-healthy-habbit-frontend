@@ -12,10 +12,13 @@ import axios from "axios";
 
 import LayoutDashboard from "@/components/dashboard/Layout";
 import ConfirmationModal from "@/components/dashboard/ConfirmationModal";
+import { useAppDispatch } from "@/redux/store";
+import { deleteHabit } from "@/redux/features/habits/habitsSlice";
 
-const DashboardPage = ({ user }: { user: any;}) => {
+const DashboardPage = ({ user }: { user: any }) => {
   const router = useRouter();
   const modal = useSelector((state: any) => state.modal);
+  const dispatch = useAppDispatch();
 
   const handleLogout = async () => {
     try {
@@ -24,6 +27,14 @@ const DashboardPage = ({ user }: { user: any;}) => {
       router.push("/login");
     } catch (error) {
       console.error("Terjadi kesalahan saat logout:", error);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      dispatch(deleteHabit({ id: modal.id, access_token: user.token }));
+    } catch (error) {
+      console.error("Terjadi kesalahan saat menghapus habit:", error);
     }
   };
 
@@ -37,6 +48,13 @@ const DashboardPage = ({ user }: { user: any;}) => {
           title="Apakah Anda yakin ingin keluar?"
           imagePath="/images/konfirmasi-logout.svg"
           onAction={handleLogout}
+        />
+      )}
+      {modal.isOpen && modal.type == "delete" && (
+        <ConfirmationModal
+          title="Apakah Anda yakin ingin menghapus?"
+          imagePath="/images/konfirmasi-hapus.svg"
+          onAction={handleDelete}
         />
       )}
       <LayoutDashboard user={user} />

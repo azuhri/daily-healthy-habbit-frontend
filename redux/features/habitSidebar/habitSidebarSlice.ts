@@ -16,43 +16,6 @@ const initialState: SidebarState = {
   index: -1,
 };
 
-// export const createHabit = createAsyncThunk(
-//   "habitSidebar/createHabit",
-//   async (habit: any, access_token) => {
-//     // const response = await axios.post(`${API}/v2/habbit`, habit, {
-//     //   headers: {
-//     //     Authorization: `Bearer ${access_token}`,
-//     //   },
-//     // });
-//     const response = await fetch(`${API}/v2/habbit`, {
-//       method: "POST",
-//       mode: "no-cors",
-//       headers: {
-//         "Content-Type": "application/json",
-//         Authorization: `Bearer ${access_token}`,
-//       },
-//       body: JSON.stringify(habit),
-//     });
-//     console.log(response);
-//   }
-// );
-
-// export const updateHabit = createAsyncThunk(
-//   "habitSidebar/updateHabit",
-//   async (habit: any) => {
-//     const response = await axios.put(`${API}/v2/habbit/${habit.id}`, habit);
-//     return response.data;
-//   }
-// );
-
-// export const deleteHabit = createAsyncThunk(
-//   "habitSidebar/deleteHabit",
-//   async (habit: any) => {
-//     const response = await axios.delete(`${API}/v2/habbit/${habit.id}`);
-//     return response.data;
-//   }
-// );
-
 export const sidebarSlice = createSlice({
   name: "sidebar",
   initialState,

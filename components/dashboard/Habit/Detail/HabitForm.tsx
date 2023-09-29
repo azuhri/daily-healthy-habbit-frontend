@@ -7,7 +7,13 @@ import $ from "jquery";
 
 import { useAppDispatch } from "@/redux/store";
 import { closeSidebar } from "@/redux/features/habitSidebar/habitSidebarSlice";
-import { setHabits } from "@/redux/features/habits/habitsSlice";
+import {
+  createHabit,
+  deleteHabit,
+  setHabits,
+  updateHabit,
+} from "@/redux/features/habits/habitsSlice";
+import { openModal } from "@/redux/features/modal/modalSlice";
 
 const HabitForm = ({ user }: { user: any }) => {
   const dispatch = useAppDispatch();
@@ -21,6 +27,7 @@ const HabitForm = ({ user }: { user: any }) => {
   const [inputValue, setInputValue] = useState(
     filteredHabits[index]
       ? {
+          id: filteredHabits[index].id,
           name: filteredHabits[index].name,
           description: filteredHabits[index].description
             ? filteredHabits[index].description
@@ -34,6 +41,7 @@ const HabitForm = ({ user }: { user: any }) => {
           start_date: date,
         }
       : {
+          id: null,
           name: "",
           description: "",
           start_time: null,
@@ -79,6 +87,7 @@ const HabitForm = ({ user }: { user: any }) => {
   useEffect(() => {
     filteredHabits[index]
       ? setInputValue({
+          id: filteredHabits[index].id,
           name: filteredHabits[index].name,
           description: filteredHabits[index].description
             ? filteredHabits[index].description
@@ -92,6 +101,7 @@ const HabitForm = ({ user }: { user: any }) => {
           start_date: date,
         })
       : setInputValue({
+          id: null,
           name: "",
           description: "",
           start_time: null,
@@ -117,50 +127,61 @@ const HabitForm = ({ user }: { user: any }) => {
       };
       let response;
       switch (e.nativeEvent.submitter.name) {
+        // Kalo redux thunk gk bisa pake axios
         case "create":
           if (!inputValue.start_time) throw new Error("Pengingat belum diisi");
-          response = await axios.post(
-            `${API}/api/v2/habbit`,
-            { ...inputValue },
-            config
+
+          // response = await axios.post(
+          //   `${API}/api/v2/habbit`,
+          //   { ...inputValue },
+          //   config
+          // );
+          // break;
+
+          response = dispatch(
+            createHabit({ habit: inputValue, token: user.token })
           );
           break;
         case "edit":
-          const dataEdit = {
-            ...inputValue,
-            // TEMPORARY FIX NANTI DIHAPUS
-            alarm_code: 1,
-          };
-          response = await axios.put(
-            `${API}/api/v2/habbit/${filteredHabits[index].id}`,
-            dataEdit,
-            config
+          // const dataEdit = {
+          //   ...inputValue,
+          //   // TEMPORARY FIX NANTI DIHAPUS
+          //   alarm_code: 1,
+          // };
+          // response = await axios.put(
+          //   `${API}/api/v2/habbit/${filteredHabits[index].id}`,
+          //   dataEdit,
+          //   config
+          // );
+
+          response = dispatch(
+            updateHabit({ habit: inputValue, access_token: user.token })
           );
           break;
         case "delete":
-          response = await axios.delete(
-            `${API}/api/v2/habbit/${filteredHabits[index].id}`,
-            config
-          );
+          // response = await axios.delete(
+          //   `${API}/api/v2/habbit/${filteredHabits[index].id}`,
+          //   config
+          // );
+
+          // response = dispatch(
+          //   deleteHabit({
+          //     id: filteredHabits[index].id,
+          //     access_token: user.token,
+          //   })
+          // );
+
+          dispatch(openModal({ type: "delete", id: filteredHabits[index].id }));
           break;
         default:
           throw new Error("Terjadi kesalahan");
       }
-      if (response.status === 200) {
-        dispatch(closeSidebar());
-        const response4 = await axios.get(
-          `${API}/api/v2/user?date=${date}`,
-          config
-        );
 
-        if (response4.status === 200) {
-          dispatch(
-            setHabits(response4.data.data.sort((a: any, b: any) => b.id - a.id))
-          );
-        } else {
-          throw new Error(response4.statusText);
-        }
-      }
+      const responseHabits = await axios.get(
+        `${API}/api/v2/user?date=${date}`,
+        config
+      );
+      dispatch(setHabits(responseHabits.data.data));
     } catch (error: any) {
       $("#responseMessage").html(`${error.message}`);
       $("#responseMessage").show(300);
