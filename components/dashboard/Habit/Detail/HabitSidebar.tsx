@@ -11,7 +11,9 @@ const HabitSidebar = ({ user }: { user: any }) => {
     <div className="w-screen">
       <div
         className={`fixed top-0 right-0 h-screen overflow-y-auto bg-ds-gray rounded-l-lg transition-all duration-300 ease-in-out text-black ${
-          sidebar.isOpen ? "w-[35%] overflow-visible" : "w-0 overflow-hidden"
+          sidebar.isOpen
+            ? "w-[100%] md:w-[35%] overflow-visible"
+            : "w-0 overflow-hidden"
         }`}
       >
         <button className="my-4 mx-4" onClick={() => dispatch(closeSidebar())}>

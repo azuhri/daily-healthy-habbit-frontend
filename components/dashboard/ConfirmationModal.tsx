@@ -20,7 +20,7 @@ const ConfirmationModal = ({
 
   return (
     <div className="fixed flex justify-center items-center top-0 left-0 w-screen h-screen bg-gray-700 bg-opacity-70 z-40">
-      <div className="rounded-lg z-50 bg-white bg-opacity-100 text-black w-[30%]">
+      <div className="rounded-lg z-50 bg-white bg-opacity-100 text-black w-fit">
         <p className="px-12 text-center font-semibold mt-6">{title}</p>
         <div className="flex justify-center">
           <Image src={imagePath} alt={title} width={150} height={0} />
