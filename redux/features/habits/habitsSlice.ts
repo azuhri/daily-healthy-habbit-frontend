@@ -12,7 +12,9 @@ const initialState: HabitsState = {
 };
 
 const API = process.env.API || "https://staging-api-health2023.agileteknik.com";
-
+//
+// Semua AsyncThunk belom bisa dipake axios kalo dipanggil disini return cors error aku gtw cara benerinnya
+// 
 export const createHabit = createAsyncThunk(
   "habitSidebar/createHabit",
   async (habit: any, access_token: any) => {

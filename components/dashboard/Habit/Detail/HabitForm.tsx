@@ -127,61 +127,62 @@ const HabitForm = ({ user }: { user: any }) => {
       };
       let response;
       switch (e.nativeEvent.submitter.name) {
-        // Kalo redux thunk gk bisa pake axios
+        //
+        // redux thunk belom bisa, pake axios disini dulu
+        // Kalo pake yg dispatch itu error cors mulu aku bingung
+        //
         case "create":
           if (!inputValue.start_time) throw new Error("Pengingat belum diisi");
 
-          // response = await axios.post(
-          //   `${API}/api/v2/habbit`,
-          //   { ...inputValue },
-          //   config
-          // );
-          // break;
-
-          response = dispatch(
-            createHabit({ habit: inputValue, token: user.token })
+          response = await axios.post(
+            `${API}/api/v2/habbit`,
+            { ...inputValue },
+            config
           );
           break;
-        case "edit":
-          // const dataEdit = {
-          //   ...inputValue,
-          //   // TEMPORARY FIX NANTI DIHAPUS
-          //   alarm_code: 1,
-          // };
-          // response = await axios.put(
-          //   `${API}/api/v2/habbit/${filteredHabits[index].id}`,
-          //   dataEdit,
-          //   config
-          // );
-
-          response = dispatch(
-            updateHabit({ habit: inputValue, access_token: user.token })
-          );
-          break;
-        case "delete":
-          // response = await axios.delete(
-          //   `${API}/api/v2/habbit/${filteredHabits[index].id}`,
-          //   config
-          // );
 
           // response = dispatch(
-          //   deleteHabit({
-          //     id: filteredHabits[index].id,
-          //     access_token: user.token,
-          //   })
+          //   createHabit({ habit: inputValue, token: user.token })
           // );
+          break;
+        case "edit":
+          const dataEdit = {
+            ...inputValue,
+            // TEMPORARY FIX NANTI DIHAPUS
+            alarm_code: 1,
+          };
+          response = await axios.put(
+            `${API}/api/v2/habbit/${filteredHabits[index].id}`,
+            dataEdit,
+            config
+          );
 
+          // response = dispatch(
+          //   updateHabit({ habit: inputValue, access_token: user.token })
+          // );
+          break;
+        case "delete":
           dispatch(openModal({ type: "delete", id: filteredHabits[index].id }));
           break;
         default:
           throw new Error("Terjadi kesalahan");
       }
 
-      const responseHabits = await axios.get(
-        `${API}/api/v2/user?date=${date}`,
-        config
-      );
-      dispatch(setHabits(responseHabits.data.data));
+      if (response && response.status === 200) {
+        dispatch(closeSidebar());
+        const response4 = await axios.get(
+          `${API}/api/v2/user?date=${date}`,
+          config
+        );
+
+        if (response4.status === 200) {
+          dispatch(
+            setHabits(response4.data.data.sort((a: any, b: any) => b.id - a.id))
+          );
+        } else {
+          throw new Error(response4.statusText);
+        }
+      }
     } catch (error: any) {
       $("#responseMessage").html(`${error.message}`);
       $("#responseMessage").show(300);

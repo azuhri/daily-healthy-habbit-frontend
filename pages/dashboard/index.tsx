@@ -13,12 +13,27 @@ import axios from "axios";
 import LayoutDashboard from "@/components/dashboard/Layout";
 import ConfirmationModal from "@/components/dashboard/ConfirmationModal";
 import { useAppDispatch } from "@/redux/store";
-import { deleteHabit } from "@/redux/features/habits/habitsSlice";
+import { closeSidebar } from "@/redux/features/habitSidebar/habitSidebarSlice";
+import { setHabits } from "@/redux/features/habits/habitsSlice";
 
 const DashboardPage = ({ user }: { user: any }) => {
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const modal = useSelector((state: any) => state.modal);
-  const dispatch = useAppDispatch();
+  const { date } = useSelector((state: any) => state.time);
+
+  // Buat delete
+  const API =
+    process.env.API || "https://staging-api-health2023.agileteknik.com";
+  const access_token = `Bearer ${user.token}`;
+  const config = {
+    headers: {
+      Authorization: `${access_token}`,
+    },
+  };
+  const modalId = modal.id ? modal.id : "";
+  const deleteURL = `${API}/api/v2/habbit/${modalId}`;
+  const getUrl = `${API}/api/v2/user?date=${date}`;
 
   const handleLogout = async () => {
     try {
@@ -30,9 +45,27 @@ const DashboardPage = ({ user }: { user: any }) => {
     }
   };
 
+  // AAAAHHHHHH THIS IS SUCH A ROUNDABOUT WAY TO DO IT MY FUCKING HEAD IS CHURNING.
+  // FUCK YOU CORS JUST LET ME USE MY ASYNCTHUNKS
   const handleDelete = async () => {
     try {
-      dispatch(deleteHabit({ id: modal.id, access_token: user.token }));
+      const url = deleteURL;
+      const url2 = getUrl;
+      console.log(url2);
+
+      const response = await axios.delete(url, config);
+      if (response.status == 200) {
+        dispatch(closeSidebar());
+        const response4 = await axios.get(url2, config);
+
+        if (response4.status === 200) {
+          dispatch(
+            setHabits(response4.data.data.sort((a: any, b: any) => b.id - a.id))
+          );
+        } else {
+          throw new Error(response4.statusText);
+        }
+      }
     } catch (error) {
       console.error("Terjadi kesalahan saat menghapus habit:", error);
     }
