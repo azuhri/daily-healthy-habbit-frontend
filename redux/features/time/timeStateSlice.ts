@@ -1,12 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import moment from "moment";
+import "moment/locale/id";
 
 interface TimeState {
-  date?: string;
+  date?: moment.Moment;
 }
 
 const initialState: TimeState = {
-  date: moment().format("YYYY-MM-DD"),
+  date: moment().locale("id"),
 };
 
 const timeStateSlice = createSlice({
@@ -14,7 +15,7 @@ const timeStateSlice = createSlice({
   initialState,
   reducers: {
     changeDate: (state, action) => {
-      const format = moment(action.payload.date).format("YYYY-MM-DD");
+      const format = moment(action.payload.date).locale("id");
       state.date = format;
     },
   },
