@@ -40,7 +40,7 @@ const Header = ({ user }: any) => {
           type="text"
           onChange={(e) => dispatch(filterHabits(e.target.value))}
           className="w-full px-4 my-2 text-black text-xs outline-none text-gray-500 shadow rounded-lg p-3 pl-8"
-          placeholder="cari habit mu disini..."
+          placeholder="Cari habit mu disini..."
         />
       </form>
 

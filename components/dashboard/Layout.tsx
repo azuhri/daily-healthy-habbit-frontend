@@ -43,7 +43,6 @@ const LayoutDashboard = ({ user }: { user: any }) => {
           </div>
           <div>
             <Datepicker
-              maxDate={new Date()}
               className="w-full"
               onSelectedDateChanged={handleChangeDate}
             />

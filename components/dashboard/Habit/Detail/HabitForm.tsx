@@ -17,27 +17,27 @@ import { openModal } from "@/redux/features/modal/modalSlice";
 
 const HabitForm = ({ user }: { user: any }) => {
   const dispatch = useAppDispatch();
-  const { type, index } = useSelector((state: any) => state.sidebar);
-  const { filteredHabits } = useSelector((state: any) => state.habits);
+  const sidebar = useSelector((state: any) => state.sidebar);
+  const { habits, filteredHabits } = useSelector((state: any) => state.habits);
   const { date } = useSelector((state: any) => state.time);
 
   const [responseMessage, setResponseMessage] = useState("");
   const [bgColor, setBgColor] = useState("bg-[#E17055]");
   const [isTimepickerOpen, setIsTimepickerOpen] = useState(false);
   const [inputValue, setInputValue] = useState(
-    filteredHabits[index]
+    filteredHabits[sidebar.index]
       ? {
-          id: filteredHabits[index].id,
-          name: filteredHabits[index].name,
-          description: filteredHabits[index].description
-            ? filteredHabits[index].description
+          id: filteredHabits[sidebar.index].id,
+          name: filteredHabits[sidebar.index].name,
+          description: filteredHabits[sidebar.index].description
+            ? filteredHabits[sidebar.index].description
             : "",
-          start_time: filteredHabits[index].start_time,
-          target_perday: filteredHabits[index].target_perday
-            ? filteredHabits[index].target_perday
+          start_time: filteredHabits[sidebar.index].start_time,
+          target_perday: filteredHabits[sidebar.index].target_perday
+            ? filteredHabits[sidebar.index].target_perday
             : 1,
-          priority: filteredHabits[index].priority,
-          color: filteredHabits[index].color,
+          priority: filteredHabits[sidebar.index].priority,
+          color: filteredHabits[sidebar.index].color,
           start_date: date,
         }
       : {
@@ -85,26 +85,26 @@ const HabitForm = ({ user }: { user: any }) => {
   }, [inputValue.color]);
 
   useEffect(() => {
-    filteredHabits[index]
+    filteredHabits[sidebar.index]
       ? setInputValue({
-          id: filteredHabits[index].id,
-          name: filteredHabits[index].name,
-          description: filteredHabits[index].description
-            ? filteredHabits[index].description
+          id: filteredHabits[sidebar.index].id,
+          name: filteredHabits[sidebar.index].name,
+          description: filteredHabits[sidebar.index].description
+            ? filteredHabits[sidebar.index].description
             : "",
-          start_time: filteredHabits[index].start_time,
-          target_perday: filteredHabits[index].target_perday
-            ? filteredHabits[index].target_perday
+          start_time: filteredHabits[sidebar.index].start_time,
+          target_perday: filteredHabits[sidebar.index].target_perday
+            ? filteredHabits[sidebar.index].target_perday
             : 1,
-          priority: filteredHabits[index].priority,
-          color: filteredHabits[index].color,
+          priority: filteredHabits[sidebar.index].priority,
+          color: filteredHabits[sidebar.index].color,
           start_date: date,
         })
       : setInputValue({
           id: null,
           name: "",
           description: "",
-          start_time: null,
+          start_time: "",
           target_perday: 1,
           priority: 1,
           color: 0,
@@ -112,7 +112,7 @@ const HabitForm = ({ user }: { user: any }) => {
         });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filteredHabits[index]]);
+  }, [filteredHabits[sidebar.index], sidebar.isOpen]);
 
   const handleSubmit = async (e: any) => {
     try {
@@ -133,6 +133,8 @@ const HabitForm = ({ user }: { user: any }) => {
         //
         case "create":
           if (!inputValue.start_time) throw new Error("Pengingat belum diisi");
+          if (habits.some((habit: any) => habit.name === inputValue.name))
+            throw new Error("Nama habit sudah ada");
 
           response = await axios.post(
             `${API}/api/v2/habbit`,
@@ -146,13 +148,18 @@ const HabitForm = ({ user }: { user: any }) => {
           // );
           break;
         case "edit":
+          if (
+            habits.some((habit: any) => habit.name === inputValue.name) &&
+            habits[sidebar.index].name !== inputValue.name
+          )
+            throw new Error("Nama habit sudah ada");
           const dataEdit = {
             ...inputValue,
             // TEMPORARY FIX NANTI DIHAPUS
             alarm_code: 1,
           };
           response = await axios.put(
-            `${API}/api/v2/habbit/${filteredHabits[index].id}`,
+            `${API}/api/v2/habbit/${filteredHabits[sidebar.index].id}`,
             dataEdit,
             config
           );
@@ -162,7 +169,9 @@ const HabitForm = ({ user }: { user: any }) => {
           // );
           break;
         case "delete":
-          dispatch(openModal({ type: "delete", id: filteredHabits[index].id }));
+          dispatch(
+            openModal({ type: "delete", id: filteredHabits[sidebar.index].id })
+          );
           break;
         default:
           throw new Error("Terjadi kesalahan");
@@ -170,6 +179,16 @@ const HabitForm = ({ user }: { user: any }) => {
 
       if (response && response.status === 200) {
         dispatch(closeSidebar());
+        setInputValue({
+          id: null,
+          name: "",
+          description: "",
+          start_time: null,
+          target_perday: 1,
+          priority: 1,
+          color: 0,
+          start_date: date,
+        });
         const response4 = await axios.get(
           `${API}/api/v2/user?date=${date}`,
           config
@@ -230,7 +249,7 @@ const HabitForm = ({ user }: { user: any }) => {
       <div
         id="responseMessage"
         style={displayNone}
-        className="border-red-500 text-red-400 bg-red-200 mt-2 text-center p-3 border rounded-lg font-bold"
+        className="border-red-500 text-red-400 bg-red-200 mb-2 text-center p-3 border rounded-lg font-bold"
       />
       <div className="bg-white w-full rounded-lg py-2 px-3">
         <p className="text-primary-100">Nama Habit</p>
@@ -296,7 +315,7 @@ const HabitForm = ({ user }: { user: any }) => {
             </div>
           </button>
           <div className="absolute right-0 invisible w-56 transition-all opacity-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-1 z-20">
-            <div className="bg-white rounded-lg w-full h-24 mx-auto flex justify-between items-center px-4">
+            <div className="bg-white rounded-lg w-full h-16 mx-auto flex justify-between items-center px-4">
               <button
                 type="button"
                 className="bg-primary-100 rounded-lg px-2 text-white"
@@ -340,7 +359,7 @@ const HabitForm = ({ user }: { user: any }) => {
             </div>
           </button>
           <div className="absolute right-0 invisible w-56 transition-all opacity-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-1 z-20">
-            <div className="bg-white rounded-lg w-full h-24 mx-auto flex justify-between items-center px-4">
+            <div className="bg-white rounded-lg w-full h-16 mx-auto flex justify-between items-center px-4">
               <button
                 type="button"
                 className="bg-primary-100 rounded-lg px-2 text-white"
@@ -391,7 +410,7 @@ const HabitForm = ({ user }: { user: any }) => {
           </div>
         </div>
       </div>
-      {type === "create" && (
+      {sidebar.type === "create" && (
         <div className="w-full flex justify-center">
           <button
             type="submit"
@@ -402,7 +421,7 @@ const HabitForm = ({ user }: { user: any }) => {
           </button>
         </div>
       )}
-      {type === "edit" && (
+      {sidebar.type === "edit" && (
         <>
           <div className="w-full flex justify-center">
             <button
