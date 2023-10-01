@@ -1,12 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import Gravatar from "../Gravatar";
-import ModalLogout from "./modal/ModalLogout";
+import { useAppDispatch } from "@/redux/store";
 
-const Header = ({user}:any) => {
-  const [openModal, setOpenModal] = useState<string | undefined>();
-  const props = { openModal, setOpenModal };
+import { openModal } from "@/redux/features/modal/modalSlice";
+import Gravatar from "../Gravatar";
+import { filterHabits } from "@/redux/features/habits/habitsSlice";
+
+const Header = ({ user }: any) => {
+  const dispatch = useAppDispatch();
+
   return (
     <div className="grid grid-cols-7 items-center">
       <div className="col-span-1 md:mx-0 mx-2">
@@ -15,7 +17,7 @@ const Header = ({user}:any) => {
             src="/icons/new-logo.png"
             alt="Daily Healthy Habit Icon"
             width="60"
-            height={0}
+            height="60"
             className="object-contain"
           />
           <p className="hidden md:block font-semibold text-gray-500 ml-2 text-sm">
@@ -26,7 +28,7 @@ const Header = ({user}:any) => {
         </Link>
       </div>
 
-      <div className="col-span-3 md:col-span-4 mx-2 flex items-center rounded justify-center relative">
+      <form className="col-span-3 md:col-span-4 mx-2 flex items-center rounded justify-center relative">
         <Image
           src="/icons/carbon-search.svg"
           alt="Search Icon"
@@ -36,10 +38,12 @@ const Header = ({user}:any) => {
         />
         <input
           type="text"
+          onChange={(e) => dispatch(filterHabits(e.target.value))}
           className="w-full px-4 my-2 text-black text-xs outline-none text-gray-500 shadow rounded-lg p-3 pl-8"
-            placeholder="cari habit mu disini..."
+          placeholder="cari habit mu disini..."
         />
-      </div>
+      </form>
+
       <div className="col-span-3 md:col-span-2 flex space-x-5 justify-end">
         <button>
           <Image
@@ -60,14 +64,7 @@ const Header = ({user}:any) => {
         <div className="border min-h-10 border-black" />
         <div className="group relative text-black">
           <button className="flex items-center space-x-2">
-            {/* <Image
-              src="/icons/profile.svg"
-              alt="Profile Icon"
-              width={20}
-              height={20}
-            /> */}
             <span className="flex">
-              {/* <p className="text-sm">{user.name}</p> */}
               <Gravatar name={user.name} />
               <Image
                 src="/icons/chevron-down.svg"
@@ -84,7 +81,9 @@ const Header = ({user}:any) => {
               </li>
               <hr />
               <li>
-                <p className="block px-4 my-2 rounded-lg text-sm">{user.name}</p>
+                <p className="block px-4 my-2 rounded-lg text-sm">
+                  {user.name}
+                </p>
               </li>
               <li>
                 <p className="block px-4 my-2 rounded-lg text-sm font-normal">
@@ -102,16 +101,12 @@ const Header = ({user}:any) => {
               </li>
               <hr />
               <li>
-                <Link
-                  href="#"
-                  onClick={() => props.setOpenModal('pop-up')}
-                  className="block px-4 py-2 rounded-lg text-lg text-danger-50 hover:bg-gray-100"
+                <button
+                  onClick={() => dispatch(openModal({ type: "logout" }))}
+                  className="block px-4 py-2 rounded-lg text-lg text-danger-50 hover:bg-gray-100 w-full text-left"
                 >
                   Keluar
-                </Link>
-              </li>
-              <li>
-                <ModalLogout props={props}/>
+                </button>
               </li>
             </ul>
           </nav>

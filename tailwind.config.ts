@@ -6,7 +6,7 @@ const config: Config = {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}'
+    "node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
     extend: {
@@ -52,12 +52,12 @@ const config: Config = {
         },
         mobile: {
           green: {
-            "100":"#34B25E",
-            "200":"#1A3522",
+            "100": "#34B25E",
+            "200": "#1A3522",
           },
           red: {
-            "100" : "#D61743",
-            "200" : "#D61743",
+            "100": "#D61743",
+            "200": "#D61743",
           },
           yellow: "#FFF500",
           type: {
@@ -69,16 +69,14 @@ const config: Config = {
             "5": "#a5647c",
             "6": "#4d9b9d",
             "7": "#5686aa",
-          }
-        }
+          },
+        },
       },
       boxShadow: {
         allSides: "0px 0px 10px rgba(0, 0, 0, 0.25)",
       },
     },
   },
-  plugins: [
-    require('flowbite/plugin'),
-  ],
+  plugins: [require("flowbite/plugin")],
 };
 export default config;

@@ -10,7 +10,7 @@ export default withSessionRoute(async function handler(req, res) {
           const response = await axios.post(`${API}/api/v1/login`, {
             email, password
           });
-          console.log(response);
+          // console.log(response);
           
           const dataUser = {
             id: response.data.data.id,
@@ -19,7 +19,7 @@ export default withSessionRoute(async function handler(req, res) {
             phonenumber: response.data.data.phonenumber,
             token: response.data.data.access_token,
           }
-          console.log(dataUser);
+          // console.log(dataUser);
           
           req.session.user = dataUser;
           await req.session.save();

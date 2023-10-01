@@ -3,16 +3,24 @@ import { useEffect, useState } from "react";
 import HabitItem from "./HabitItem";
 import SkeletonHabit from "./SkeletonHabit";
 import Image from "next/image";
+import { useAppDispatch } from "@/redux/store";
+import { useSelector } from "react-redux";
+import { setHabits } from "@/redux/features/habits/habitsSlice";
 
 const apiEndpoint =
   process.env.API || "https://staging-api-health2023.agileteknik.com";
 
-const HabitList = ({ access_token,date }: {
-    access_token: string,
-    date: string
-   }) => {
+const HabitList = ({
+  access_token,
+}: {
+  access_token: string;
+  date: string;
+}) => {
+  const dispatch = useAppDispatch();
+  const { habits, filteredHabits } = useSelector((state: any) => state.habits);
+  const { date } = useSelector((state: any) => state.time);
+
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<any[]>(Array);
 
   const getDataHabit = async () => {
     try {
@@ -27,21 +35,27 @@ const HabitList = ({ access_token,date }: {
         }
       );
       if (response.status === 200) {
-        setData(response.data.data);
+        dispatch(
+          setHabits(response.data.data.sort((a: any, b: any) => b.id - a.id))
+        );
       } else {
-        throw new Error(response.statusText);
+        console.log("Error:", response);
       }
       setLoading(false);
     } catch (error) {
       console.error("Error:", error);
     }
   };
-  useEffect(() => {
-    getDataHabit();
-  }, [date]);
-  console.log(data);
 
-  if (data.length < 1) {
+  useEffect(
+    () => {
+      getDataHabit();
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [date]
+  );
+
+  if (filteredHabits.length < 1) {
     return (
       <>
         {loading && (
@@ -52,17 +66,17 @@ const HabitList = ({ access_token,date }: {
           </div>
         )}
         {!loading && (
-           <div className="h-[500px] flex justify-center items-center flex-col">
-           <Image
-             src="/images/icon-empty.png"
-             width={300}
-             height={300}
-             alt="empty icon"
-           />
-           <p className="text-xl font-bold text-cyan-800 my-2">
-             Ayoo buat habitmu
-           </p>
-         </div>
+          <div className="h-[500px] flex justify-center items-center flex-col">
+            <Image
+              src="/images/icon-empty.png"
+              width={300}
+              height={300}
+              alt="empty icon"
+            />
+            <p className="text-xl font-bold text-cyan-800 my-2">
+              Ayoo buat habitmu
+            </p>
+          </div>
         )}
       </>
     );
@@ -71,8 +85,9 @@ const HabitList = ({ access_token,date }: {
   return (
     <div className="my-4 grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-2">
       {loading && <SkeletonHabit />}
-      {data.map((val: any, index: any) => (
-        <HabitItem key={index} data={val} />
+      {filteredHabits.map((val: any, index: any) => (
+        // Call HabitItem component and parse in index as props too
+        <HabitItem key={index} data={val} index={index} />
       ))}
     </div>
   );
