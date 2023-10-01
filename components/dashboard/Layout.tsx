@@ -59,7 +59,7 @@ const LayoutDashboard = ({ user }: { user: any }) => {
     },
   };
 
-  const [listDates, setListDates] = useState([]);
+  const [listDates, setListDates] = useState<Array<{ data: string, day: string, date: string }>>([]);
   const generateListDate = () => {
     // TOLONG REFACTOR ISI FUNCTION INI BIB
     const today = moment(dateMobile).locale("id");
@@ -117,7 +117,7 @@ const LayoutDashboard = ({ user }: { user: any }) => {
     <>
       <div className="bg-gradient-dashboard min-h-screen w-full px-8 flex flex-col py-8">
         <Header user={user} />
-        <div className="flex justify-between pt-8 text-border text-gray-600 hidden md:flex">
+        <div className="flex justify-between pt-10 mt-4 text-border text-gray-600 hidden md:flex">
           <div className="">
             <h1 className="text-2xl font-bold">Halo, {user.name}!</h1>
             <p className="text-xs">
