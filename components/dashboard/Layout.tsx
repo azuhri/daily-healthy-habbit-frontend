@@ -27,10 +27,10 @@ const LayoutDashboard = ({ user }: { user: any }) => {
   };
 
   const changeDateMobileView = (event: React.MouseEvent<HTMLButtonElement>) => {
-    const newDate = event.currentTarget.getAttribute('data-button');    
+    const newDate = event.currentTarget.getAttribute("data-button");
     dispatch(changeDate({ date: newDate }));
   };
-  
+
   const customThemeDatepicker: CustomFlowbiteTheme["datepicker"] = {
     views: {
       days: {
@@ -59,7 +59,9 @@ const LayoutDashboard = ({ user }: { user: any }) => {
     },
   };
 
-  const [listDates, setListDates] = useState<Array<{ data: string, day: string, date: string }>>([]);
+  const [listDates, setListDates] = useState<
+    Array<{ data: string; day: string; date: string }>
+  >([]);
   const generateListDate = () => {
     // TOLONG REFACTOR ISI FUNCTION INI BIB
     const today = moment(dateMobile).locale("id");
@@ -70,7 +72,7 @@ const LayoutDashboard = ({ user }: { user: any }) => {
       day: "",
       date: "",
     };
-    
+
     for (let i = 14; i > 0; i--) {
       const tempDate = {
         data: "",
@@ -84,7 +86,6 @@ const LayoutDashboard = ({ user }: { user: any }) => {
       tempDate.data = timeFormat.format("YYYY-MM-DD");
       data.push(tempDate);
     }
-
 
     tempDateToday.day = today.format("ddd");
     tempDateToday.date = today.format("DD");
@@ -111,6 +112,7 @@ const LayoutDashboard = ({ user }: { user: any }) => {
 
   useEffect(() => {
     generateListDate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date]);
 
   return (
@@ -126,7 +128,10 @@ const LayoutDashboard = ({ user }: { user: any }) => {
               pada
               <span className="text-primary-100">
                 &nbsp;
-                {moment(date).locale("id").format("dddd, DD MMMM YYYY").toString()}
+                {moment(date)
+                  .locale("id")
+                  .format("dddd, DD MMMM YYYY")
+                  .toString()}
               </span>
             </p>
           </div>
@@ -145,22 +150,39 @@ const LayoutDashboard = ({ user }: { user: any }) => {
             <div className="min-w-[75%] flex flex-start">
               {listDates.map((val: any, index: any) => (
                 // Call HabitItem component and parse in index as props too
-                <button 
+                <button
                   key={index}
                   onClick={changeDateMobileView}
                   data-button={val.data}
-                  className="flex flex-col justify-center items-center mr-3">
+                  className="flex flex-col justify-center items-center mr-3"
+                >
                   <p className="text-xs text-gray-500 text-semibold my-1 text-center">
                     {val.day}
                   </p>
-                  <p className={`text-md text-semibold text-center flex justify-center items-center w-[35px] h-[35px]  ${val.data == date ? "bg-ds-cyan20 text-white" : "bg-transparent text-gray-600 hover:bg-gray-300"} rounded-full`}>
+                  <p
+                    className={`text-md text-semibold text-center flex justify-center items-center w-[35px] h-[35px]  ${
+                      val.data == date
+                        ? "bg-ds-cyan20 text-white"
+                        : "bg-transparent text-gray-600 hover:bg-gray-300"
+                    } rounded-full`}
+                  >
                     {val.date}
                   </p>
                 </button>
               ))}
             </div>
           </div>
-          <span className="mt-2 text-xs">Berikut daftar Habit pada Hari <span className="font-semibold text-ds-cyan20">({moment(date).locale("id").format("dddd, DD MMMM YYYY").toString()})</span> </span>
+          <span className="mt-2 text-xs">
+            Berikut daftar Habit pada Hari{" "}
+            <span className="font-semibold text-ds-cyan20">
+              (
+              {moment(date)
+                .locale("id")
+                .format("dddd, DD MMMM YYYY")
+                .toString()}
+              )
+            </span>{" "}
+          </span>
         </div>
         <div className="flex flex-col flex-grow">
           <div className="flex-grow ">
