@@ -98,7 +98,7 @@ const HabitForm = ({ user }: { user: any }) => {
             : 1,
           priority: filteredHabits[sidebar.index].priority,
           color: filteredHabits[sidebar.index].color,
-          start_date: date.format("YYYY-MM-DD"),
+          start_date: date,
         })
       : setInputValue({
           id: null,
@@ -108,7 +108,7 @@ const HabitForm = ({ user }: { user: any }) => {
           target_perday: 1,
           priority: 1,
           color: 6,
-          start_date: date.format("YYYY-MM-DD"),
+          start_date: date,
         });
     setIsTimepickerOpen(false);
 

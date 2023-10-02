@@ -22,7 +22,7 @@ const HabitList = ({ access_token }: { access_token: string }) => {
       const token = `Bearer ${access_token}`;
       setLoading(true);
       const response = await axios.get(
-        `${apiEndpoint}/api/v2/user?date=${date.format("YYYY-MM-DD")}`,
+        `${apiEndpoint}/api/v2/user?date=${date}`,
         {
           headers: {
             Authorization: `${token}`,

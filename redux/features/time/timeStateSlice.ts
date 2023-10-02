@@ -3,11 +3,11 @@ import moment from "moment";
 import "moment/locale/id";
 
 interface TimeState {
-  date?: moment.Moment;
+  date?: string;
 }
 
 const initialState: TimeState = {
-  date: moment().locale("id"),
+  date: moment().locale("id").format("YYYY-MM-DD"),
 };
 
 const timeStateSlice = createSlice({
@@ -15,7 +15,7 @@ const timeStateSlice = createSlice({
   initialState,
   reducers: {
     changeDate: (state, action) => {
-      const format = moment(action.payload.date).locale("id");
+      const format = moment(action.payload.date).format("YYYY-MM-DD");
       state.date = format;
     },
   },

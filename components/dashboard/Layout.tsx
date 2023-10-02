@@ -21,6 +21,7 @@ import type { CustomFlowbiteTheme } from "flowbite-react";
 const LayoutDashboard = ({ user }: { user: any }) => {
   const dispatch = useAppDispatch();
   const { date } = useSelector((state: any) => state.time);
+  const momentDate = moment(date, "YYYY-MM-DD");
   const [dateMobile, setDateMobile] = useState(date);
 
   const handleChangeDate = (date: any) => {
@@ -129,10 +130,10 @@ const LayoutDashboard = ({ user }: { user: any }) => {
           <div>
             <p className="text-xs text-gray-400">Daftar Habit pada</p>
             <h1 className="text-2xl font-bold text-primary-100">
-              {date.format("dddd")}
+              {momentDate.format("dddd")}
             </h1>
             <p className="text-second-100 font-semibold">
-              {date.format("DD MMMM YYYY")}
+              {momentDate.format("DD MMMM YYYY")}
             </p>
             <div>
               <button

@@ -33,7 +33,7 @@ const DashboardPage = ({ user }: { user: any }) => {
   };
   const modalId = modal.id ? modal.id : "";
   const deleteURL = `${API}/api/v2/habbit/${modalId}`;
-  const getUrl = `${API}/api/v2/user?date=${date.format("YYYY-MM-DD")}`;
+  const getUrl = `${API}/api/v2/user?date=${date}`;
 
   const handleLogout = async () => {
     try {
