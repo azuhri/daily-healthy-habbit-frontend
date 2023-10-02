@@ -110,6 +110,7 @@ const HabitForm = ({ user }: { user: any }) => {
           color: 6,
           start_date: date.format("YYYY-MM-DD"),
         });
+    setIsTimepickerOpen(false);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filteredHabits[sidebar.index], sidebar.isOpen]);
@@ -416,43 +417,39 @@ const HabitForm = ({ user }: { user: any }) => {
         />
       </div>
       <div className="group relative text-black">
-        <div className="group flex justify-between w-full bg-white rounded-lg py-2 px-3 my-2">
+        <div className="group flex justify-between w-full bg-white rounded-lg py-2 px-3">
           <p className="text-primary-100">Warna</p>
           {colorSelector}
         </div>
       </div>
       {sidebar.type === "create" && (
-        <div className="w-full flex justify-center">
+        <div className="w-full flex justify-center mt-8 mb-4">
           <button
             type="submit"
             name="create"
-            className="my-8 py-2 bg-primary-100 rounded-full w-[70%] text-xl font-bold text-white hover:bg-primary-hover"
+            className="py-2 bg-primary-100 rounded-lg w-full text-xl font-bold text-white hover:bg-primary-hover"
           >
             Buat
           </button>
         </div>
       )}
       {sidebar.type === "edit" && (
-        <>
-          <div className="w-full flex justify-center">
-            <button
-              type="submit"
-              name="edit"
-              className="my-2 mt-6 py-2 bg-primary-100 rounded-full w-[70%] text-xl font-bold text-white hover:bg-primary-hover"
-            >
-              Edit
-            </button>
-          </div>
-          <div className="w-full flex justify-center">
-            <button
-              type="submit"
-              name="delete"
-              className="my-2 py-2 bg-danger-100 rounded-full w-[70%] text-xl font-bold text-white hover:bg-danger-hover"
-            >
-              Hapus
-            </button>
-          </div>
-        </>
+        <div className="flex gap-1 w-full mt-8 mb-4">
+          <button
+            type="submit"
+            name="edit"
+            className="w-full py-2 bg-primary-100 rounded-lg text-xl font-bold text-white hover:bg-primary-hover"
+          >
+            Edit
+          </button>
+          <button
+            type="submit"
+            name="delete"
+            className="w-full py-2 bg-danger-100 rounded-lg text-xl font-bold text-white hover:bg-danger-hover"
+          >
+            Hapus
+          </button>
+        </div>
       )}
     </form>
   );

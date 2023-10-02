@@ -137,7 +137,7 @@ const LayoutDashboard = ({ user }: { user: any }) => {
             <div>
               <button
                 onClick={handleOpen}
-                className="flex absolute my-2 items-center text-xs text-second-100 font-semibold bg-primary-50 rounded-full px-3 py-1"
+                className="flex absolute my-2 rounded-full px-3 py-1 items-center text-xs text-second-100 font-semibold bg-primary-50 hover:bg-primary-50-hover hover:text-white"
               >
                 <CalendarMonthIcon />
                 <p>Lihat hari lain</p>
@@ -149,12 +149,14 @@ const LayoutDashboard = ({ user }: { user: any }) => {
           </div>
           <div className="flex justify-end">
             <button
-              className="group bg-primary-100 rounded-full px-3 py-2 text-white font-semibold flex"
+              className="group bg-primary-100 rounded-full px-3 py-2 text-white font-semibold flex hover:bg-primary-hover"
               onClick={() => {
                 dispatch(openSidebar({ type: "create" }));
               }}
             >
-              <p className="rounded-lg bg-primary-50 px-2 mr-2">+</p>
+              <p className="rounded-lg bg-primary-50 px-2 mr-2 group-hover:bg-primary-50-hover">
+                +
+              </p>
               <p className="">Habit Baru</p>
             </button>
           </div>
