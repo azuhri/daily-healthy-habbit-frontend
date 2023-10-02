@@ -20,6 +20,9 @@ const config: Config = {
       fontFamily: {
         sans: "Poppins",
       },
+      fontSize: {
+        "2xs": ".625rem",
+      },
       colors: {
         primary: {
           "50": "#93BFC4",
