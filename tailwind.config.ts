@@ -22,7 +22,7 @@ const config: Config = {
       },
       colors: {
         primary: {
-          "50": "#ABCDD1",
+          "50": "#93BFC4",
           "100": "#287F89;",
           "200": "#033148",
           hover: "#1F5F66",

@@ -125,7 +125,7 @@ const LayoutDashboard = ({ user }: { user: any }) => {
     <>
       <div className="bg-gradient-dashboard min-h-screen w-full px-8 flex flex-col py-8">
         <Header user={user} />
-        <div className="flex flex-row justify-between pt-8 text-black">
+        <div className="flex justify-between pt-8 text-black hidden md:block w-full">
           <div>
             <p className="text-xs text-gray-400">Daftar Habit pada</p>
             <h1 className="text-2xl font-bold text-primary-100">
@@ -143,34 +143,23 @@ const LayoutDashboard = ({ user }: { user: any }) => {
                 <p>Lihat hari lain</p>
               </button>
               <div className={`absolute z-10 max-h-0 invisible`}>
-                <DatePicker open={isOpen} />
+                <DatePicker open={isOpen} onChange={handleChangeDate} />
               </div>
             </div>
           </div>
-
-          {/* <div className="hidden md:block">
-            <h1 className="text-2xl font-semibold">Halo, {user.name}!</h1>
-            <p className="text-xs">
-              Berikut daftar
-              <span className="text-primary-100"> Habit </span>
-              pada
-              <span className="text-primary-100">
-                &nbsp;
-                {moment(date)
-                  .locale("id")
-                  .format("dddd, DD MMMM YYYY")
-                  .toString()}
-              </span>
-            </p>
+          <div className="flex justify-end">
+            <button
+              className="group bg-primary-100 rounded-full px-3 py-2 text-white font-semibold flex"
+              onClick={() => {
+                dispatch(openSidebar({ type: "create" }));
+              }}
+            >
+              <p className="rounded-lg bg-primary-50 px-2 mr-2">+</p>
+              <p className="">Habit Baru</p>
+            </button>
           </div>
-          <div className="">
-            <Datepicker
-              maxDate={new Date()}
-              className="w-full"
-              onSelectedDateChanged={handleChangeDate}
-            />
-          </div> */}
         </div>
+        {/* Mobile View */}
         <div className="flex pt-8 text-bold flex flex-col text-gray-600 block md:hidden">
           <h1 className="text-2xl font-bold">Halo, {user.name}!</h1>
           <div className="overflow-x-scroll my-2">
@@ -216,7 +205,7 @@ const LayoutDashboard = ({ user }: { user: any }) => {
         </div>
       </div>
       <button
-        className="fixed bottom-10 shadow-xl right-8 bg-primary-100 text-white px-2 rounded-full text-6xl hover:bg-primary-hover"
+        className="md:hidden fixed bottom-10 shadow-xl right-8 bg-primary-100 text-white px-2 rounded-full text-6xl hover:bg-primary-hover"
         onClick={() => {
           dispatch(openSidebar({ type: "create" }));
         }}

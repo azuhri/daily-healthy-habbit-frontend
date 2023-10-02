@@ -33,7 +33,7 @@ const DashboardPage = ({ user }: { user: any }) => {
   };
   const modalId = modal.id ? modal.id : "";
   const deleteURL = `${API}/api/v2/habbit/${modalId}`;
-  const getUrl = `${API}/api/v2/user?date=${date}`;
+  const getUrl = `${API}/api/v2/user?date=${date.format("YYYY-MM-DD")}`;
 
   const handleLogout = async () => {
     try {
@@ -45,8 +45,6 @@ const DashboardPage = ({ user }: { user: any }) => {
     }
   };
 
-  // AAAAHHHHHH THIS IS SUCH A ROUNDABOUT WAY TO DO IT MY FUCKING HEAD IS CHURNING.
-  // FUCK YOU CORS JUST LET ME USE MY ASYNCTHUNKS
   const handleDelete = async () => {
     try {
       const url = deleteURL;

@@ -98,7 +98,7 @@ const HabitForm = ({ user }: { user: any }) => {
             : 1,
           priority: filteredHabits[sidebar.index].priority,
           color: filteredHabits[sidebar.index].color,
-          start_date: date,
+          start_date: date.format("YYYY-MM-DD"),
         })
       : setInputValue({
           id: null,
@@ -108,7 +108,7 @@ const HabitForm = ({ user }: { user: any }) => {
           target_perday: 1,
           priority: 1,
           color: 0,
-          start_date: date,
+          start_date: date.format("YYYY-MM-DD"),
         });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -187,10 +187,10 @@ const HabitForm = ({ user }: { user: any }) => {
           target_perday: 1,
           priority: 1,
           color: 0,
-          start_date: date,
+          start_date: date.format("YYYY-MM-DD"),
         });
         const response4 = await axios.get(
-          `${API}/api/v2/user?date=${date}`,
+          `${API}/api/v2/user?date=${date.format("YYYY-MM-DD")}`,
           config
         );
 
@@ -260,6 +260,7 @@ const HabitForm = ({ user }: { user: any }) => {
           placeholder="Jawaban Anda"
           value={inputValue.name}
           onChange={(e) =>
+            e.target.value.length < 25 &&
             setInputValue({ ...inputValue, name: e.target.value })
           }
         />
@@ -272,7 +273,8 @@ const HabitForm = ({ user }: { user: any }) => {
           placeholder="Jawaban Anda"
           value={inputValue.description}
           onChange={(e) => {
-            setInputValue({ ...inputValue, description: e.target.value });
+            e.target.value.length < 100 &&
+              setInputValue({ ...inputValue, description: e.target.value });
           }}
         />
       </div>
