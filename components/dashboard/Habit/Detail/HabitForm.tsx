@@ -29,13 +29,10 @@ const HabitForm = ({ user }: { user: any }) => {
       ? {
           id: filteredHabits[index].id,
           name: filteredHabits[index].name,
-          description: filteredHabits[index].description
-            ? filteredHabits[index].description
-            : "",
+          description: filteredHabits[index].description ? filteredHabits[index].description: "",
           start_time: filteredHabits[index].start_time,
-          target_perday: filteredHabits[index].target_perday
-            ? filteredHabits[index].target_perday
-            : 1,
+          type: filteredHabits[index].type,
+          target_perday: filteredHabits[index].target_perday ? filteredHabits[index].target_perday : 1,
           priority: filteredHabits[index].priority,
           color: filteredHabits[index].color,
           start_date: date,
@@ -45,6 +42,7 @@ const HabitForm = ({ user }: { user: any }) => {
           name: "",
           description: "",
           start_time: null,
+          type: "daily",
           target_perday: 1,
           priority: 1,
           color: 0,
@@ -89,13 +87,10 @@ const HabitForm = ({ user }: { user: any }) => {
       ? setInputValue({
           id: filteredHabits[index].id,
           name: filteredHabits[index].name,
-          description: filteredHabits[index].description
-            ? filteredHabits[index].description
-            : "",
+          description: filteredHabits[index].description ? filteredHabits[index].description : "",
           start_time: filteredHabits[index].start_time,
-          target_perday: filteredHabits[index].target_perday
-            ? filteredHabits[index].target_perday
-            : 1,
+          type: filteredHabits[index].type,
+          target_perday: filteredHabits[index].target_perday ? filteredHabits[index].target_perday : 1,
           priority: filteredHabits[index].priority,
           color: filteredHabits[index].color,
           start_date: date,
@@ -105,6 +100,7 @@ const HabitForm = ({ user }: { user: any }) => {
           name: "",
           description: "",
           start_time: null,
+          type: "daily",
           target_perday: 1,
           priority: 1,
           color: 0,
