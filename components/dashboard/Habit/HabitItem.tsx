@@ -1,10 +1,25 @@
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { openSidebar } from "@/redux/features/habitSidebar/habitSidebarSlice";
+import { openModal } from "@/redux/features/modal/modalSlice";
+import axios from "axios";
+import { setHabits } from "@/redux/features/habits/habitsSlice";
+import moment from "moment";
+import "moment/locale/id";
 
-const HabitItem = ({ data, index }: { data: any; index: number }) => {
+const HabitItem = ({
+  data,
+  index,
+  access_token,
+}: {
+  data: any;
+  index: number;
+  access_token: string;
+}) => {
   const [color, setColor] = useState("");
   const dispatch = useDispatch();
+  const { date } = useSelector((state: any) => state.time);
+  const today = moment().locale("id").startOf("day");
 
   useEffect(() => {
     switch (data.color) {
@@ -38,10 +53,47 @@ const HabitItem = ({ data, index }: { data: any; index: number }) => {
     }
   }, [data]);
 
+  const handleProgressNoTarget = async () => {
+    const API =
+      process.env.API || "https://staging-api-health2023.agileteknik.com";
+    const config = {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    };
+    const url = `${API}/api/v2/habbit/progress/${data.id}?date=${date}`;
+
+    switch (data.progress) {
+      case "completed":
+        await axios.post(url, { status_progress: "incompleted" }, config);
+        break;
+      case "pending":
+        await axios.post(url, { status_progress: "completed" }, config);
+        break;
+      case "incompleted":
+        await axios.post(url, { status_progress: "pending" }, config);
+        break;
+    }
+    const response = await axios.get(`${API}/api/v2/user?date=${date}`, config);
+    if (response.status === 200) {
+      dispatch(
+        setHabits(response.data.data.sort((a: any, b: any) => b.id - a.id))
+      );
+    } else {
+      throw new Error(response.statusText);
+    }
+  };
+
   return (
     <div
       className="cursor-pointer hover:bg-gray-300 relative shadow-md flex rounded-lg w-full bg-ds-gray min-h-[100px] max-h-28 m-1"
-      onClick={() => dispatch(openSidebar({ type: "edit", index: index }))}
+      onClick={() => {
+        if (data.target_perday == null) {
+          handleProgressNoTarget();
+        } else {
+          dispatch(openModal({ type: "progress", id: data.id }));
+        }
+      }}
     >
       <div className={`w-1/6 h-full ${color} rounded-l-lg`} />
       <div className="w-4/6 h-full text-black text-gray-600 px-3 flex justify-center flex-col">
@@ -58,7 +110,7 @@ const HabitItem = ({ data, index }: { data: any; index: number }) => {
       </div>
       <div className="w-1/6 flex justify-center items-center text-black rounded-r-lg">
         {(typeof data.progress == "string" && data.progress == "completed") ||
-        data.progress == data.target_perday ? (
+        data.progress >= data.target_perday ? (
           <button className="p-[3px] shadow border border-mobile-green-200 bg-mobile-green-200 text-mobile-green-100 rounded-full">
             <svg
               viewBox="0 0 24 24"
@@ -77,8 +129,9 @@ const HabitItem = ({ data, index }: { data: any; index: number }) => {
         ) : (
           ""
         )}
-        {(typeof data.progress == "string" && data.progress == "pending") ||
-        data.progress < data.target_perday ? (
+        {((typeof data.progress == "string" && data.progress == "pending") ||
+          data.progress < data.target_perday) &&
+        moment(date).isSame(today) ? (
           <button className="p-[4px] shadow border border-yellow-300 bg-yellow-300 text-white rounded-full">
             <svg
               viewBox="0 0 24 24"
@@ -98,7 +151,12 @@ const HabitItem = ({ data, index }: { data: any; index: number }) => {
         ) : (
           ""
         )}
-        {typeof data.progress == "string" && data.progress == "incompleted" ? (
+        {((typeof data.progress == "string" &&
+          data.progress == "incompleted") ||
+          // temporary doesn't look right
+          data.progress == "pending" ||
+          data.progress < data.target_perday) &&
+        moment(date).isBefore(today) ? (
           <button className="p-[4px] shadow border border-red-200 bg-red-200 text-mobile-red-200 rounded-full">
             <svg
               viewBox="0 0 24 24"

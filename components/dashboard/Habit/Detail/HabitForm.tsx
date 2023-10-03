@@ -55,38 +55,6 @@ const HabitForm = ({ user }: { user: any }) => {
   );
 
   useEffect(() => {
-    switch (inputValue.color) {
-      case 0:
-        setBgColor("bg-[#E17055]");
-        break;
-      case 1:
-        setBgColor("bg-[#8373a0]");
-        break;
-      case 2:
-        setBgColor("bg-[#46aab9]");
-        break;
-      case 3:
-        setBgColor("bg-[#60a588]");
-        break;
-      case 4:
-        setBgColor("bg-[#d58734]");
-        break;
-      case 5:
-        setBgColor("bg-[#a5647c]");
-        break;
-      case 6:
-        setBgColor("bg-[#4d9b9d]");
-        break;
-      case 7:
-        setBgColor("bg-[#5686aa]");
-        break;
-      default:
-        setBgColor("bg-[#E17055]");
-        break;
-    }
-  }, [inputValue.color]);
-
-  useEffect(() => {
     filteredHabits[index]
       ? setInputValue({
           id: filteredHabits[index].id,
@@ -151,7 +119,7 @@ const HabitForm = ({ user }: { user: any }) => {
           // response = dispatch(
           //   createHabit({ habit: inputValue, token: user.token })
           // );
-          break;
+          // break;
         case "edit":
           if (
             habits.some((habit: any) => habit.name === inputValue.name) &&
@@ -191,10 +159,10 @@ const HabitForm = ({ user }: { user: any }) => {
           target_perday: 1,
           priority: 1,
           color: 6,
-          start_date: date.format("YYYY-MM-DD"),
+          start_date: date,
         });
         const response4 = await axios.get(
-          `${API}/api/v2/user?date=${date.format("YYYY-MM-DD")}`,
+          `${API}/api/v2/user?date=${date}`,
           config
         );
 

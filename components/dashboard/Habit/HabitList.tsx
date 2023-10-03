@@ -81,7 +81,12 @@ const HabitList = ({ access_token }: { access_token: string }) => {
     <div className="my-2 grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-2">
       {loading && <SkeletonHabit />}
       {filteredHabits.map((val: any, index: any) => (
-        <HabitItem key={index} data={val} index={index} />
+        <HabitItem
+          key={index}
+          data={val}
+          index={index}
+          access_token={access_token}
+        />
       ))}
     </div>
   );

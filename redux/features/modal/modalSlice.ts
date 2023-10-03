@@ -4,12 +4,12 @@ interface ModalState {
   isOpen: boolean;
   type: string;
   id?: string;
+  progress?: number | string;
 }
 
 const initialState: ModalState = {
   isOpen: false,
   type: "",
-  id: "",
 };
 
 export const modalSlice = createSlice({
