@@ -1,6 +1,10 @@
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { openSidebar } from "@/redux/features/habitSidebar/habitSidebarSlice";
+import {
+  openSidebar,
+  closeSidebar,
+} from "@/redux/features/habitSidebar/habitSidebarSlice";
 import { openModal } from "@/redux/features/modal/modalSlice";
 import axios from "axios";
 import { setHabits } from "@/redux/features/habits/habitsSlice";
@@ -20,6 +24,7 @@ const HabitItem = ({
   const dispatch = useDispatch();
   const { date } = useSelector((state: any) => state.time);
   const today = moment().locale("id").startOf("day");
+  const { isOpen } = useSelector((state: any) => state.sidebar);
 
   useEffect(() => {
     switch (data.color) {
@@ -151,12 +156,10 @@ const HabitItem = ({
         ) : (
           ""
         )}
-        {((typeof data.progress == "string" &&
-          data.progress == "incompleted") ||
-          // temporary doesn't look right
-          data.progress == "pending" ||
-          data.progress < data.target_perday) &&
-        moment(date).isBefore(today) ? (
+        {(typeof data.progress == "string" && data.progress == "incompleted") ||
+        // pending temporary, doesn't look right
+        ((data.progress == "pending" || data.progress < data.target_perday) &&
+          moment(date).isBefore(today)) ? (
           <button className="p-[4px] shadow border border-red-200 bg-red-200 text-mobile-red-200 rounded-full">
             <svg
               viewBox="0 0 24 24"
@@ -176,6 +179,18 @@ const HabitItem = ({
         ) : (
           ""
         )}
+      </div>
+      <div className="absolute top-2 right-2">
+        <Image
+          src="icons/edit.svg"
+          width={25}
+          height={25}
+          alt="edit"
+          onClick={(event) => {
+            event.stopPropagation();
+            dispatch(openSidebar({ type: "edit", index: index }));
+          }}
+        />
       </div>
     </div>
   );
