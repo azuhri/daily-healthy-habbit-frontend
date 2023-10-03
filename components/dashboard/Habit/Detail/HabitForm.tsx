@@ -27,17 +27,14 @@ const HabitForm = ({ user }: { user: any }) => {
   const [inputValue, setInputValue] = useState(
     filteredHabits[sidebar.index]
       ? {
-          id: filteredHabits[sidebar.index].id,
-          name: filteredHabits[sidebar.index].name,
-          description: filteredHabits[sidebar.index].description
-            ? filteredHabits[sidebar.index].description
-            : "",
-          start_time: filteredHabits[sidebar.index].start_time,
-          target_perday: filteredHabits[sidebar.index].target_perday
-            ? filteredHabits[sidebar.index].target_perday
-            : 1,
-          priority: filteredHabits[sidebar.index].priority,
-          color: filteredHabits[sidebar.index].color,
+          id: filteredHabits[index].id,
+          name: filteredHabits[index].name,
+          description: filteredHabits[index].description ? filteredHabits[index].description: "",
+          start_time: filteredHabits[index].start_time,
+          type: filteredHabits[index].type,
+          target_perday: filteredHabits[index].target_perday ? filteredHabits[index].target_perday : 1,
+          priority: filteredHabits[index].priority,
+          color: filteredHabits[index].color,
           start_date: date,
         }
       : {
@@ -45,6 +42,7 @@ const HabitForm = ({ user }: { user: any }) => {
           name: "",
           description: "",
           start_time: null,
+          type: "daily",
           target_perday: 1,
           priority: 1,
           color: 0,
@@ -87,17 +85,14 @@ const HabitForm = ({ user }: { user: any }) => {
   useEffect(() => {
     filteredHabits[sidebar.index]
       ? setInputValue({
-          id: filteredHabits[sidebar.index].id,
-          name: filteredHabits[sidebar.index].name,
-          description: filteredHabits[sidebar.index].description
-            ? filteredHabits[sidebar.index].description
-            : "",
-          start_time: filteredHabits[sidebar.index].start_time,
-          target_perday: filteredHabits[sidebar.index].target_perday
-            ? filteredHabits[sidebar.index].target_perday
-            : 1,
-          priority: filteredHabits[sidebar.index].priority,
-          color: filteredHabits[sidebar.index].color,
+          id: filteredHabits[index].id,
+          name: filteredHabits[index].name,
+          description: filteredHabits[index].description ? filteredHabits[index].description : "",
+          start_time: filteredHabits[index].start_time,
+          type: filteredHabits[index].type,
+          target_perday: filteredHabits[index].target_perday ? filteredHabits[index].target_perday : 1,
+          priority: filteredHabits[index].priority,
+          color: filteredHabits[index].color,
           start_date: date,
         })
       : setInputValue({
@@ -105,6 +100,7 @@ const HabitForm = ({ user }: { user: any }) => {
           name: "",
           description: "",
           start_time: null,
+          type: "daily",
           target_perday: 1,
           priority: 1,
           color: 6,
