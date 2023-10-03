@@ -17,7 +17,7 @@ import { openModal } from "@/redux/features/modal/modalSlice";
 
 const HabitForm = ({ user }: { user: any }) => {
   const dispatch = useAppDispatch();
-  const sidebar = useSelector((state: any) => state.sidebar);
+  const { index, isOpen, type } = useSelector((state: any) => state.sidebar);
   const { habits, filteredHabits } = useSelector((state: any) => state.habits);
   const { date } = useSelector((state: any) => state.time);
 
@@ -25,14 +25,18 @@ const HabitForm = ({ user }: { user: any }) => {
   const [bgColor, setBgColor] = useState("bg-[#E17055]");
   const [isTimepickerOpen, setIsTimepickerOpen] = useState(false);
   const [inputValue, setInputValue] = useState(
-    filteredHabits[sidebar.index]
+    filteredHabits[index]
       ? {
           id: filteredHabits[index].id,
           name: filteredHabits[index].name,
-          description: filteredHabits[index].description ? filteredHabits[index].description: "",
+          description: filteredHabits[index].description
+            ? filteredHabits[index].description
+            : "",
           start_time: filteredHabits[index].start_time,
           type: filteredHabits[index].type,
-          target_perday: filteredHabits[index].target_perday ? filteredHabits[index].target_perday : 1,
+          target_perday: filteredHabits[index].target_perday
+            ? filteredHabits[index].target_perday
+            : 1,
           priority: filteredHabits[index].priority,
           color: filteredHabits[index].color,
           start_date: date,
@@ -83,14 +87,18 @@ const HabitForm = ({ user }: { user: any }) => {
   }, [inputValue.color]);
 
   useEffect(() => {
-    filteredHabits[sidebar.index]
+    filteredHabits[index]
       ? setInputValue({
           id: filteredHabits[index].id,
           name: filteredHabits[index].name,
-          description: filteredHabits[index].description ? filteredHabits[index].description : "",
+          description: filteredHabits[index].description
+            ? filteredHabits[index].description
+            : "",
           start_time: filteredHabits[index].start_time,
           type: filteredHabits[index].type,
-          target_perday: filteredHabits[index].target_perday ? filteredHabits[index].target_perday : 1,
+          target_perday: filteredHabits[index].target_perday
+            ? filteredHabits[index].target_perday
+            : 1,
           priority: filteredHabits[index].priority,
           color: filteredHabits[index].color,
           start_date: date,
@@ -109,7 +117,7 @@ const HabitForm = ({ user }: { user: any }) => {
     setIsTimepickerOpen(false);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filteredHabits[sidebar.index], sidebar.isOpen]);
+  }, [filteredHabits[index], isOpen]);
 
   const handleSubmit = async (e: any) => {
     try {
@@ -147,7 +155,7 @@ const HabitForm = ({ user }: { user: any }) => {
         case "edit":
           if (
             habits.some((habit: any) => habit.name === inputValue.name) &&
-            habits[sidebar.index].name !== inputValue.name
+            habits[index].name !== inputValue.name
           )
             throw new Error("Nama habit sudah ada");
           const dataEdit = {
@@ -156,7 +164,7 @@ const HabitForm = ({ user }: { user: any }) => {
             alarm_code: 1,
           };
           response = await axios.put(
-            `${API}/api/v2/habbit/${filteredHabits[sidebar.index].id}`,
+            `${API}/api/v2/habbit/${filteredHabits[index].id}`,
             dataEdit,
             config
           );
@@ -166,9 +174,7 @@ const HabitForm = ({ user }: { user: any }) => {
           // );
           break;
         case "delete":
-          dispatch(
-            openModal({ type: "delete", id: filteredHabits[sidebar.index].id })
-          );
+          dispatch(openModal({ type: "delete", id: filteredHabits[index].id }));
           break;
         default:
           throw new Error("Terjadi kesalahan");
@@ -181,6 +187,7 @@ const HabitForm = ({ user }: { user: any }) => {
           name: "",
           description: "",
           start_time: null,
+          type: "daily",
           target_perday: 1,
           priority: 1,
           color: 6,
@@ -418,7 +425,7 @@ const HabitForm = ({ user }: { user: any }) => {
           {colorSelector}
         </div>
       </div>
-      {sidebar.type === "create" && (
+      {type === "create" && (
         <div className="w-full flex justify-center mt-8 mb-4">
           <button
             type="submit"
@@ -429,7 +436,7 @@ const HabitForm = ({ user }: { user: any }) => {
           </button>
         </div>
       )}
-      {sidebar.type === "edit" && (
+      {type === "edit" && (
         <div className="flex gap-1 w-full mt-8 mb-4">
           <button
             type="submit"
