@@ -67,7 +67,7 @@ export default function RegisterPage({ API }: any) {
           <Image
             src="/icons/new-logo.png"
             alt="Daily Healthy Habit Icon"
-            width="80"
+            width="60"
             height={0}
           />
           <p className="font-semibold text-gray-500">
