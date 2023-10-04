@@ -20,10 +20,20 @@ const config: Config = {
       fontFamily: {
         sans: "Poppins",
       },
+      fontSize: {
+        "2xs": ".625rem",
+      },
       colors: {
         primary: {
+          "50": "#7EB2B8",
+          "50-hover": "#5298A0",
           "100": "#287F89;",
+          "200": "#033148",
           hover: "#1F5F66",
+        },
+        second: {
+          "50": "#4C828B",
+          "100": "#20636F",
         },
         danger: {
           "50": "#D61743",

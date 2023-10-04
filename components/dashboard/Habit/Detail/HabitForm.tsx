@@ -17,8 +17,8 @@ import { openModal } from "@/redux/features/modal/modalSlice";
 
 const HabitForm = ({ user }: { user: any }) => {
   const dispatch = useAppDispatch();
-  const { type, index } = useSelector((state: any) => state.sidebar);
-  const { filteredHabits } = useSelector((state: any) => state.habits);
+  const { index, isOpen, type } = useSelector((state: any) => state.sidebar);
+  const { habits, filteredHabits } = useSelector((state: any) => state.habits);
   const { date } = useSelector((state: any) => state.time);
 
   const [responseMessage, setResponseMessage] = useState("");
@@ -29,10 +29,14 @@ const HabitForm = ({ user }: { user: any }) => {
       ? {
           id: filteredHabits[index].id,
           name: filteredHabits[index].name,
-          description: filteredHabits[index].description ? filteredHabits[index].description: "",
+          description: filteredHabits[index].description
+            ? filteredHabits[index].description
+            : "",
           start_time: filteredHabits[index].start_time,
           type: filteredHabits[index].type,
-          target_perday: filteredHabits[index].target_perday ? filteredHabits[index].target_perday : 1,
+          target_perday: filteredHabits[index].target_perday
+            ? filteredHabits[index].target_perday
+            : 1,
           priority: filteredHabits[index].priority,
           color: filteredHabits[index].color,
           start_date: date,
@@ -51,46 +55,18 @@ const HabitForm = ({ user }: { user: any }) => {
   );
 
   useEffect(() => {
-    switch (inputValue.color) {
-      case 0:
-        setBgColor("bg-[#E17055]");
-        break;
-      case 1:
-        setBgColor("bg-[#8373a0]");
-        break;
-      case 2:
-        setBgColor("bg-[#46aab9]");
-        break;
-      case 3:
-        setBgColor("bg-[#60a588]");
-        break;
-      case 4:
-        setBgColor("bg-[#d58734]");
-        break;
-      case 5:
-        setBgColor("bg-[#a5647c]");
-        break;
-      case 6:
-        setBgColor("bg-[#4d9b9d]");
-        break;
-      case 7:
-        setBgColor("bg-[#5686aa]");
-        break;
-      default:
-        setBgColor("bg-[#E17055]");
-        break;
-    }
-  }, [inputValue.color]);
-
-  useEffect(() => {
     filteredHabits[index]
       ? setInputValue({
           id: filteredHabits[index].id,
           name: filteredHabits[index].name,
-          description: filteredHabits[index].description ? filteredHabits[index].description : "",
+          description: filteredHabits[index].description
+            ? filteredHabits[index].description
+            : "",
           start_time: filteredHabits[index].start_time,
           type: filteredHabits[index].type,
-          target_perday: filteredHabits[index].target_perday ? filteredHabits[index].target_perday : 1,
+          target_perday: filteredHabits[index].target_perday
+            ? filteredHabits[index].target_perday
+            : 1,
           priority: filteredHabits[index].priority,
           color: filteredHabits[index].color,
           start_date: date,
@@ -103,12 +79,13 @@ const HabitForm = ({ user }: { user: any }) => {
           type: "daily",
           target_perday: 1,
           priority: 1,
-          color: 0,
+          color: 6,
           start_date: date,
         });
+    setIsTimepickerOpen(false);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filteredHabits[index]]);
+  }, [filteredHabits[index], isOpen]);
 
   const handleSubmit = async (e: any) => {
     try {
@@ -129,6 +106,8 @@ const HabitForm = ({ user }: { user: any }) => {
         //
         case "create":
           if (!inputValue.start_time) throw new Error("Pengingat belum diisi");
+          if (habits.some((habit: any) => habit.name === inputValue.name))
+            throw new Error("Nama habit sudah ada");
 
           response = await axios.post(
             `${API}/api/v2/habbit`,
@@ -140,8 +119,13 @@ const HabitForm = ({ user }: { user: any }) => {
           // response = dispatch(
           //   createHabit({ habit: inputValue, token: user.token })
           // );
-          break;
+          // break;
         case "edit":
+          if (
+            habits.some((habit: any) => habit.name === inputValue.name) &&
+            habits[index].name !== inputValue.name
+          )
+            throw new Error("Nama habit sudah ada");
           const dataEdit = {
             ...inputValue,
             // TEMPORARY FIX NANTI DIHAPUS
@@ -166,6 +150,17 @@ const HabitForm = ({ user }: { user: any }) => {
 
       if (response && response.status === 200) {
         dispatch(closeSidebar());
+        setInputValue({
+          id: null,
+          name: "",
+          description: "",
+          start_time: null,
+          type: "daily",
+          target_perday: 1,
+          priority: 1,
+          color: 6,
+          start_date: date,
+        });
         const response4 = await axios.get(
           `${API}/api/v2/user?date=${date}`,
           config
@@ -204,7 +199,11 @@ const HabitForm = ({ user }: { user: any }) => {
       <button
         type="button"
         key={i}
-        className={`rounded-lg text-black h-full ` + color[i]}
+        className={
+          `rounded-lg text-black h-full px-2 ${
+            inputValue.color == i && "ring-4"
+          } ` + color[i]
+        }
         onClick={() =>
           setInputValue({
             ...inputValue,
@@ -226,7 +225,7 @@ const HabitForm = ({ user }: { user: any }) => {
       <div
         id="responseMessage"
         style={displayNone}
-        className="border-red-500 text-red-400 bg-red-200 mt-2 text-center p-3 border rounded-lg font-bold"
+        className="border-red-500 text-red-400 bg-red-200 mb-2 text-center p-3 border rounded-lg font-bold"
       />
       <div className="bg-white w-full rounded-lg py-2 px-3">
         <p className="text-primary-100">Nama Habit</p>
@@ -234,9 +233,10 @@ const HabitForm = ({ user }: { user: any }) => {
           required
           type="text"
           className="w-full border-0 border-b-2 border-gray-300 px-1 my-1 focus:outline-none focus:ring-0 focus:border-primary-100 placeholder-gray-300"
-          placeholder="Jawaban Anda"
+          placeholder="Jawaban Anda (Maksimum 25 Karakter)"
           value={inputValue.name}
           onChange={(e) =>
+            e.target.value.length < 25 &&
             setInputValue({ ...inputValue, name: e.target.value })
           }
         />
@@ -246,12 +246,120 @@ const HabitForm = ({ user }: { user: any }) => {
         <input
           type="text"
           className="w-full border-0 border-b-2 border-gray-300 px-1 my-1 focus:outline-none focus:ring-0 focus:border-primary-100 placeholder-gray-300"
-          placeholder="Jawaban Anda"
+          placeholder="Jawaban Anda (Maksimum 100 Karakter)"
           value={inputValue.description}
           onChange={(e) => {
-            setInputValue({ ...inputValue, description: e.target.value });
+            e.target.value.length < 100 &&
+              setInputValue({ ...inputValue, description: e.target.value });
           }}
         />
+      </div>
+
+      <div className="grid grid-cols-2 gap-2">
+        <div className="group relative text-black">
+          <button
+            type="button"
+            className="group flex justify-between w-full bg-white rounded-lg py-2 px-3"
+          >
+            <p className="text-primary-100">Target</p>
+            <div className="h-full bg-primary-100 rounded-lg px-2 text-white group-hover:bg-primary-hover">
+              {inputValue.target_perday}
+            </div>
+          </button>
+          <div className="absolute right-0 invisible w-full transition-all opacity-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-1 z-20">
+            <div className="bg-white rounded-lg w-full px-4 py-4">
+              <p className="text-primary-100 text-center font-semibold text-xs mb-2">
+                Target
+              </p>
+              <div className="mx-auto px-4 flex justify-between items-center">
+                <button
+                  type="button"
+                  className="ring-1 ring-primary-100 rounded-lg px-2 text-black"
+                  onClick={() => {
+                    if (inputValue.target_perday > 1)
+                      setInputValue({
+                        ...inputValue,
+                        target_perday: inputValue.target_perday - 1,
+                      });
+                  }}
+                >
+                  -
+                </button>
+                <div className="rounded-lg px-2 text-black">
+                  {inputValue.target_perday}
+                </div>
+                <button
+                  type="button"
+                  className="bg-primary-100 rounded-lg px-2 text-white"
+                  onClick={() => {
+                    setInputValue({
+                      ...inputValue,
+                      target_perday: inputValue.target_perday + 1,
+                    });
+                  }}
+                >
+                  +
+                </button>
+              </div>
+              <p className="text-2xs text-black text-center mt-2">
+                Target harian yang dilakukan dalam satu hari
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="group relative text-black">
+          <button
+            type="button"
+            className="group flex justify-between w-full bg-white rounded-lg py-2 px-3"
+          >
+            <p className="text-primary-100">Prioritas</p>
+            <div className="h-full bg-primary-100 rounded-lg px-2 text-white group-hover:bg-primary-hover">
+              {inputValue.priority}
+            </div>
+          </button>
+          <div className="absolute right-0 invisible w-full transition-all opacity-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-1 z-20">
+            <div className="bg-white rounded-lg w-full px-4 py-4">
+              <p className="text-primary-100 text-center font-semibold text-xs mb-2">
+                Prioritas
+              </p>
+              <div className="mx-auto px-4 flex justify-between items-center">
+                <button
+                  type="button"
+                  className="ring-1 ring-primary-100 rounded-lg px-2 text-black"
+                  onClick={() => {
+                    if (inputValue.priority > 1)
+                      setInputValue({
+                        ...inputValue,
+                        priority: inputValue.priority - 1,
+                      });
+                  }}
+                >
+                  -
+                </button>
+                <div className="rounded-lg px-2 text-black">
+                  {inputValue.priority}
+                </div>
+                <button
+                  type="button"
+                  className="bg-primary-100 rounded-lg px-2 text-white"
+                  onClick={() => {
+                    setInputValue({
+                      ...inputValue,
+                      priority: inputValue.priority + 1,
+                    });
+                  }}
+                >
+                  +
+                </button>
+              </div>
+              <p className="text-2xs text-black text-center mt-2">
+                Habit dengan prioritas lebih tinggi akan ditampilkan lebih
+                tinggi dalam daftar
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
       <div
         className="cursor-pointer text-primary-100 group flex justify-between w-full bg-white rounded-lg py-2 px-3 my-2"
@@ -259,9 +367,8 @@ const HabitForm = ({ user }: { user: any }) => {
       >
         <p className="">Pengingat</p>
         <div className="flex gap-2">
-          {inputValue.start_time}
           <div className="h-full bg-primary-100 rounded-lg px-2 text-white group-hover:bg-primary-hover">
-            +
+            {inputValue.start_time != null ? inputValue.start_time : "+"}
           </div>
         </div>
       </div>
@@ -280,145 +387,40 @@ const HabitForm = ({ user }: { user: any }) => {
           }}
         />
       </div>
-      <div className="grid grid-cols-2 gap-2">
-        <div className="group relative text-black">
-          <button
-            type="button"
-            className="group flex justify-between w-full bg-white rounded-lg py-2 px-3"
-          >
-            <p className="text-primary-100">Perulangan</p>
-            <div className="h-full bg-primary-100 rounded-lg px-2 text-white group-hover:bg-primary-hover">
-              {inputValue.target_perday}
-            </div>
-          </button>
-          <div className="absolute right-0 invisible w-56 transition-all opacity-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-1 z-20">
-            <div className="bg-white rounded-lg w-full h-24 mx-auto flex justify-between items-center px-4">
-              <button
-                type="button"
-                className="bg-primary-100 rounded-lg px-2 text-white"
-                onClick={() => {
-                  if (inputValue.target_perday > 1)
-                    setInputValue({
-                      ...inputValue,
-                      target_perday: inputValue.target_perday - 1,
-                    });
-                }}
-              >
-                -
-              </button>
-              <div className="bg-primary-100 rounded-lg px-2 text-white">
-                {inputValue.target_perday}
-              </div>
-              <button
-                type="button"
-                className="bg-primary-100 rounded-lg px-2 text-white"
-                onClick={() => {
-                  setInputValue({
-                    ...inputValue,
-                    target_perday: inputValue.target_perday + 1,
-                  });
-                }}
-              >
-                +
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="group relative text-black">
-          <button
-            type="button"
-            className="group flex justify-between w-full bg-white rounded-lg py-2 px-3"
-          >
-            <p className="text-primary-100">Prioritas</p>
-            <div className="h-full bg-primary-100 rounded-lg px-2 text-white group-hover:bg-primary-hover">
-              {inputValue.priority}
-            </div>
-          </button>
-          <div className="absolute right-0 invisible w-56 transition-all opacity-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-1 z-20">
-            <div className="bg-white rounded-lg w-full h-24 mx-auto flex justify-between items-center px-4">
-              <button
-                type="button"
-                className="bg-primary-100 rounded-lg px-2 text-white"
-                onClick={() => {
-                  if (inputValue.priority > 1)
-                    setInputValue({
-                      ...inputValue,
-                      priority: inputValue.priority - 1,
-                    });
-                }}
-              >
-                -
-              </button>
-              <div className="bg-primary-100 rounded-lg px-2 text-white">
-                {inputValue.priority}
-              </div>
-              <button
-                type="button"
-                className="bg-primary-100 rounded-lg px-2 text-white"
-                onClick={() =>
-                  setInputValue({
-                    ...inputValue,
-                    priority: inputValue.priority + 1,
-                  })
-                }
-              >
-                +
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
       <div className="group relative text-black">
-        <button
-          className="group flex justify-between w-full bg-white rounded-lg py-2 px-3 my-2"
-          type="button"
-        >
+        <div className="group flex justify-between w-full bg-white rounded-lg py-2 px-3">
           <p className="text-primary-100">Warna</p>
-          <div className={`h-full rounded-lg px-2 text-white ${bgColor}`}>
-            <p className="invisible">0</p>
-          </div>
-        </button>
-        <div className="absolute inset-0 invisible w-full flex justify-center top-10">
-          <div className="w-56 transition-all opacity-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-1 z-20">
-            <div className="bg-white rounded-lg w-full h-24 mx-auto grid grid-cols-4 items-center px-4 py-4 gap-2">
-              {colorSelector}
-            </div>
-          </div>
+          {colorSelector}
         </div>
       </div>
       {type === "create" && (
-        <div className="w-full flex justify-center">
+        <div className="w-full flex justify-center mt-8 mb-4">
           <button
             type="submit"
             name="create"
-            className="my-8 py-2 bg-primary-100 rounded-full w-[70%] text-xl font-bold text-white hover:bg-primary-hover"
+            className="py-2 bg-primary-100 rounded-lg w-full text-xl font-bold text-white hover:bg-primary-hover"
           >
             Buat
           </button>
         </div>
       )}
       {type === "edit" && (
-        <>
-          <div className="w-full flex justify-center">
-            <button
-              type="submit"
-              name="edit"
-              className="my-2 mt-6 py-2 bg-primary-100 rounded-full w-[70%] text-xl font-bold text-white hover:bg-primary-hover"
-            >
-              Edit
-            </button>
-          </div>
-          <div className="w-full flex justify-center">
-            <button
-              type="submit"
-              name="delete"
-              className="my-2 py-2 bg-danger-100 rounded-full w-[70%] text-xl font-bold text-white hover:bg-danger-hover"
-            >
-              Hapus
-            </button>
-          </div>
-        </>
+        <div className="flex gap-1 w-full mt-8 mb-4">
+          <button
+            type="submit"
+            name="edit"
+            className="w-full py-2 bg-primary-100 rounded-lg text-xl font-bold text-white hover:bg-primary-hover"
+          >
+            Edit
+          </button>
+          <button
+            type="submit"
+            name="delete"
+            className="w-full py-2 bg-danger-100 rounded-lg text-xl font-bold text-white hover:bg-danger-hover"
+          >
+            Hapus
+          </button>
+        </div>
       )}
     </form>
   );

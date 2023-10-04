@@ -15,6 +15,7 @@ import ConfirmationModal from "@/components/dashboard/ConfirmationModal";
 import { useAppDispatch } from "@/redux/store";
 import { closeSidebar } from "@/redux/features/habitSidebar/habitSidebarSlice";
 import { setHabits } from "@/redux/features/habits/habitsSlice";
+import DashboardModal from "@/components/dashboard/DashboardModal";
 
 const DashboardPage = ({ user }: { user: any }) => {
   const dispatch = useAppDispatch();
@@ -45,8 +46,6 @@ const DashboardPage = ({ user }: { user: any }) => {
     }
   };
 
-  // AAAAHHHHHH THIS IS SUCH A ROUNDABOUT WAY TO DO IT MY FUCKING HEAD IS CHURNING.
-  // FUCK YOU CORS JUST LET ME USE MY ASYNCTHUNKS
   const handleDelete = async () => {
     try {
       const url = deleteURL;
@@ -90,6 +89,7 @@ const DashboardPage = ({ user }: { user: any }) => {
           onAction={handleDelete}
         />
       )}
+      {modal.isOpen && modal.type == "progress" && <DashboardModal token={user.token} />}
       <LayoutDashboard user={user} />
     </>
   );

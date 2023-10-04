@@ -10,12 +10,7 @@ import { setHabits } from "@/redux/features/habits/habitsSlice";
 const apiEndpoint =
   process.env.API || "https://staging-api-health2023.agileteknik.com";
 
-const HabitList = ({
-  access_token,
-}: {
-  access_token: string;
-  date: string;
-}) => {
+const HabitList = ({ access_token }: { access_token: string }) => {
   const dispatch = useAppDispatch();
   const { habits, filteredHabits } = useSelector((state: any) => state.habits);
   const { date } = useSelector((state: any) => state.time);
@@ -83,11 +78,15 @@ const HabitList = ({
   }
 
   return (
-    <div className="my-4 grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-2">
+    <div className="my-2 grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-2">
       {loading && <SkeletonHabit />}
       {filteredHabits.map((val: any, index: any) => (
-        // Call HabitItem component and parse in index as props too
-        <HabitItem key={index} data={val} index={index} />
+        <HabitItem
+          key={index}
+          data={val}
+          index={index}
+          access_token={access_token}
+        />
       ))}
     </div>
   );
