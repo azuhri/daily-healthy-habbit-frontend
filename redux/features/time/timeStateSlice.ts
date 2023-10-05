@@ -4,10 +4,12 @@ import "moment/locale/id";
 
 interface TimeState {
   date?: string;
+  today?: string;
 }
 
 const initialState: TimeState = {
   date: moment().locale("id").format("YYYY-MM-DD"),
+  today: moment().locale("id").startOf("day").format("YYYY-MM-DD"),
 };
 
 const timeStateSlice = createSlice({

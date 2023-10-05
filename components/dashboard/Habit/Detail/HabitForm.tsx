@@ -116,10 +116,10 @@ const HabitForm = ({ user }: { user: any }) => {
           );
           break;
 
-          // response = dispatch(
-          //   createHabit({ habit: inputValue, token: user.token })
-          // );
-          // break;
+        // response = dispatch(
+        //   createHabit({ habit: inputValue, token: user.token })
+        // );
+        // break;
         case "edit":
           if (
             habits.some((habit: any) => habit.name === inputValue.name) &&
@@ -249,7 +249,7 @@ const HabitForm = ({ user }: { user: any }) => {
           placeholder="Jawaban Anda (Maksimum 100 Karakter)"
           value={inputValue.description}
           onChange={(e) => {
-            e.target.value.length < 100 &&
+            if (e.target.value.length < 100)
               setInputValue({ ...inputValue, description: e.target.value });
           }}
         />
