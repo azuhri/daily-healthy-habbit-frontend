@@ -73,10 +73,18 @@ const HabitItem = ({
         await axios.post(url, { status_progress: "incompleted" }, config);
         break;
       case "pending":
-        await axios.post(url, { status_progress: "completed" }, config);
+        if (moment(date).isBefore(today)) {
+          await axios.post(url, { status_progress: "incompleted" }, config);
+        } else {
+          await axios.post(url, { status_progress: "completed" }, config);
+        }
         break;
       case "incompleted":
-        await axios.post(url, { status_progress: "pending" }, config);
+        if (moment(date).isBefore(today)) {
+          await axios.post(url, { status_progress: "completed" }, config);
+        } else {
+          await axios.post(url, { status_progress: "pending" }, config);
+        }
         break;
     }
     const response = await axios.get(`${API}/api/v2/user?date=${date}`, config);
@@ -89,10 +97,18 @@ const HabitItem = ({
     }
   };
 
+  useEffect(() => {
+    if (data.progress == "pending" && moment(date).isBefore(today)) {
+      handleProgressNoTarget();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [date, today]);
+
   return (
     <div
       className="cursor-pointer hover:bg-gray-300 relative shadow-md flex rounded-lg w-full bg-ds-gray min-h-[100px] max-h-28 m-1"
       onClick={() => {
+        if (moment(date).isAfter(today)) return;
         if (data.target_perday == null) {
           handleProgressNoTarget();
         } else {
@@ -134,9 +150,10 @@ const HabitItem = ({
         ) : (
           ""
         )}
-        {((typeof data.progress == "string" && data.progress == "pending") ||
-          data.progress < data.target_perday) &&
-        moment(date).isSame(today) ? (
+        {(typeof data.progress == "string" && data.progress == "pending") ||
+        (typeof data.progress == "number" &&
+          data.progress < data.target_perday &&
+          moment(date).isSameOrAfter(today)) ? (
           <button className="p-[4px] shadow border border-yellow-300 bg-yellow-300 text-white rounded-full">
             <svg
               viewBox="0 0 24 24"
@@ -157,8 +174,8 @@ const HabitItem = ({
           ""
         )}
         {(typeof data.progress == "string" && data.progress == "incompleted") ||
-        // pending temporary, doesn't look right
-        ((data.progress == "pending" || data.progress < data.target_perday) &&
+        (typeof data.progress == "number" &&
+          data.progress < data.target_perday &&
           moment(date).isBefore(today)) ? (
           <button className="p-[4px] shadow border border-red-200 bg-red-200 text-mobile-red-200 rounded-full">
             <svg

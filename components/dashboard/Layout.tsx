@@ -25,6 +25,7 @@ const LayoutDashboard = ({ user }: { user: any }) => {
   const [dateMobile, setDateMobile] = useState(date);
 
   const handleChangeDate = (date: any) => {
+    setIsOpen(false);
     dispatch(changeDate({ date: date }));
   };
 

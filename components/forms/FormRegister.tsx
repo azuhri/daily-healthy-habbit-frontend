@@ -77,7 +77,7 @@ const FormRegister = () => {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="Masukan password disini yah..."
+          placeholder="Minimum 8 Karakter"
         />
         <InputForm
           label="Konfirmasi Password"

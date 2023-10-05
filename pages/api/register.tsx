@@ -46,10 +46,32 @@ export default withSessionRoute(async function handler(req, res) {
           message: response.data.message,
         });
       } catch (error: any) {
-        const errorResponse = error.response.data;
-        res.status(400).json({
-          message: errorResponse.message,
-          status: false,
+        const { data } = error.response;
+        console.log(data);
+
+        let customMessage = data.message;
+        let statusCode = 400;
+        if (data.errors.email) {
+          customMessage = data.errors.email[0];
+        }
+
+        if (data.errors.password) {
+          customMessage = data.errors.password[0];
+        }
+
+        if (customMessage === "The email has already been taken.") {
+          customMessage = "Email sudah terdaftar";
+        }
+
+        if (
+          customMessage ===
+          "The given password has appeared in a data leak. Please choose a different password."
+        )
+          customMessage =
+            "Password lemah, gunakan angka, huruf besar, dan huruf kecil";
+
+        res.status(statusCode).json({
+          message: customMessage,
         });
       }
       break;
