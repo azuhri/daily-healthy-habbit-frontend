@@ -24,6 +24,7 @@ const HabitItem = ({
   const dispatch = useDispatch();
   const { date } = useSelector((state: any) => state.time);
   const today = moment().locale("id").startOf("day");
+  const isAfterToday = moment(date).isAfter(today);
 
   useEffect(() => {
     switch (data.color) {
@@ -102,12 +103,10 @@ const HabitItem = ({
   return (
     <div
       className={`relative bg-ds-gray shadow-md flex rounded-lg w-full ${
-        moment(date).isAfter(today)
-          ? "bg-opacity-50"
-          : "hover:bg-gray-300 cursor-pointer"
+        isAfterToday ? "bg-opacity-50" : "hover:bg-gray-300 cursor-pointer"
       } min-h-[100px] max-h-28 m-1`}
       onClick={() => {
-        if (moment(date).isAfter(today)) return;
+        if (isAfterToday) return;
         if (data.target_perday == null) {
           handleProgressNoTarget();
         } else {
@@ -115,8 +114,16 @@ const HabitItem = ({
         }
       }}
     >
-      <div className={`w-1/6 h-full ${color} rounded-l-lg bg-opacity-50`} />
-      <div className="w-4/6 h-full text-black text-gray-600 px-3 flex justify-center flex-col opacity-50">
+      <div
+        className={`w-1/6 h-full ${color} rounded-l-lg ${
+          isAfterToday && "bg-opacity-50"
+        }`}
+      />
+      <div
+        className={`w-4/6 h-full text-black text-gray-600 px-3 flex justify-center flex-col ${
+          isAfterToday && "opacity-50"
+        }`}
+      >
         <h1 className="font-bold">{data.name}</h1>
         <div className="flex space-x-2 text-xs">
           <p className="text-xs font-light">• {data.start_time} </p>
@@ -195,20 +202,18 @@ const HabitItem = ({
         ) : (
           ""
         )}
-        {moment(date).isAfter(today) && (
+        {isAfterToday && (
           <div className="p-[4px] shadow border border-gray-200 bg-gray-200 text-gray-200 rounded-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              fill="none"
               viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="black"
-              className="w-6 h-6 opacity-100"
+              fill="gray"
+              className="w-6 h-6"
             >
               <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
+                fill-rule="evenodd"
+                d="M12 1.5a5.25 5.25 0 00-5.25 5.25v3a3 3 0 00-3 3v6.75a3 3 0 003 3h10.5a3 3 0 003-3v-6.75a3 3 0 00-3-3v-3c0-2.9-2.35-5.25-5.25-5.25zm3.75 8.25v-3a3.75 3.75 0 10-7.5 0v3h7.5z"
+                clip-rule="evenodd"
               />
             </svg>
           </div>
