@@ -73,14 +73,14 @@ const HabitItem = ({
         await axios.post(url, { status_progress: "incompleted" }, config);
         break;
       case "pending":
-        await axios.post(url, { status_progress: "completed" }, config);
+        moment(date).isBefore(today)
+          ? await axios.post(url, { status_progress: "incompleted" }, config)
+          : await axios.post(url, { status_progress: "completed" }, config);
         break;
       case "incompleted":
-        if (moment(date).isBefore(today)) {
-          await axios.post(url, { status_progress: "completed" }, config);
-        } else {
-          await axios.post(url, { status_progress: "pending" }, config);
-        }
+        moment(date).isBefore(today)
+          ? await axios.post(url, { status_progress: "completed" }, config)
+          : await axios.post(url, { status_progress: "pending" }, config);
         break;
     }
     const response = await axios.get(`${API}/api/v2/user?date=${date}`, config);
