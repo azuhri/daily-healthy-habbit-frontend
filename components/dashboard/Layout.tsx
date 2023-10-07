@@ -107,7 +107,7 @@ const LayoutDashboard = ({ user }: { user: any }) => {
         key={index}
         onClick={changeDateMobileView}
         data-button={val.data}
-        className="flex flex-col justify-center items-center mr-3"
+        className="flex flex-col justify-center items-center mr-3 py-2"
       >
         <p className="text-xs text-gray-500 text-semibold my-1 text-center">
           {val.day}
@@ -117,6 +117,8 @@ const LayoutDashboard = ({ user }: { user: any }) => {
             val.data == date
               ? "bg-ds-cyan20 text-white"
               : "bg-transparent text-gray-600 hover:bg-gray-300"
+          } ${
+            val.date == moment().locale("id").format("DD") && "ring-1"
           } rounded-full`}
         >
           {val.date}
@@ -128,7 +130,7 @@ const LayoutDashboard = ({ user }: { user: any }) => {
   useEffect(() => {
     generateListDate();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [date]);
+  }, []);
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -140,7 +142,7 @@ const LayoutDashboard = ({ user }: { user: any }) => {
       const scrollPosition = (scrollWidth - containerWidth) / 2;
       container.scrollLeft = scrollPosition;
     }
-  }, [mobileListDate]);
+  }, [listDates]);
 
   return (
     <>
