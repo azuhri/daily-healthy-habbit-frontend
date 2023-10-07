@@ -61,7 +61,7 @@ const HabitForm = ({ user }: { user: any }) => {
           description: "",
           start_time: null,
           type: "daily",
-          target_perday: null,
+          target_perday: 1,
           priority: 0,
           color: 0,
           start_date: date,
