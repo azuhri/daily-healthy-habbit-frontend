@@ -53,7 +53,7 @@ const HabitForm = ({ user }: { user: any }) => {
             : [],
           interval_day: filteredHabits[sidebar.index].interval_day
             ? filteredHabits[sidebar.index].interval_day
-            : 1,
+            : null,
         }
       : {
           id: null,
@@ -61,8 +61,8 @@ const HabitForm = ({ user }: { user: any }) => {
           description: "",
           start_time: null,
           type: "daily",
-          target_perday: 1,
-          priority: 1,
+          target_perday: null,
+          priority: 0,
           color: 0,
           start_date: date,
           list_days: [],
@@ -95,7 +95,7 @@ const HabitForm = ({ user }: { user: any }) => {
                 .split(",")
                 .map((item: any) => parseInt(item))
             : [],
-          interval_day: filteredHabits[sidebar.index].interval_day
+          interval_day: filteredHabits[sidebar.index].interval_day,
         })
       : setInputValue({
           id: null,
@@ -104,12 +104,12 @@ const HabitForm = ({ user }: { user: any }) => {
           start_time: null,
           type: "daily",
           target_perday: 1,
-          priority: 1,
+          priority: 0,
           color: 6,
           start_date: date,
           list_days: [],
           list_dates: [],
-          interval_day: 1,
+          interval_day: null,
         });
     setIsOpen({ ...isOpen, timePicker: false, colorPicker: false });
 
@@ -123,21 +123,21 @@ const HabitForm = ({ user }: { user: any }) => {
           ...inputValue,
           list_days: [],
           list_dates: [],
-          interval_day: 1
+          interval_day: 1,
         });
         break;
       case "weekly":
         setInputValue({
           ...inputValue,
           list_dates: [],
-          interval_day: 1
+          interval_day: 1,
         });
         break;
       case "monthly":
         setInputValue({
           ...inputValue,
           list_days: [],
-          interval_day: 1
+          interval_day: 1,
         });
         break;
       case "interval_day":
@@ -234,7 +234,7 @@ const HabitForm = ({ user }: { user: any }) => {
           start_time: null,
           type: "daily",
           target_perday: 1,
-          priority: 1,
+          priority: 0,
           color: 6,
           start_date: date,
           list_days: [],
@@ -333,7 +333,7 @@ const HabitForm = ({ user }: { user: any }) => {
   }
 
   const monthSelector = [];
-  for (let i = 1; i <= 30; i++) {
+  for (let i = 1; i <= 31; i++) {
     monthSelector.push(
       <button
         type="button"
@@ -580,17 +580,19 @@ const HabitForm = ({ user }: { user: any }) => {
             </div>
           )}
           {inputValue.type === "interval_day" && (
-            <div className="flex justify-center gap-2">
+            <div className="flex justify-center items-center gap-2">
               <p>Setiap</p>
               <input
                 required
                 type="text"
-                className="border-0 border-b-2 border-gray-300 px-1 my-1 focus:outline-none focus:ring-0 focus:border-primary-100 placeholder-gray-300"
-                placeholder="Jawaban Anda (Maksimum 25 Karakter)"
-                value={inputValue.name}
+                className="text-center w-8 h-6 border-0 border-b-2 border-gray-300 px-1 my-1 focus:outline-none focus:ring-0 focus:border-primary-100 placeholder-gray-300"
+                placeholder="00"
+                value={inputValue.interval_day}
                 onChange={(e) =>
-                  e.target.value.length < 25 &&
-                  setInputValue({ ...inputValue, name: e.target.value })
+                  e.target.value.length <= 2 &&
+                  // Make sure that the target value is a number but also allows empty input
+                  (e.target.value === "" || !isNaN(parseInt(e.target.value))) &&
+                  setInputValue({ ...inputValue, interval_day: e.target.value })
                 }
               />
               <p>Hari</p>

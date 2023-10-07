@@ -63,7 +63,7 @@ const LayoutDashboard = ({ user }: { user: any }) => {
       date: "",
     };
 
-    for (let i = 14; i > 0; i--) {
+    for (let i = 15; i > 0; i--) {
       const tempDate = {
         data: "",
         day: "",
@@ -82,7 +82,7 @@ const LayoutDashboard = ({ user }: { user: any }) => {
     tempDateToday.data = today.format("YYYY-MM-DD");
     data.push(tempDateToday);
 
-    for (let i = 1; i < 14; i++) {
+    for (let i = 1; i < 15; i++) {
       const tempDate = {
         data: "",
         day: "",
