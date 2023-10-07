@@ -51,6 +51,9 @@ const HabitForm = ({ user }: { user: any }) => {
                 .split(",")
                 .map((item: any) => parseInt(item))
             : [],
+          interval_day: filteredHabits[sidebar.index].interval_day
+            ? filteredHabits[sidebar.index].interval_day
+            : 1,
         }
       : {
           id: null,
@@ -64,6 +67,7 @@ const HabitForm = ({ user }: { user: any }) => {
           start_date: date,
           list_days: [],
           list_dates: [],
+          interval_day: 1,
         }
   );
 
@@ -91,6 +95,7 @@ const HabitForm = ({ user }: { user: any }) => {
                 .split(",")
                 .map((item: any) => parseInt(item))
             : [],
+          interval_day: filteredHabits[sidebar.index].interval_day
         })
       : setInputValue({
           id: null,
@@ -104,6 +109,7 @@ const HabitForm = ({ user }: { user: any }) => {
           start_date: date,
           list_days: [],
           list_dates: [],
+          interval_day: 1,
         });
     setIsOpen({ ...isOpen, timePicker: false, colorPicker: false });
 
@@ -117,18 +123,28 @@ const HabitForm = ({ user }: { user: any }) => {
           ...inputValue,
           list_days: [],
           list_dates: [],
+          interval_day: 1
         });
         break;
       case "weekly":
         setInputValue({
           ...inputValue,
           list_dates: [],
+          interval_day: 1
         });
         break;
       case "monthly":
         setInputValue({
           ...inputValue,
           list_days: [],
+          interval_day: 1
+        });
+        break;
+      case "interval_day":
+        setInputValue({
+          ...inputValue,
+          list_days: [],
+          list_dates: [],
         });
         break;
     }
@@ -223,6 +239,7 @@ const HabitForm = ({ user }: { user: any }) => {
           start_date: date,
           list_days: [],
           list_dates: [],
+          interval_day: 1,
         });
         const response4 = await axios.get(
           `${API}/api/v2/user?date=${date}`,
@@ -543,7 +560,7 @@ const HabitForm = ({ user }: { user: any }) => {
           </option>
           <option value="weekly">Per Minggu</option>
           <option value="monthly">Per Bulan</option>
-          {/* <option value="interval_day">Interval</option> */}
+          <option value="interval_day">Interval</option>
         </select>
       </div>
       <div
@@ -562,7 +579,7 @@ const HabitForm = ({ user }: { user: any }) => {
               {monthSelector}
             </div>
           )}
-          {/* {inputValue.type === "interval_day" && (
+          {inputValue.type === "interval_day" && (
             <div className="flex justify-center gap-2">
               <p>Setiap</p>
               <input
@@ -578,7 +595,7 @@ const HabitForm = ({ user }: { user: any }) => {
               />
               <p>Hari</p>
             </div>
-          )} */}
+          )}
         </div>
       </div>
       {sidebar.type === "create" && (

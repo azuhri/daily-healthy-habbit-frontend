@@ -6,7 +6,17 @@ import type {
   GetStaticProps,
   GetServerSideProps,
 } from "next";
-import { useState, useEffect, useMemo, useRef } from "react";
+import {
+  useState,
+  useEffect,
+  useMemo,
+  useRef,
+  JSX,
+  JSXElementConstructor,
+  PromiseLikeOfReactNode,
+  ReactElement,
+  ReactNode,
+} from "react";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
 import Header from "./Header";
@@ -37,34 +47,6 @@ const LayoutDashboard = ({ user }: { user: any }) => {
   const changeDateMobileView = (event: React.MouseEvent<HTMLButtonElement>) => {
     const newDate = event.currentTarget.getAttribute("data-button");
     dispatch(changeDate({ date: newDate }));
-  };
-
-  const customThemeDatepicker: CustomFlowbiteTheme["datepicker"] = {
-    views: {
-      days: {
-        items: {
-          item: {
-            selected: "bg-ds-cyan20 box-shadow text-white hover:bg-ds-cyan20",
-            disabled: "text-gray-400",
-          },
-        },
-      },
-    },
-    popup: {
-      root: {
-        base: "absolute top-10 z-50 block pt-2 right-0",
-      },
-      footer: {
-        base: "flex mt-2 space-x-2",
-        button: {
-          base: "w-full rounded-lg px-5 py-2 text-center text-sm font-medium focus:ring-4 focus:ring-cyan-300",
-          today:
-            "bg-ds-cyan20 text-white hover:bg-ds-cyan20 dark:bg-ds-cyan20 dark:hover:bg-ds-cyan20",
-          clear:
-            "border border-gray-500 bg-white text-gray-900 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600",
-        },
-      },
-    },
   };
 
   const [listDates, setListDates] = useState<
@@ -100,7 +82,7 @@ const LayoutDashboard = ({ user }: { user: any }) => {
     tempDateToday.data = today.format("YYYY-MM-DD");
     data.push(tempDateToday);
 
-    for (let i = 1; i < 13; i++) {
+    for (let i = 1; i < 14; i++) {
       const tempDate = {
         data: "",
         day: "",
@@ -118,10 +100,47 @@ const LayoutDashboard = ({ user }: { user: any }) => {
     setListDates(data);
   };
 
+  const mobileListDate: any = [];
+  listDates.map((val, index) => {
+    mobileListDate.push(
+      <button
+        key={index}
+        onClick={changeDateMobileView}
+        data-button={val.data}
+        className="flex flex-col justify-center items-center mr-3"
+      >
+        <p className="text-xs text-gray-500 text-semibold my-1 text-center">
+          {val.day}
+        </p>
+        <p
+          className={`text-md text-semibold text-center flex justify-center items-center w-[35px] h-[35px]  ${
+            val.data == date
+              ? "bg-ds-cyan20 text-white"
+              : "bg-transparent text-gray-600 hover:bg-gray-300"
+          } rounded-full`}
+        >
+          {val.date}
+        </p>
+      </button>
+    );
+  });
+
   useEffect(() => {
     generateListDate();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date]);
+
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      const container = scrollContainerRef.current;
+      const containerWidth = container.offsetWidth;
+      const scrollWidth = container.scrollWidth;
+      const scrollPosition = (scrollWidth - containerWidth) / 2;
+      container.scrollLeft = scrollPosition;
+    }
+  }, [mobileListDate]);
 
   return (
     <>
@@ -166,31 +185,11 @@ const LayoutDashboard = ({ user }: { user: any }) => {
         {/* Mobile View */}
         <div className="flex pt-8 text-bold flex flex-col text-gray-600 block md:hidden">
           <h1 className="text-2xl font-bold">Halo, {user.name}!</h1>
-          <div className="overflow-x-scroll my-2">
-            <div className="min-w-[75%] flex flex-start">
-              {listDates.map((val: any, index: any) => (
-                // Call HabitItem component and parse in index as props too
-                <button
-                  key={index}
-                  onClick={changeDateMobileView}
-                  data-button={val.data}
-                  className="flex flex-col justify-center items-center mr-3"
-                >
-                  <p className="text-xs text-gray-500 text-semibold my-1 text-center">
-                    {val.day}
-                  </p>
-                  <p
-                    className={`text-md text-semibold text-center flex justify-center items-center w-[35px] h-[35px]  ${
-                      val.data == date
-                        ? "bg-ds-cyan20 text-white"
-                        : "bg-transparent text-gray-600 hover:bg-gray-300"
-                    } rounded-full`}
-                  >
-                    {val.date}
-                  </p>
-                </button>
-              ))}
-            </div>
+          <div
+            className="overflow-x-scroll my-2 min-w-screen"
+            ref={scrollContainerRef}
+          >
+            <div className="min-w-[75%] flex flex-start">{mobileListDate}</div>
           </div>
           <span className="mt-2 text-xs">
             Berikut daftar Habit pada Hari{" "}
