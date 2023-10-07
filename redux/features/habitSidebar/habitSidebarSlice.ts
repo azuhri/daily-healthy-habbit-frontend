@@ -13,7 +13,7 @@ interface SidebarState {
 const initialState: SidebarState = {
   isOpen: false,
   type: "",
-  index: -1,
+  index: 0,
 };
 
 export const sidebarSlice = createSlice({
