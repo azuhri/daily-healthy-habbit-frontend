@@ -16,6 +16,9 @@ import { useAppDispatch } from "@/redux/store";
 import { closeSidebar } from "@/redux/features/habitSidebar/habitSidebarSlice";
 import { setHabits } from "@/redux/features/habits/habitsSlice";
 import DashboardModal from "@/components/dashboard/DashboardModal";
+import { useEffect } from "react";
+import { requestPermission } from "../../utils/firebase";
+
 
 const DashboardPage = ({ user }: { user: any }) => {
   const dispatch = useAppDispatch();
@@ -69,6 +72,19 @@ const DashboardPage = ({ user }: { user: any }) => {
       console.error("Terjadi kesalahan saat menghapus habit:", error);
     }
   };
+
+  useEffect(() => {
+    async function setToken() {
+      try {
+        const deviceToken = await requestPermission();
+ 
+      } catch (error) {
+        console.error("Error setting token:", error);
+      }
+    }
+
+    setToken();
+  }, [])
 
   return (
     <>
