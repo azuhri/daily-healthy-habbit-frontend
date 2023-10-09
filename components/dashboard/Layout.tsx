@@ -1,22 +1,7 @@
 import { useSelector } from "react-redux";
 import { DatePicker } from "@mui/x-date-pickers";
 import "moment/locale/id";
-import type {
-  InferGetServerSidePropsType,
-  GetStaticProps,
-  GetServerSideProps,
-} from "next";
-import {
-  useState,
-  useEffect,
-  useMemo,
-  useRef,
-  JSX,
-  JSXElementConstructor,
-  PromiseLikeOfReactNode,
-  ReactElement,
-  ReactNode,
-} from "react";
+import { useState, useEffect, useRef } from "react";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
 import Header from "./Header";
@@ -26,13 +11,11 @@ import { changeDate } from "@/redux/features/time/timeStateSlice";
 import { openSidebar } from "@/redux/features/habitSidebar/habitSidebarSlice";
 import moment from "moment";
 import { useAppDispatch } from "@/redux/store";
-import type { CustomFlowbiteTheme } from "flowbite-react";
 
 const LayoutDashboard = ({ user }: { user: any }) => {
   const dispatch = useAppDispatch();
   const { date } = useSelector((state: any) => state.time);
   const momentDate = moment(date, "YYYY-MM-DD");
-  const [dateMobile, setDateMobile] = useState(date);
 
   const handleChangeDate = (date: any) => {
     setIsOpen(false);
@@ -54,7 +37,7 @@ const LayoutDashboard = ({ user }: { user: any }) => {
   >([]);
   const generateListDate = () => {
     // TOLONG REFACTOR ISI FUNCTION INI BIB
-    const today = moment(dateMobile).locale("id");
+    const today = moment(date).locale("id");
     const data: any[] = [];
 
     const tempDateToday = {

@@ -142,7 +142,7 @@ const HabitItem = ({
           isAfterToday && "opacity-50"
         }`}
       >
-        <h1 className="font-bold">{data.name}</h1>
+        <h1 className="font-bold line-clamp-1">{data.name}</h1>
         <div className="flex space-x-2 flex items-center text-xs my-1">
           <p className="text-xs font-light flex items-center">
             <svg

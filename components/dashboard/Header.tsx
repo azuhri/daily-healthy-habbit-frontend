@@ -28,7 +28,7 @@ const Header = ({ user }: any) => {
         </Link>
       </div>
 
-      <form className="col-span-3 md:col-span-4 mx-2 flex items-center rounded justify-center relative">
+      <form className="col-span-5 md:col-span-5 mx-2 flex items-center rounded justify-center relative">
         <Image
           src="/icons/carbon-search.svg"
           alt="Search Icon"
@@ -40,12 +40,12 @@ const Header = ({ user }: any) => {
           type="text"
           onChange={(e) => dispatch(filterHabits(e.target.value))}
           className="w-full px-4 my-2 text-black text-xs outline-none text-gray-500 shadow rounded-lg p-3 pl-8"
-          placeholder="Cari habit mu disini..."
+          placeholder="Cari habitmu disini..."
         />
       </form>
 
-      <div className="col-span-3 md:col-span-2 flex space-x-5 justify-end">
-        <button>
+      <div className="col-span-1 flex space-x-5 justify-end">
+        {/* <button>
           <Image
             src="/icons/question.svg"
             alt="Question Icon"
@@ -61,7 +61,7 @@ const Header = ({ user }: any) => {
             height={20}
           />
         </button>
-        <div className="border min-h-10 border-black" />
+        <div className="border min-h-10 border-black" /> */}
         <div className="group relative text-black">
           <button className="flex items-center space-x-2">
             <span className="flex">
