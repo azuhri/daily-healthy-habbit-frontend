@@ -59,6 +59,12 @@ const config: Config = {
             "50": "#77B8F5",
             "100": "#2D92F0",
           },
+          label: {
+            "interval_day": "#BFE0FF",
+            "daily": "#FCC5C2",
+            "weekly": "#FCC2FC",
+            "monthly": "#C8BFFF",
+          } 
         },
         mobile: {
           green: {
