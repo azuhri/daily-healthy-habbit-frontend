@@ -29,30 +29,27 @@ const HabitItem = ({
   useEffect(() => {
     switch (data.color) {
       case 0:
-        setColor("bg-[#E17055]");
+        setColor("bg-[#60a588]");
         break;
       case 1:
         setColor("bg-[#8373a0]");
         break;
       case 2:
-        setColor("bg-[#46aab9]");
-        break;
-      case 3:
-        setColor("bg-[#60a588]");
-        break;
-      case 4:
-        setColor("bg-[#d58734]");
-        break;
-      case 5:
-        setColor("bg-[#a5647c]");
-        break;
-      case 6:
-        setColor("bg-[#4d9b9d]");
-        break;
-      case 7:
         setColor("bg-[#5686aa]");
         break;
-      default:
+      case 3:
+        setColor("bg-[#a5647c]");
+        break;
+      case 4:
+        setColor("bg-[#4d9b9d]");
+        break;
+      case 5:
+        setColor("bg-[#d58734]");
+        break;
+      case 6:
+        setColor("bg-[#46aab9]");
+        break;
+      case 7:
         setColor("bg-[#E17055]");
         break;
     }
