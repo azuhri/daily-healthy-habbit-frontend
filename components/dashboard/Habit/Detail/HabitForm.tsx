@@ -199,6 +199,13 @@ const HabitForm = ({ user }: { user: any }) => {
           if (!inputValue.start_time) throw new Error("Pengingat belum diisi");
           if (habits.some((habit: any) => habit.name === inputValue.name))
             throw new Error("Nama habit sudah ada");
+          if (
+            inputValue.type != "daily" &&
+            inputValue.list_days.length < 1 &&
+            inputValue.list_dates.length < 1 &&
+            (inputValue.interval_day < 1 || inputValue.type != "interval_day")
+          )
+            throw new Error("Frekuensi belum diisi");
 
           response = await axios.post(`${API}/api/v2/habbit`, data, config);
           break;
@@ -213,6 +220,14 @@ const HabitForm = ({ user }: { user: any }) => {
             habits[sidebar.index].name !== inputValue.name
           )
             throw new Error("Nama habit sudah ada");
+          if (
+            inputValue.type != "daily" &&
+            inputValue.list_days.length < 1 &&
+            inputValue.list_dates.length < 1 &&
+            (inputValue.interval_day < 1 || inputValue.type != "interval_day")
+          )
+            throw new Error("Frekuensi belum diisi");
+
           const dataEdit = {
             ...data,
             // TEMPORARY FIX NANTI DIHAPUS
@@ -423,7 +438,7 @@ const HabitForm = ({ user }: { user: any }) => {
             >
               <p className="text-primary-100">Target</p>
               <div className="h-full bg-primary-100 rounded-lg px-2 text-white group-hover:bg-primary-hover">
-                {inputValue.target_perday}
+                {inputValue.target_perday || "Kosong"}
               </div>
             </button>
             <div className="absolute right-0 invisible w-full transition-all opacity-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-1 z-20">
@@ -445,9 +460,21 @@ const HabitForm = ({ user }: { user: any }) => {
                   >
                     -
                   </button>
-                  <div className="rounded-lg px-2 text-black">
-                    {inputValue.target_perday}
-                  </div>
+                  <input
+                    type="text"
+                    className="text-center w-8 h-4 border-0 border-b-2 border-gray-300 px-1 my-1 focus:outline-none focus:ring-0 focus:border-primary-100 placeholder-gray-300"
+                    placeholder="00"
+                    value={inputValue.target_perday}
+                    onChange={(e) =>
+                      e.target.value.length <= 2 &&
+                      (e.target.value === "" ||
+                        !isNaN(parseInt(e.target.value))) &&
+                      setInputValue({
+                        ...inputValue,
+                        target_perday: e.target.value,
+                      })
+                    }
+                  />
                   <button
                     type="button"
                     className="bg-primary-100 rounded-lg px-2 text-white"
@@ -628,7 +655,6 @@ const HabitForm = ({ user }: { user: any }) => {
             <div className="flex justify-center items-center gap-2">
               <p>Setiap</p>
               <input
-                required
                 type="text"
                 className="text-center w-8 h-6 border-0 border-b-2 border-gray-300 px-1 my-1 focus:outline-none focus:ring-0 focus:border-primary-100 placeholder-gray-300"
                 placeholder="00"
