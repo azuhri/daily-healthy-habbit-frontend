@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import moment from "moment";
 import axios from "axios";
 import $ from "jquery";
+import Image from "next/image";
 
 import { useAppDispatch } from "@/redux/store";
 import { closeSidebar } from "@/redux/features/habitSidebar/habitSidebarSlice";
@@ -24,8 +25,19 @@ const HabitForm = ({ user }: { user: any }) => {
   const [responseMessage, setResponseMessage] = useState("");
   const [isOpen, setIsOpen] = useState({
     timePicker: false,
-    colorPicker: false,
+    categoryPicker: false,
   });
+
+  let category = [
+    ["bg-[#60a588]", "Keagamaan", "/icons/kategori_keagamaan.svg"],
+    ["bg-[#8373a0]", "Belajar", "/icons/kategori_belajar.png"],
+    ["bg-[#5686aa]", "Liburan", "/icons/kategori_liburan.svg"],
+    ["bg-[#a5647c]", "Sosial", "/icons/kategori_sosial.svg"],
+    ["bg-[#4d9b9d]", "Hiburan", "/icons/kategori_hiburan.svg"],
+    ["bg-[#d58734]", "Manajemen", "/icons/kategori_manajemen.svg"],
+    ["bg-[#46aab9]", "Olahraga", "/icons/kategori_olahraga.svg"],
+    ["bg-[#E17055]", "Lainnya", "/icons/kategori_lainnya.svg"],
+  ];
 
   const [inputValue, setInputValue] = useState(
     filteredHabits[sidebar.index]
@@ -53,7 +65,7 @@ const HabitForm = ({ user }: { user: any }) => {
             : [],
           interval_day: filteredHabits[sidebar.index].interval_day
             ? filteredHabits[sidebar.index].interval_day
-            : null,
+            : 1,
         }
       : {
           id: null,
@@ -105,13 +117,13 @@ const HabitForm = ({ user }: { user: any }) => {
           type: "daily",
           target_perday: 1,
           priority: 0,
-          color: 6,
+          color: 0,
           start_date: date,
           list_days: [],
           list_dates: [],
-          interval_day: null,
+          interval_day: 1,
         });
-    setIsOpen({ ...isOpen, timePicker: false, colorPicker: false });
+    setIsOpen({ ...isOpen, timePicker: false, categoryPicker: false });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filteredHabits[sidebar.index], sidebar.isOpen]);
@@ -187,6 +199,13 @@ const HabitForm = ({ user }: { user: any }) => {
           if (!inputValue.start_time) throw new Error("Pengingat belum diisi");
           if (habits.some((habit: any) => habit.name === inputValue.name))
             throw new Error("Nama habit sudah ada");
+          if (
+            inputValue.type != "daily" &&
+            inputValue.list_days.length < 1 &&
+            inputValue.list_dates.length < 1 &&
+            (inputValue.interval_day < 1 || inputValue.type != "interval_day")
+          )
+            throw new Error("Frekuensi belum diisi");
 
           response = await axios.post(`${API}/api/v2/habbit`, data, config);
           break;
@@ -201,6 +220,14 @@ const HabitForm = ({ user }: { user: any }) => {
             habits[sidebar.index].name !== inputValue.name
           )
             throw new Error("Nama habit sudah ada");
+          if (
+            inputValue.type != "daily" &&
+            inputValue.list_days.length < 1 &&
+            inputValue.list_dates.length < 1 &&
+            (inputValue.interval_day < 1 || inputValue.type != "interval_day")
+          )
+            throw new Error("Frekuensi belum diisi");
+
           const dataEdit = {
             ...data,
             // TEMPORARY FIX NANTI DIHAPUS
@@ -263,36 +290,38 @@ const HabitForm = ({ user }: { user: any }) => {
     }
   };
 
-  const colorSelector = [];
+  const categorySelector = [];
   for (let i = 0; i < 8; i++) {
-    let color = [
-      "bg-[#E17055]",
-      "bg-[#8373a0]",
-      "bg-[#46aab9]",
-      "bg-[#60a588]",
-      "bg-[#d58734]",
-      "bg-[#a5647c]",
-      "bg-[#4d9b9d]",
-      "bg-[#5686aa]",
-    ];
-    colorSelector.push(
-      <button
-        type="button"
-        key={i}
-        className={
-          `rounded-lg text-black h-full px-2 ${
+    categorySelector.push(
+      <div className="my-1">
+        <button
+          type="button"
+          key={i}
+          className={`rounded-lg text-black h-full px-2 w-full ${
             inputValue.color == i && "ring-4"
-          } ` + color[i]
-        }
-        onClick={() =>
-          setInputValue({
-            ...inputValue,
-            color: i,
-          })
-        }
-      >
-        <p className="invisible">0</p>
-      </button>
+          } bg-gray-100 hover:bg-gray-300`}
+          onClick={() =>
+            setInputValue({
+              ...inputValue,
+              color: i,
+            })
+          }
+        >
+          <div className="flex justify-between px-4 items-center">
+            <p>{category[i][1]}</p>
+            <div
+              className={`${category[i][0]} h-[70%] px-1 flex flex-col justify-center py-1 my-1 rounded`}
+            >
+              <Image
+                src={category[i][2]}
+                alt="Icon category"
+                width={24}
+                height={24}
+              />
+            </div>
+          </div>
+        </button>
+      </div>
     );
   }
 
@@ -368,11 +397,6 @@ const HabitForm = ({ user }: { user: any }) => {
 
   return (
     <form className="pt-8" onSubmit={handleSubmit}>
-      <div
-        id="responseMessage"
-        style={displayNone}
-        className="border-red-500 text-red-400 bg-red-200 mb-2 text-center p-3 border rounded-lg font-bold"
-      />
       <div className="bg-white w-full rounded-lg py-2 px-3">
         <p className="text-primary-100">Nama Habit</p>
         <input
@@ -414,7 +438,7 @@ const HabitForm = ({ user }: { user: any }) => {
             >
               <p className="text-primary-100">Target</p>
               <div className="h-full bg-primary-100 rounded-lg px-2 text-white group-hover:bg-primary-hover">
-                {inputValue.target_perday}
+                {inputValue.target_perday || "Kosong"}
               </div>
             </button>
             <div className="absolute right-0 invisible w-full transition-all opacity-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-1 z-20">
@@ -436,9 +460,21 @@ const HabitForm = ({ user }: { user: any }) => {
                   >
                     -
                   </button>
-                  <div className="rounded-lg px-2 text-black">
-                    {inputValue.target_perday}
-                  </div>
+                  <input
+                    type="text"
+                    className="text-center w-8 h-4 border-0 border-b-2 border-gray-300 px-1 my-1 focus:outline-none focus:ring-0 focus:border-primary-100 placeholder-gray-300"
+                    placeholder="00"
+                    value={inputValue.target_perday}
+                    onChange={(e) =>
+                      e.target.value.length <= 2 &&
+                      (e.target.value === "" ||
+                        !isNaN(parseInt(e.target.value))) &&
+                      setInputValue({
+                        ...inputValue,
+                        target_perday: e.target.value,
+                      })
+                    }
+                  />
                   <button
                     type="button"
                     className="bg-primary-100 rounded-lg px-2 text-white"
@@ -480,7 +516,7 @@ const HabitForm = ({ user }: { user: any }) => {
                   type="button"
                   className="ring-1 ring-primary-100 rounded-lg px-2 text-black"
                   onClick={() => {
-                    if (inputValue.priority > 1)
+                    if (inputValue.priority > 0)
                       setInputValue({
                         ...inputValue,
                         priority: inputValue.priority - 1,
@@ -513,6 +549,7 @@ const HabitForm = ({ user }: { user: any }) => {
           </div>
         </div>
       </div>
+
       <div
         className="cursor-pointer text-primary-100 group flex justify-between w-full bg-white rounded-lg py-2 px-3 my-2"
         onClick={() => setIsOpen({ ...isOpen, timePicker: !isOpen.timePicker })}
@@ -539,12 +576,38 @@ const HabitForm = ({ user }: { user: any }) => {
           }}
         />
       </div>
-      <div className="group relative text-black">
-        <div className="group flex justify-between w-full bg-white rounded-lg py-2 px-3">
-          <p className="text-primary-100">Warna</p>
-          {colorSelector}
+
+      <div
+        className="group flex justify-between w-full bg-white rounded-lg py-2 px-3 items-center cursor-pointer"
+        onClick={() =>
+          setIsOpen({ ...isOpen, categoryPicker: !isOpen.categoryPicker })
+        }
+      >
+        <p className="text-primary-100">Kategori</p>
+        <div className="bg-ds-gray rounded lg flex justify-between px-2 items-center gap-2 h-6 group-hover:bg-gray-300">
+          <p className="text-xs">{category[inputValue.color][1]}</p>
+          <div
+            className={`${
+              category[inputValue.color][0]
+            } h-[70%] px-1 flex flex-col justify-center py-1 my-1 rounded`}
+          >
+            <Image
+              src={category[inputValue.color][2]}
+              alt="Icon category"
+              width={12}
+              height={12}
+            />
+          </div>
         </div>
       </div>
+      <div
+        className={`w-full transition-all duration-300 ease-in-out ${
+          isOpen.categoryPicker ? "h-72 my-2 py-6 px-12" : "h-0 invisible"
+        } overflow-hidden bg-white grid grid-cols-2 rounded-lg gap-2`}
+      >
+        {categorySelector}
+      </div>
+
       <div className="text-primary-100 group flex justify-between items-center w-full bg-white rounded-lg py-2 px-3 my-2">
         <p>Frekuensi</p>
         <select
@@ -565,8 +628,17 @@ const HabitForm = ({ user }: { user: any }) => {
       </div>
       <div
         className={`w-full transition-all duration-300 ease-in-out ${
-          inputValue.type != "daily" ? "max-h-screen my-2" : "max-h-0 invisible"
-        } overflow-hidden`}
+          inputValue.type != "daily"
+            ? "max-h-screen my-2"
+            : "max-h-0 invisible h-12"
+        }
+          ${
+            (inputValue.type === "interval_day" ||
+              inputValue.type === "weekly") &&
+            "h-12"
+          } 
+          ${inputValue.type === "monthly" && "h-52"}
+          overflow-hidden`}
       >
         <div className="w-full bg-white rounded-lg py-2 px-3">
           {inputValue.type === "weekly" && (
@@ -583,7 +655,6 @@ const HabitForm = ({ user }: { user: any }) => {
             <div className="flex justify-center items-center gap-2">
               <p>Setiap</p>
               <input
-                required
                 type="text"
                 className="text-center w-8 h-6 border-0 border-b-2 border-gray-300 px-1 my-1 focus:outline-none focus:ring-0 focus:border-primary-100 placeholder-gray-300"
                 placeholder="00"
@@ -600,6 +671,13 @@ const HabitForm = ({ user }: { user: any }) => {
           )}
         </div>
       </div>
+
+      <div
+        id="responseMessage"
+        style={displayNone}
+        className="border-red-500 text-red-400 bg-red-200 mb-2 text-center p-3 border rounded-lg font-bold"
+      />
+
       {sidebar.type === "create" && (
         <div className="w-full flex justify-center mt-8 mb-4">
           <button
