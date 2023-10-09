@@ -121,7 +121,7 @@ const HabitForm = ({ user }: { user: any }) => {
           start_date: date,
           list_days: [],
           list_dates: [],
-          interval_day: null,
+          interval_day: 1,
         });
     setIsOpen({ ...isOpen, timePicker: false, categoryPicker: false });
 
