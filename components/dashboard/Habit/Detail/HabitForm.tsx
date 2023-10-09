@@ -503,7 +503,7 @@ const HabitForm = ({ user }: { user: any }) => {
           >
             <p className="text-primary-100">Prioritas</p>
             <div className="h-full bg-primary-100 rounded-lg px-2 text-white group-hover:bg-primary-hover">
-              {inputValue.priority}
+              {inputValue.priority || "Kosong"}
             </div>
           </button>
           <div className="absolute right-0 invisible w-full transition-all opacity-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-1 z-20">
@@ -525,9 +525,21 @@ const HabitForm = ({ user }: { user: any }) => {
                 >
                   -
                 </button>
-                <div className="rounded-lg px-2 text-black">
-                  {inputValue.priority}
-                </div>
+                <input
+                  type="text"
+                  className="text-center w-8 h-4 border-0 border-b-2 border-gray-300 px-1 my-1 focus:outline-none focus:ring-0 focus:border-primary-100 placeholder-gray-300"
+                  placeholder="00"
+                  value={inputValue.priority}
+                  onChange={(e) =>
+                    e.target.value.length <= 2 &&
+                    (e.target.value === "" ||
+                      !isNaN(parseInt(e.target.value))) &&
+                    setInputValue({
+                      ...inputValue,
+                      priority: e.target.value,
+                    })
+                  }
+                />
                 <button
                   type="button"
                   className="bg-primary-100 rounded-lg px-2 text-white"
