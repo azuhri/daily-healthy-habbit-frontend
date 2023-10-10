@@ -7,7 +7,10 @@ import $ from "jquery";
 import Image from "next/image";
 
 import { useAppDispatch } from "@/redux/store";
-import { closeSidebar } from "@/redux/features/habitSidebar/habitSidebarSlice";
+import {
+  closeSidebar,
+  openSidebar,
+} from "@/redux/features/habitSidebar/habitSidebarSlice";
 import { setHabits } from "@/redux/features/habits/habitsSlice";
 import { openModal } from "@/redux/features/modal/modalSlice";
 
@@ -113,16 +116,45 @@ const HabitForm = ({ user }: { user: any }) => {
       : setInputValue(defaultInputValue);
     setIsOpen({ ...isOpen, timePicker: false, categoryPicker: false });
 
+    if (!filteredHabits[sidebar.index] && sidebar.type === "edit") {
+      dispatch(closeSidebar());
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filteredHabits[sidebar.index], sidebar.isOpen]);
 
   useEffect(() => {
-    setInputValue({
-      ...inputValue,
-      list_days: [],
-      list_dates: [],
-      interval_day: 1,
-    });
+    switch (inputValue.type) {
+      case "daily":
+        setInputValue({
+          ...inputValue,
+          list_days: [],
+          list_dates: [],
+          interval_day: 1,
+        });
+        break;
+      case "weekly":
+        setInputValue({
+          ...inputValue,
+          list_dates: [],
+          interval_day: 1,
+        });
+        break;
+      case "monthly":
+        setInputValue({
+          ...inputValue,
+          list_days: [],
+          interval_day: 1,
+        });
+        break;
+      case "interval_day":
+        setInputValue({
+          ...inputValue,
+          list_days: [],
+          list_dates: [],
+        });
+        break;
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputValue.type]);
 
@@ -164,29 +196,27 @@ const HabitForm = ({ user }: { user: any }) => {
   };
 
   const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
     try {
-      e.preventDefault();
       const API =
         process.env.API || "https://staging-api-health2023.agileteknik.com";
       const access_token = `Bearer ${user.token}`;
       const config = {
         headers: {
-          Authorization: `${access_token}`,
+          Authorization: access_token,
         },
       };
 
       let response;
       const data = handleDetailParameter();
+      if (e.nativeEvent.submitter.name !== "delete") handleInvalidData();
 
       switch (e.nativeEvent.submitter.name) {
         case "create":
-          handleInvalidData();
-
           response = await axios.post(`${API}/api/v2/habbit`, data, config);
           break;
         case "edit":
-          handleInvalidData();
-
           const dataEdit = {
             ...data,
             // TEMPORARY FIX NANTI DIHAPUS

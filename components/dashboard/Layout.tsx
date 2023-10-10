@@ -17,14 +17,15 @@ const LayoutDashboard = ({ user }: { user: any }) => {
   const { date } = useSelector((state: any) => state.time);
   const momentDate = moment(date, "YYYY-MM-DD");
 
-  const handleChangeDate = (date: any) => {
-    setIsOpen(false);
-    dispatch(changeDate({ date: date }));
-  };
-
   const [isOpen, setIsOpen] = useState(false);
+
   const handleOpen = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleChangeDate = (newDate: any) => {
+    setIsOpen(false);
+    dispatch(changeDate({ date: newDate }));
   };
 
   const changeDateMobileView = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -35,80 +36,22 @@ const LayoutDashboard = ({ user }: { user: any }) => {
   const [listDates, setListDates] = useState<
     Array<{ data: string; day: string; date: string }>
   >([]);
+
   const generateListDate = () => {
-    // TOLONG REFACTOR ISI FUNCTION INI BIB
     const today = moment(date).locale("id");
     const data: any[] = [];
 
-    const tempDateToday = {
-      data: "",
-      day: "",
-      date: "",
-    };
-
-    for (let i = 15; i > 0; i--) {
+    for (let i = -15; i < 15; i++) {
       const tempDate = {
-        data: "",
-        day: "",
-        date: "",
+        data: today.clone().add(i, "days").format("YYYY-MM-DD"),
+        day: today.clone().add(i, "days").format("ddd"),
+        date: today.clone().add(i, "days").format("DD"),
       };
-
-      let timeFormat = today.clone();
-      tempDate.day = timeFormat.subtract(i, "days").format("ddd");
-      tempDate.date = timeFormat.format("DD");
-      tempDate.data = timeFormat.format("YYYY-MM-DD");
-      data.push(tempDate);
-    }
-
-    tempDateToday.day = today.format("ddd");
-    tempDateToday.date = today.format("DD");
-    tempDateToday.data = today.format("YYYY-MM-DD");
-    data.push(tempDateToday);
-
-    for (let i = 1; i < 15; i++) {
-      const tempDate = {
-        data: "",
-        day: "",
-        date: "",
-      };
-
-      let timeFormat = today.clone();
-      tempDate.day = timeFormat.add(i, "days").format("ddd");
-      tempDate.date = timeFormat.format("DD");
-      tempDate.data = timeFormat.format("YYYY-MM-DD");
-
       data.push(tempDate);
     }
 
     setListDates(data);
   };
-
-  const mobileListDate: any = [];
-  listDates.map((val, index) => {
-    mobileListDate.push(
-      <button
-        key={index}
-        onClick={changeDateMobileView}
-        data-button={val.data}
-        className="flex flex-col justify-center items-center mr-3 py-2"
-      >
-        <p className="text-xs text-gray-500 text-semibold my-1 text-center">
-          {val.day}
-        </p>
-        <p
-          className={`text-md text-semibold text-center flex justify-center items-center w-[35px] h-[35px]  ${
-            val.data == date
-              ? "bg-ds-cyan20 text-white"
-              : "bg-transparent text-gray-600 hover:bg-gray-300"
-          } ${
-            val.date == moment().locale("id").format("DD") && "ring-1"
-          } rounded-full`}
-        >
-          {val.date}
-        </p>
-      </button>
-    );
-  });
 
   useEffect(() => {
     generateListDate();
@@ -126,6 +69,30 @@ const LayoutDashboard = ({ user }: { user: any }) => {
       container.scrollLeft = scrollPosition;
     }
   }, [listDates]);
+
+  const mobileListDate = listDates.map((val, index) => (
+    <button
+      key={index}
+      onClick={changeDateMobileView}
+      data-button={val.data}
+      className="flex flex-col justify-center items-center mr-3 py-2"
+    >
+      <p className="text-xs text-gray-500 text-semibold my-1 text-center">
+        {val.day}
+      </p>
+      <p
+        className={`text-md text-semibold text-center flex justify-center items-center w-[35px] h-[35px]  ${
+          val.data === date
+            ? "bg-ds-cyan20 text-white"
+            : "bg-transparent text-gray-600 hover:bg-gray-300"
+        } ${
+          val.date === moment().locale("id").format("DD") && "ring-1"
+        } rounded-full`}
+      >
+        {val.date}
+      </p>
+    </button>
+  ));
 
   return (
     <>
