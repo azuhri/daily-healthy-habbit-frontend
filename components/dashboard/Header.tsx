@@ -92,12 +92,14 @@ const Header = ({ user }: any) => {
               </li>
               <hr />
               <li>
-                <Link
-                  href="#"
-                  className="block px-4 py-2 rounded-lg text-lg hover:bg-gray-100"
+                <div
+                  className="block px-4 py-2 rounded-lg text-lg hover:bg-gray-100 cursor-pointer"
+                  onClick={() => {
+                    dispatch(openModal({ type: "profile" }));
+                  }}
                 >
                   Profil
-                </Link>
+                </div>
               </li>
               <hr />
               <li>

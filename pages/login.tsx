@@ -81,7 +81,7 @@ export default function LoginPage({ API }: any) {
             Daily <span className="text-ds-tosca-100">Healthy</span> Habit
           </p>
         </Link>
-        <p className="w-full text-4xl font-bold text-ds-tosca-100 mt-24">
+        <p className="w-full text-4xl font-bold text-ds-tosca-100 mt-32">
           Masuk
         </p>
         <p className="w-full font-normal text-md text-gray-500">
