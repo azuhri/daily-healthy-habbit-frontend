@@ -8,7 +8,10 @@ const HabitSidebar = ({ user }: { user: any }) => {
   const sidebar = useSelector((state: any) => state.sidebar);
 
   return (
-    <div className="w-screen">
+    <div
+      className={`fixed flex justify-center items-center top-0 left-0 h-screen bg-gray-700 bg-opacity-70 z-40
+      ${sidebar.isOpen ? "w-[100%] overflow-visible" : "w-0 overflow-hidden"}`}
+    >
       <div
         className={`fixed top-0 right-0 h-screen overflow-y-auto bg-ds-gray rounded-l-lg transition-all duration-300 ease-in-out text-black ${
           sidebar.isOpen

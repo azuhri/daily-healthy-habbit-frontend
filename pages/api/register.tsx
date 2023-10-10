@@ -23,6 +23,18 @@ export default withSessionRoute(async function handler(req, res) {
           return;
         }
 
+        // if email starts or ends with symbols !@#$%&*(_-+=) then return false
+        if (
+          email.match(/^([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)$/) ===
+          null
+        ) {
+          res.status(400).json({
+            message: "Email tidak valid",
+            status: false,
+          });
+          return;
+        }
+
         const response = await axios.post(`${API}/api/v1/register`, {
           name,
           email,

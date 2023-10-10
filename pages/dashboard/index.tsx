@@ -19,7 +19,6 @@ import DashboardModal from "@/components/dashboard/DashboardModal";
 import { useEffect } from "react";
 import { requestPermission } from "../../utils/firebase";
 
-
 const DashboardPage = ({ user }: { user: any }) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -77,14 +76,13 @@ const DashboardPage = ({ user }: { user: any }) => {
     async function setToken() {
       try {
         const deviceToken = await requestPermission();
- 
       } catch (error) {
         console.error("Error setting token:", error);
       }
     }
 
     setToken();
-  }, [])
+  }, []);
 
   return (
     <>
@@ -105,7 +103,10 @@ const DashboardPage = ({ user }: { user: any }) => {
           onAction={handleDelete}
         />
       )}
-      {modal.isOpen && modal.type == "progress" && <DashboardModal token={user.token} />}
+      {modal.isOpen &&
+        (modal.type == "progress" || modal.type == "profile") && (
+          <DashboardModal user={user} />
+        )}
       <LayoutDashboard user={user} />
     </>
   );

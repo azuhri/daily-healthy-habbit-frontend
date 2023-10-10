@@ -13,7 +13,6 @@ const ConfirmationModal = ({
   onAction: () => void;
 }) => {
   const dispatch = useDispatch();
-  const { date } = useSelector((state: any) => state.time);
   function handleButtonClick() {
     dispatch(closeModal());
     onAction();
