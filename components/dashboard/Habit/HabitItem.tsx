@@ -71,7 +71,7 @@ const HabitItem = ({
         break;
       case "monthly":
         setColorLabel("bg-[#FCC5C2]");
-        setLabel("Perminggu");
+        setLabel("Perbulan");
         break;
     }
   }, [data]);
@@ -142,7 +142,7 @@ const HabitItem = ({
           isAfterToday && "opacity-50"
         }`}
       >
-        <h1 className="font-bold">{data.name}</h1>
+        <h1 className="font-bold line-clamp-1">{data.name}</h1>
         <div className="flex space-x-2 flex items-center text-xs my-1">
           <p className="text-xs font-light flex items-center">
             <svg
@@ -173,7 +173,8 @@ const HabitItem = ({
                   fill="#2C818B"
                 />
               </svg>
-              <span className="mx-1">x</span>{data.progress}
+              <span className="mx-1">x</span>
+              {data.progress}
             </p>
           ) : (
             ""

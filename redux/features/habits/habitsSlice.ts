@@ -11,52 +11,6 @@ const initialState: HabitsState = {
   filteredHabits: [],
 };
 
-const API = process.env.API || "https://staging-api-health2023.agileteknik.com";
-//
-// Semua AsyncThunk belom bisa dipake axios kalo dipanggil disini return cors error aku gtw cara benerinnya
-// 
-export const createHabit = createAsyncThunk(
-  "habitSidebar/createHabit",
-  async (habit: any, access_token: any) => {
-    const response = await axios.post(`${API}/v2/habbit`, habit, {
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-      },
-    });
-    return response.data;
-  }
-);
-
-export const updateHabit = createAsyncThunk(
-  "habitSidebar/updateHabit",
-  async ({ habit, access_token }: { habit: any; access_token: string }) => {
-    const habitTemp = { ...habit, alarm_code: 1 };
-
-    const response = await axios.put(
-      `${API}/v2/habbit/${habitTemp.id}`,
-      habitTemp,
-      {
-        headers: {
-          Authorization: `Bearer ${access_token}`,
-        },
-      }
-    );
-    return response.data;
-  }
-);
-
-export const deleteHabit = createAsyncThunk(
-  "habitSidebar/deleteHabit",
-  async ({ id, access_token }: { id: string; access_token: string }) => {
-    const response = await axios.delete(`${API}/v2/habbit/${id}`, {
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-      },
-    });
-    return response.data;
-  }
-);
-
 export const habitsSlice = createSlice({
   name: "habits",
   initialState,

@@ -7,13 +7,11 @@ import $ from "jquery";
 import Image from "next/image";
 
 import { useAppDispatch } from "@/redux/store";
-import { closeSidebar } from "@/redux/features/habitSidebar/habitSidebarSlice";
 import {
-  createHabit,
-  deleteHabit,
-  setHabits,
-  updateHabit,
-} from "@/redux/features/habits/habitsSlice";
+  closeSidebar,
+  openSidebar,
+} from "@/redux/features/habitSidebar/habitSidebarSlice";
+import { setHabits } from "@/redux/features/habits/habitsSlice";
 import { openModal } from "@/redux/features/modal/modalSlice";
 
 const HabitForm = ({ user }: { user: any }) => {
@@ -39,6 +37,21 @@ const HabitForm = ({ user }: { user: any }) => {
     ["bg-[#E17055]", "Lainnya", "/icons/kategori_lainnya.svg"],
   ];
 
+  const defaultInputValue = {
+    id: null,
+    name: "",
+    description: "",
+    start_time: null,
+    type: "daily",
+    target_perday: 1,
+    priority: 0,
+    color: 0,
+    start_date: date,
+    list_days: [],
+    list_dates: [],
+    interval_day: 1,
+  };
+
   const [inputValue, setInputValue] = useState(
     filteredHabits[sidebar.index]
       ? {
@@ -52,7 +65,9 @@ const HabitForm = ({ user }: { user: any }) => {
           target_perday: filteredHabits[sidebar.index].target_perday
             ? filteredHabits[sidebar.index].target_perday
             : 1,
-          priority: filteredHabits[sidebar.index].priority,
+          priority: filteredHabits[sidebar.index].priority
+            ? filteredHabits[sidebar.index].priority
+            : 0,
           color: filteredHabits[sidebar.index].color,
           start_date: date,
           list_days: filteredHabits[sidebar.index].detail_parameter
@@ -67,20 +82,7 @@ const HabitForm = ({ user }: { user: any }) => {
             ? filteredHabits[sidebar.index].interval_day
             : 1,
         }
-      : {
-          id: null,
-          name: "",
-          description: "",
-          start_time: null,
-          type: "daily",
-          target_perday: 1,
-          priority: 0,
-          color: 0,
-          start_date: date,
-          list_days: [],
-          list_dates: [],
-          interval_day: 1,
-        }
+      : defaultInputValue
   );
 
   useEffect(() => {
@@ -96,7 +98,9 @@ const HabitForm = ({ user }: { user: any }) => {
           target_perday: filteredHabits[sidebar.index].target_perday
             ? filteredHabits[sidebar.index].target_perday
             : 1,
-          priority: filteredHabits[sidebar.index].priority,
+          priority: filteredHabits[sidebar.index].priority
+            ? filteredHabits[sidebar.index].priority
+            : 0,
           color: filteredHabits[sidebar.index].color,
           start_date: date,
           list_days: filteredHabits[sidebar.index].detail_parameter
@@ -109,21 +113,12 @@ const HabitForm = ({ user }: { user: any }) => {
             : [],
           interval_day: filteredHabits[sidebar.index].interval_day,
         })
-      : setInputValue({
-          id: null,
-          name: "",
-          description: "",
-          start_time: null,
-          type: "daily",
-          target_perday: 1,
-          priority: 0,
-          color: 0,
-          start_date: date,
-          list_days: [],
-          list_dates: [],
-          interval_day: 1,
-        });
+      : setInputValue(defaultInputValue);
     setIsOpen({ ...isOpen, timePicker: false, categoryPicker: false });
+
+    if (!filteredHabits[sidebar.index] && sidebar.type === "edit") {
+      dispatch(closeSidebar());
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filteredHabits[sidebar.index], sidebar.isOpen]);
@@ -163,71 +158,65 @@ const HabitForm = ({ user }: { user: any }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputValue.type]);
 
+  const handleInvalidData = () => {
+    if (!inputValue.start_time) throw new Error("Pengingat belum diisi");
+    if (
+      habits.some((habit: any) => habit.name === inputValue.name) &&
+      habits[sidebar.index].name !== inputValue.name
+    )
+      throw new Error("Nama habit sudah ada");
+    if (
+      inputValue.type != "daily" &&
+      inputValue.list_days.length < 1 &&
+      inputValue.list_dates.length < 1 &&
+      (inputValue.interval_day < 1 || inputValue.type != "interval_day")
+    )
+      throw new Error("Frekuensi belum diisi");
+    if (inputValue.target_perday < 1)
+      throw new Error("Target perhari harus lebih dari 0");
+    if (isNaN(inputValue.priority.toString()) || inputValue.priority === "")
+      throw new Error("Prioritas harus berupa angka");
+  };
+
+  const handleDetailParameter = () => {
+    let list_days = "";
+    let list_dates = "";
+
+    if (inputValue.list_days.length > 0)
+      list_days = inputValue.list_days.join(",");
+
+    if (inputValue.list_dates.length > 0)
+      list_dates = inputValue.list_dates.join(",");
+
+    return {
+      ...inputValue,
+      list_days,
+      list_dates,
+    };
+  };
+
   const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
     try {
-      e.preventDefault();
       const API =
         process.env.API || "https://staging-api-health2023.agileteknik.com";
       const access_token = `Bearer ${user.token}`;
       const config = {
         headers: {
-          Authorization: `${access_token}`,
+          Authorization: access_token,
         },
       };
+
       let response;
-      let list_days = "";
-      let list_dates = "";
-
-      if (inputValue.list_days.length > 0)
-        list_days = inputValue.list_days.join(",");
-
-      if (inputValue.list_dates.length > 0)
-        list_dates = inputValue.list_dates.join(",");
-
-      const data = {
-        ...inputValue,
-        list_days,
-        list_dates,
-      };
+      const data = handleDetailParameter();
+      if (e.nativeEvent.submitter.name !== "delete") handleInvalidData();
 
       switch (e.nativeEvent.submitter.name) {
-        //
-        // redux thunk belom bisa, pake axios disini dulu
-        // Kalo pake yg dispatch itu error cors mulu aku bingung
-        //
         case "create":
-          if (!inputValue.start_time) throw new Error("Pengingat belum diisi");
-          if (habits.some((habit: any) => habit.name === inputValue.name))
-            throw new Error("Nama habit sudah ada");
-          if (
-            inputValue.type != "daily" &&
-            inputValue.list_days.length < 1 &&
-            inputValue.list_dates.length < 1 &&
-            (inputValue.interval_day < 1 || inputValue.type != "interval_day")
-          )
-            throw new Error("Frekuensi belum diisi");
-
           response = await axios.post(`${API}/api/v2/habbit`, data, config);
           break;
-
-        // response = dispatch(
-        //   createHabit({ habit: inputValue, token: user.token })
-        // );
-        // break;
         case "edit":
-          if (
-            habits.some((habit: any) => habit.name === inputValue.name) &&
-            habits[sidebar.index].name !== inputValue.name
-          )
-            throw new Error("Nama habit sudah ada");
-          if (
-            inputValue.type != "daily" &&
-            inputValue.list_days.length < 1 &&
-            inputValue.list_dates.length < 1 &&
-            (inputValue.interval_day < 1 || inputValue.type != "interval_day")
-          )
-            throw new Error("Frekuensi belum diisi");
-
           const dataEdit = {
             ...data,
             // TEMPORARY FIX NANTI DIHAPUS
@@ -238,10 +227,6 @@ const HabitForm = ({ user }: { user: any }) => {
             dataEdit,
             config
           );
-
-          // response = dispatch(
-          //   updateHabit({ habit: inputValue, access_token: user.token })
-          // );
           break;
         case "delete":
           dispatch(
@@ -254,20 +239,7 @@ const HabitForm = ({ user }: { user: any }) => {
 
       if (response && response.status === 200) {
         dispatch(closeSidebar());
-        setInputValue({
-          id: null,
-          name: "",
-          description: "",
-          start_time: null,
-          type: "daily",
-          target_perday: 1,
-          priority: 0,
-          color: 6,
-          start_date: date,
-          list_days: [],
-          list_dates: [],
-          interval_day: 1,
-        });
+        setInputValue(defaultInputValue);
         const response4 = await axios.get(
           `${API}/api/v2/user?date=${date}`,
           config
@@ -403,19 +375,18 @@ const HabitForm = ({ user }: { user: any }) => {
           required
           type="text"
           className="w-full border-0 border-b-2 border-gray-300 px-1 my-1 focus:outline-none focus:ring-0 focus:border-primary-100 placeholder-gray-300"
-          placeholder="Jawaban Anda (Maksimum 25 Karakter)"
+          placeholder="Jawaban Anda (Maksimum 50 Karakter)"
           value={inputValue.name}
           onChange={(e) =>
-            e.target.value.length < 25 &&
+            e.target.value.length < 50 &&
             setInputValue({ ...inputValue, name: e.target.value })
           }
         />
       </div>
       <div className="bg-white w-full rounded-lg py-2 px-3 my-2">
         <p className="text-primary-100">Deskripsi (Opsional)</p>
-        <input
-          type="text"
-          className="w-full border-0 border-b-2 border-gray-300 px-1 my-1 focus:outline-none focus:ring-0 focus:border-primary-100 placeholder-gray-300"
+        <textarea
+          className="resize-y w-full border-0 border-b-2 border-gray-300 px-1 my-1 focus:outline-none focus:ring-0 focus:border-primary-100 placeholder-gray-300"
           placeholder="Jawaban Anda (Maksimum 100 Karakter)"
           value={inputValue.description}
           onChange={(e) => {
@@ -503,7 +474,8 @@ const HabitForm = ({ user }: { user: any }) => {
           >
             <p className="text-primary-100">Prioritas</p>
             <div className="h-full bg-primary-100 rounded-lg px-2 text-white group-hover:bg-primary-hover">
-              {inputValue.priority}
+              {inputValue.priority ||
+                (typeof inputValue.priority === "number" ? 0 : "Kosong")}
             </div>
           </button>
           <div className="absolute right-0 invisible w-full transition-all opacity-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-1 z-20">
@@ -525,17 +497,35 @@ const HabitForm = ({ user }: { user: any }) => {
                 >
                   -
                 </button>
-                <div className="rounded-lg px-2 text-black">
-                  {inputValue.priority}
-                </div>
+                <input
+                  type="text"
+                  className="text-center w-8 h-4 border-0 border-b-2 border-gray-300 px-1 my-1 focus:outline-none focus:ring-0 focus:border-primary-100 placeholder-gray-300"
+                  placeholder="00"
+                  value={inputValue.priority}
+                  onChange={(e) =>
+                    e.target.value.length <= 2 &&
+                    (e.target.value === "" ||
+                      !isNaN(parseInt(e.target.value))) &&
+                    setInputValue({
+                      ...inputValue,
+                      priority: e.target.value,
+                    })
+                  }
+                />
                 <button
                   type="button"
                   className="bg-primary-100 rounded-lg px-2 text-white"
                   onClick={() => {
-                    setInputValue({
-                      ...inputValue,
-                      priority: inputValue.priority + 1,
-                    });
+                    if (inputValue.priority == "")
+                      setInputValue({
+                        ...inputValue,
+                        priority: 1,
+                      });
+                    else
+                      setInputValue({
+                        ...inputValue,
+                        priority: inputValue.priority + 1,
+                      });
                   }}
                 >
                   +
@@ -661,7 +651,6 @@ const HabitForm = ({ user }: { user: any }) => {
                 value={inputValue.interval_day}
                 onChange={(e) =>
                   e.target.value.length <= 2 &&
-                  // Make sure that the target value is a number but also allows empty input
                   (e.target.value === "" || !isNaN(parseInt(e.target.value))) &&
                   setInputValue({ ...inputValue, interval_day: e.target.value })
                 }
