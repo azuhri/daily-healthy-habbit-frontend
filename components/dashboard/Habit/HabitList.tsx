@@ -12,10 +12,10 @@ const apiEndpoint =
 
 const HabitList = ({ access_token }: { access_token: string }) => {
   const dispatch = useAppDispatch();
-  const { habits, filteredHabits } = useSelector((state: any) => state.habits);
+  const { filteredHabits } = useSelector((state: any) => state.habits);
   const { date } = useSelector((state: any) => state.time);
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const getDataHabit = async () => {
     try {
@@ -86,6 +86,7 @@ const HabitList = ({ access_token }: { access_token: string }) => {
           data={val}
           index={index}
           access_token={access_token}
+          isLoading={loading}
         />
       ))}
     </div>
