@@ -39,6 +39,11 @@ const Header = ({ user }: any) => {
         <input
           type="text"
           onChange={(e) => dispatch(filterHabits(e.target.value))}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+            }
+          }}
           className="w-full px-4 my-2 text-black text-xs outline-none text-gray-500 shadow rounded-lg p-3 pl-8"
           placeholder="Cari habitmu disini..."
         />

@@ -1,20 +1,29 @@
 import { useAppDispatch } from "@/redux/store";
 import { useSelector } from "react-redux";
 import { closeModal } from "@/redux/features/modal/modalSlice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { setHabits } from "@/redux/features/habits/habitsSlice";
 
 const DashboardModal = ({ user }: any) => {
   const dispatch = useAppDispatch();
   const modal = useSelector((state: any) => state.modal);
+  const { filteredHabits } = useSelector((state: any) => state.habits);
   const { date } = useSelector((state: any) => state.time);
   const [progress, setProgress] = useState(0);
   const [inputValue, setInputValue] = useState({
     name: user.name,
     email: user.email,
-    // password: user.password,
   });
+
+  useEffect(() => {
+    if (modal.type === "progress") {
+      const habit = filteredHabits.find((habit: any) => habit.id === modal.id);
+      setProgress(habit.progress);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [modal]);
+
   const API =
     process.env.API || "https://staging-api-health2023.agileteknik.com";
   const access_token = `Bearer ${user.token}`;
@@ -82,7 +91,7 @@ const DashboardModal = ({ user }: any) => {
             <div className="flex justify-between items-center">
               <button
                 type="button"
-                className="ring-1 ring-primary-100 rounded-lg px-2 text-black"
+                className="ring-1 ring-primary-100 rounded-lg px-2 mx-1 text-black"
                 onClick={() => {
                   if (progress > 0) {
                     setProgress(progress - 1);
@@ -91,10 +100,31 @@ const DashboardModal = ({ user }: any) => {
               >
                 -
               </button>
-              <div className="rounded-lg mx-2 text-black">{progress}</div>
+              <input
+                type="text"
+                className="bg-transparent text-center w-8 h-4 border-0 border-b-2 border-gray-300 px-1 my-1 focus:outline-none focus:ring-0 focus:border-primary-100 placeholder-gray-300"
+                placeholder="00"
+                value={progress}
+                onChange={(e) => {
+                  if (
+                    e.target.value === "" ||
+                    isNaN(Number(e.target.value)) ||
+                    e.target.value.length < 2
+                  ) {
+                    setProgress(0);
+                  } else {
+                    // if input value is more than 100, set progress to 100
+                    if (Number(e.target.value) > 99) {
+                      return;
+                    } else {
+                      setProgress(Number(e.target.value));
+                    }
+                  }
+                }}
+              />
               <button
                 type="button"
-                className="bg-primary-100 rounded-lg px-2 text-white"
+                className="bg-primary-100 rounded-lg px-2 mx-1 text-white"
                 onClick={() => {
                   if (progress < 100) {
                     setProgress(progress + 1);

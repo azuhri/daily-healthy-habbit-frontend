@@ -37,12 +37,12 @@ function InputForm({
           id={value}
           required
           title={title}
-          className="w-full border-2 focus:outline-none focus:border-ds-blue-100 px-4 text-gray-500 border-gray-300 shadow p-2 py-3 rounded-lg"
+          className="w-full border-2 focus:outline-none focus:border-ds-blue-100 px-4 pr-12 text-gray-500 border-gray-300 shadow p-2 py-3 rounded-lg"
           placeholder={placeholder}
         />
         {type === "password" && (
           <div
-            className="absolute right-6 top-1/2 transform -translate-y-1/2 cursor-pointer"
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer"
             onClick={toggleShowPassword}
           >
             {showPassword ? (

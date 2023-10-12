@@ -15,7 +15,7 @@ const HabitList = ({ access_token }: { access_token: string }) => {
   const { filteredHabits } = useSelector((state: any) => state.habits);
   const { date } = useSelector((state: any) => state.time);
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const getDataHabit = async () => {
     try {
