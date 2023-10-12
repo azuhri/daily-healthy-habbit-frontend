@@ -73,9 +73,9 @@ const DashboardModal = ({ user }: any) => {
 
   return (
     <div className="fixed flex justify-center items-center top-0 left-0 w-screen h-screen bg-gray-700 bg-opacity-70 z-40">
-      <div className="rounded-lg z-50 bg-gray-200 bg-opacity-100 text-black w-[30%] px-8 py-4">
+      <div className="rounded-lg z-50 bg-gray-200 bg-opacity-100 text-black w-fit px-8 py-4">
         {modal.type === "progress" && (
-          <>
+          <div className="px-6">
             <p className="text-center text-black font-semibold mb-4">
               Progress Habit
             </p>
@@ -91,7 +91,7 @@ const DashboardModal = ({ user }: any) => {
               >
                 -
               </button>
-              <div className="rounded-lg px-2 text-black">{progress}</div>
+              <div className="rounded-lg mx-2 text-black">{progress}</div>
               <button
                 type="button"
                 className="bg-primary-100 rounded-lg px-2 text-white"
@@ -107,7 +107,7 @@ const DashboardModal = ({ user }: any) => {
             <p className="text-center text-black text-xs mt-4">
               Lakukan progress habit
             </p>
-          </>
+          </div>
         )}
         {modal.type === "profile" && (
           <>
@@ -150,15 +150,15 @@ const DashboardModal = ({ user }: any) => {
             </form>
           </>
         )}
-        <div className="flex justify-between font-semibold mt-4 mx-3">
+        <div className="flex justify-between text-center font-semibold mt-4 mx-3">
           <p
-            className="text-red-600 cursor-pointer"
+            className="text-red-600 cursor-pointer w-full"
             onClick={() => dispatch(closeModal())}
           >
             Batal
           </p>
           <p
-            className="text-primary-100 cursor-pointer"
+            className="text-primary-100 cursor-pointer w-full"
             onClick={handleButtonClick}
           >
             Simpan
