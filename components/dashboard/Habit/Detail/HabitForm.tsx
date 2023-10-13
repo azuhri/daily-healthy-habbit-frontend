@@ -50,6 +50,7 @@ const HabitForm = ({ user }: { user: any }) => {
     list_days: [],
     list_dates: [],
     interval_day: 1,
+    alarm_code: null,
   };
 
   const [inputValue, setInputValue] = useState(
@@ -81,6 +82,7 @@ const HabitForm = ({ user }: { user: any }) => {
           interval_day: filteredHabits[sidebar.index].interval_day
             ? filteredHabits[sidebar.index].interval_day
             : 1,
+          alarm_code: filteredHabits[sidebar.index].alarm_code,
         }
       : defaultInputValue
   );
@@ -112,6 +114,7 @@ const HabitForm = ({ user }: { user: any }) => {
                 .map((item: any) => parseInt(item))
             : [],
           interval_day: filteredHabits[sidebar.index].interval_day,
+          alarm_code: filteredHabits[sidebar.index].alarm_code,
         })
       : setInputValue(defaultInputValue);
     setIsOpen({ ...isOpen, timePicker: false, categoryPicker: false });
@@ -217,14 +220,9 @@ const HabitForm = ({ user }: { user: any }) => {
           response = await axios.post(`${API}/api/v2/habbit`, data, config);
           break;
         case "edit":
-          const dataEdit = {
-            ...data,
-            // TEMPORARY FIX NANTI DIHAPUS
-            alarm_code: 1,
-          };
           response = await axios.put(
             `${API}/api/v2/habbit/${filteredHabits[sidebar.index].id}`,
-            dataEdit,
+            data,
             config
           );
           break;
@@ -269,7 +267,7 @@ const HabitForm = ({ user }: { user: any }) => {
         <button
           type="button"
           key={i}
-          className={`rounded-lg text-black h-full px-2 w-full ${
+          className={`rounded-lg text-black h-full w-full ${
             inputValue.color == i && "ring-4"
           } bg-gray-100 hover:bg-gray-300`}
           onClick={() =>
@@ -279,8 +277,8 @@ const HabitForm = ({ user }: { user: any }) => {
             })
           }
         >
-          <div className="flex justify-between px-4 items-center">
-            <p>{category[i][1]}</p>
+          <div className="flex justify-between px-2 items-center">
+            <p className="text-xs lg:text-sm">{category[i][1]}</p>
             <div
               className={`${category[i][0]} h-[70%] px-1 flex flex-col justify-center py-1 my-1 rounded`}
             >
@@ -592,7 +590,7 @@ const HabitForm = ({ user }: { user: any }) => {
       </div>
       <div
         className={`w-full transition-all duration-300 ease-in-out ${
-          isOpen.categoryPicker ? "h-72 my-2 py-6 px-12" : "h-0 invisible"
+          isOpen.categoryPicker ? "h-72 my-2 py-6 px-6" : "h-0 invisible"
         } overflow-hidden bg-white grid grid-cols-2 rounded-lg gap-2`}
       >
         {categorySelector}
