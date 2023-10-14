@@ -112,11 +112,11 @@ export default function LoginPage({ API }: any) {
               placeholder="Masukan password disini yah..."
             />
           </div>
-          <div className="flex justify-end">
+          {/* <div className="flex justify-end">
             <a href="#" className="text-sm font-light text-ds-tosca-200">
               Lupa password?
             </a>
-          </div>
+          </div> */}
           <div className="mt-10 flex flex-col">
             {isLoading ? (
               <button className="w-full text-center bg-ds-blue-100 shadow py-4 text-white font-semibold rounded-lg text-xl">

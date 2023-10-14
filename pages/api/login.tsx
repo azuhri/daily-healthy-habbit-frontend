@@ -44,6 +44,9 @@ export default withSessionRoute(async function handler(req, res) {
         if (customMessage === "These credentials do not match our records.")
           customMessage = "Email atau Password salah";
 
+        if (customMessage === "The email field must be a valid email address.")
+          customMessage = "Email tidak valid";
+
         res.status(statusCode).json({
           message: customMessage,
         });

@@ -310,7 +310,7 @@ const HabitForm = ({ user }: { user: any }) => {
       <button
         type="button"
         key={i}
-        className={`rounded-lg h-full px-2 py-1 ${
+        className={`text-xs md:text-sm rounded-lg h-full px-2 py-1 ${
           inputValue.list_days.includes(day[i][0])
             ? "text-white bg-primary-100"
             : "text-black bg-ds-gray"
@@ -628,7 +628,7 @@ const HabitForm = ({ user }: { user: any }) => {
           ${inputValue.type === "monthly" && "h-52"}
           overflow-hidden`}
       >
-        <div className="w-full bg-white rounded-lg py-2 px-3">
+        <div className="w-full bg-white rounded-lg py-2 px-3 overflow-x-auto">
           {inputValue.type === "weekly" && (
             <div className="w-full h-full flex justify-between">
               {weekSelector}
