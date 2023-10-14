@@ -9,7 +9,7 @@ const HabitSidebar = ({ user }: { user: any }) => {
 
   return (
     <div
-      className={`fixed flex justify-center items-center top-0 left-0 h-screen bg-gray-700 bg-opacity-70 z-40
+      className={`fixed flex justify-center items-center top-0 left-0 h-screen bg-gray-700 bg-opacity-70 z-30
       ${sidebar.isOpen ? "w-[100%] overflow-visible" : "w-0 overflow-hidden"}`}
     >
       <div

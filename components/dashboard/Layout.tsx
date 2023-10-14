@@ -100,7 +100,7 @@ const LayoutDashboard = ({ user }: { user: any }) => {
         <Header user={user} />
         <div className="flex justify-between pt-8 text-black hidden md:block w-full">
           <div>
-            <p className="text-xs text-gray-400">Daftar Habit pada</p>
+            <p className="text-xs text-gray-400">Daftar Habit pada </p>
             <h1 className="text-2xl font-bold text-primary-100">
               {momentDate.format("dddd")}
             </h1>
@@ -144,7 +144,7 @@ const LayoutDashboard = ({ user }: { user: any }) => {
             <div className="min-w-[75%] flex flex-start">{mobileListDate}</div>
           </div>
           <span className="mt-2 text-xs">
-            Berikut daftar Habit pada Hari{" "}
+            Berikut daftar Habit pada Hari <br />
             <span className="font-semibold text-ds-cyan20">
               (
               {moment(date)

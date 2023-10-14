@@ -60,21 +60,21 @@ const HabitItem = ({
     }
 
     switch (data.type) {
-      case "interval_day":
-        setColorLabel("bg-[#BFE0FF]");
-        setLabel("Interval");
-        break;
       case "daily":
-        setColorLabel("bg-[#FCC5C2]");
+        setColorLabel("bg-[#BFE0FF]");
         setLabel("Setiap Hari");
         break;
       case "weekly":
-        setColorLabel("bg-[#FCC2FC]");
+        setColorLabel("bg-[#C8BFFF]");
         setLabel("Perminggu");
         break;
       case "monthly":
-        setColorLabel("bg-[#FCC5C2]");
+        setColorLabel("bg-[#FCC2FC]");
         setLabel("Perbulan");
+        break;
+      case "interval_day":
+        setColorLabel("bg-[#FCC5C2]");
+        setLabel("Interval");
         break;
     }
   }, [data]);

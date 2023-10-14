@@ -4,9 +4,9 @@ import ContentLoader from "react-content-loader";
 const SkeletonHabit = ({ props }: any) => {
   return (
     <ContentLoader
-      viewBox="0 0 500 200"
-      width={370}
-      height={200}
+      viewBox="0 0 400 200"
+      width="80% md:400"
+      height="100 md:200"
       title="Loading news..."
       backgroundColor="#BFD5D8"
       foregroundColor="#EDEDED"
