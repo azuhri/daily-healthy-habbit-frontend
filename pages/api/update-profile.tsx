@@ -27,11 +27,11 @@ export default withSessionRoute(async function handler(req, res) {
         };
         const response = await axios.patch(url, dataRequest, config);
         const updatedUser = {
-            id: req.session.user?.id,
-            name: name,
-            email: email,
-            phonenumber: req.session.user?.phonenumber,
-            token: req.session.user?.token,
+            id: req.session.user?.id || 0,
+            name: name || "",
+            email: email || "",
+            phonenumber: req.session.user?.phonenumber || "",
+            token: req.session.user?.token || "",
         };
         req.session.user = updatedUser;
         await req.session.save();
