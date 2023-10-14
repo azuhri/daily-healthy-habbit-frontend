@@ -418,7 +418,7 @@ const HabitForm = ({ user }: { user: any }) => {
                 <div className="mx-auto px-4 flex justify-between items-center">
                   <button
                     type="button"
-                    className="ring-1 ring-primary-100 rounded-lg px-2 text-black"
+                    className="ring-1 ring-primary-100 rounded-lg px-2 mx-1 text-black"
                     onClick={() => {
                       if (inputValue.target_perday > 1)
                         setInputValue({
@@ -431,7 +431,7 @@ const HabitForm = ({ user }: { user: any }) => {
                   </button>
                   <input
                     type="text"
-                    className="text-center w-8 h-4 border-0 border-b-2 border-gray-300 px-1 my-1 focus:outline-none focus:ring-0 focus:border-primary-100 placeholder-gray-300"
+                    className="bg-transparent text-center w-8 h-4 border-0 border-b-2 border-gray-300 px-1 my-1 focus:outline-none focus:ring-0 focus:border-primary-100 placeholder-gray-300"
                     placeholder="00"
                     value={inputValue.target_perday}
                     onChange={(e) =>
@@ -446,7 +446,7 @@ const HabitForm = ({ user }: { user: any }) => {
                   />
                   <button
                     type="button"
-                    className="bg-primary-100 rounded-lg px-2 text-white"
+                    className="bg-primary-100 rounded-lg px-2 mx-1 text-white"
                     onClick={() => {
                       setInputValue({
                         ...inputValue,
@@ -484,7 +484,7 @@ const HabitForm = ({ user }: { user: any }) => {
               <div className="mx-auto px-4 flex justify-between items-center">
                 <button
                   type="button"
-                  className="ring-1 ring-primary-100 rounded-lg px-2 text-black"
+                  className="ring-1 ring-primary-100 rounded-lg px-2 mx-1 text-black"
                   onClick={() => {
                     if (inputValue.priority > 0)
                       setInputValue({
@@ -497,7 +497,7 @@ const HabitForm = ({ user }: { user: any }) => {
                 </button>
                 <input
                   type="text"
-                  className="text-center w-8 h-4 border-0 border-b-2 border-gray-300 px-1 my-1 focus:outline-none focus:ring-0 focus:border-primary-100 placeholder-gray-300"
+                  className="bg-transparent text-center w-8 h-4 border-0 border-b-2 border-gray-300 px-1 my-1 focus:outline-none focus:ring-0 focus:border-primary-100 placeholder-gray-300"
                   placeholder="00"
                   value={inputValue.priority}
                   onChange={(e) =>
@@ -512,7 +512,7 @@ const HabitForm = ({ user }: { user: any }) => {
                 />
                 <button
                   type="button"
-                  className="bg-primary-100 rounded-lg px-2 text-white"
+                  className="bg-primary-100 rounded-lg px-2 mx-1 text-white"
                   onClick={() => {
                     if (inputValue.priority == "")
                       setInputValue({
