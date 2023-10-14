@@ -10,15 +10,18 @@ import axios from "axios";
 import { setHabits } from "@/redux/features/habits/habitsSlice";
 import moment from "moment";
 import "moment/locale/id";
+import { is } from "immer/dist/internal.js";
 
 const HabitItem = ({
   data,
   index,
   access_token,
+  isLoading,
 }: {
   data: any;
   index: number;
   access_token: string;
+  isLoading: boolean;
 }) => {
   const [color, setColor] = useState("");
   const [colorLabel, setColorLabel] = useState("");
@@ -57,21 +60,21 @@ const HabitItem = ({
     }
 
     switch (data.type) {
-      case "interval_day":
-        setColorLabel("bg-[#BFE0FF]");
-        setLabel("Interval");
-        break;
       case "daily":
-        setColorLabel("bg-[#FCC5C2]");
+        setColorLabel("bg-[#BFE0FF]");
         setLabel("Setiap Hari");
         break;
       case "weekly":
-        setColorLabel("bg-[#FCC2FC]");
+        setColorLabel("bg-[#C8BFFF]");
         setLabel("Perminggu");
         break;
       case "monthly":
-        setColorLabel("bg-[#FCC5C2]");
+        setColorLabel("bg-[#FCC2FC]");
         setLabel("Perbulan");
+        break;
+      case "interval_day":
+        setColorLabel("bg-[#FCC5C2]");
+        setLabel("Interval");
         break;
     }
   }, [data]);
@@ -88,7 +91,8 @@ const HabitItem = ({
 
     switch (data.progress) {
       case "completed":
-        await axios.post(url, { status_progress: "incompleted" }, config);
+        moment(date).isSame(today) &&
+          (await axios.post(url, { status_progress: "incompleted" }, config));
         break;
       case "pending":
         moment(date).isBefore(today)
@@ -112,11 +116,12 @@ const HabitItem = ({
   };
 
   useEffect(() => {
+    if (isLoading) return;
     if (data.progress == "pending" && moment(date).isBefore(today)) {
       handleProgressNoTarget();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [date, today]);
+  }, [isLoading]);
 
   return (
     <div
