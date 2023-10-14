@@ -4,8 +4,10 @@ import { closeModal } from "@/redux/features/modal/modalSlice";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { setHabits } from "@/redux/features/habits/habitsSlice";
+import { useRouter } from "next/router";
 
 const DashboardModal = ({ user }: any) => {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const modal = useSelector((state: any) => state.modal);
   const { filteredHabits } = useSelector((state: any) => state.habits);
@@ -65,16 +67,14 @@ const DashboardModal = ({ user }: any) => {
 
   const handleProfile = async () => {
     try {
-      const url = `${API}/api/v1/user?name=${inputValue.name}&email=${user.email}`;
-      const config = {
-        headers: {
-          Authorization: `${access_token}`,
-        },
-      };
-      const response = await axios.patch(url, inputValue, config);
+      const url = `/api/update-profile`;
+      const response = await axios.put(url, inputValue);
       if (response.status == 200) {
         dispatch(closeModal());
       }
+      setTimeout(() => {
+        router.reload();
+      }, 2000);
     } catch (error) {
       console.error("Terjadi kesalahan saat update profile:", error);
     }
