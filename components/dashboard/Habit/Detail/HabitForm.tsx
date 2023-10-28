@@ -19,6 +19,7 @@ const HabitForm = ({ user }: { user: any }) => {
   const sidebar = useSelector((state: any) => state.sidebar);
   const { habits, filteredHabits } = useSelector((state: any) => state.habits);
   const { date } = useSelector((state: any) => state.time);
+  const isGuest = user.name === "Guest";
 
   const [responseMessage, setResponseMessage] = useState("");
   const [isOpen, setIsOpen] = useState({
@@ -217,6 +218,9 @@ const HabitForm = ({ user }: { user: any }) => {
 
       switch (e.nativeEvent.submitter.name) {
         case "create":
+          if (isGuest && habits.length >= 3)
+            throw new Error("Habit Guest maksimal 3");
+
           response = await axios.post(`${API}/api/v2/habbit`, data, config);
           break;
         case "edit":

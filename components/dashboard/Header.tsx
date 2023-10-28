@@ -8,6 +8,7 @@ import { filterHabits } from "@/redux/features/habits/habitsSlice";
 
 const Header = ({ user }: any) => {
   const dispatch = useAppDispatch();
+  const isGuest = user.name === "Guest";
 
   return (
     <div className="grid grid-cols-7 items-center">
@@ -79,33 +80,37 @@ const Header = ({ user }: any) => {
               />
             </span>
           </button>
-          <nav className="invisible w-56 absolute right-0 top-full transition-all opacity-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-1 z-20">
+          <nav className="invisible w-fit w-56 absolute right-0 top-full transition-all opacity-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-1 z-20">
             <ul className="my-2 bg-white rounded-lg font-semibold">
               <li>
                 <h1 className="block px-4 py-2 rounded-lg text-lg">Akun</h1>
               </li>
               <hr />
               <li>
-                <p className="block px-4 my-2 rounded-lg text-sm">
+                <p className="block px-4 my-2 rounded-lg text-sm w-56">
                   {user.name}
                 </p>
               </li>
-              <li>
-                <p className="block px-4 my-2 rounded-lg text-sm font-normal">
-                  {user.email}
-                </p>
-              </li>
-              <hr />
-              <li>
-                <div
-                  className="block px-4 py-2 rounded-lg text-lg hover:bg-gray-100 cursor-pointer"
-                  onClick={() => {
-                    dispatch(openModal({ type: "profile" }));
-                  }}
-                >
-                  Profil
-                </div>
-              </li>
+              {!isGuest && (
+                <>
+                  <li>
+                    <p className="block px-4 my-2 rounded-lg text-sm font-normal">
+                      {user.email}
+                    </p>
+                  </li>
+                  <hr />
+                  <li>
+                    <div
+                      className="block px-4 py-2 rounded-lg text-lg hover:bg-gray-100 cursor-pointer"
+                      onClick={() => {
+                        dispatch(openModal({ type: "profile" }));
+                      }}
+                    >
+                      Profil
+                    </div>
+                  </li>
+                </>
+              )}
               <hr />
               <li>
                 <button

@@ -33,10 +33,12 @@ const displayNone = {
 
 export default function LoginPage({ API }: any) {
   const [isLoading, setIsLoading] = useState(false);
+  const [isGuestLoading, setIsGuestLoading] = useState(false);
   const [responseMessage, setResponseMessage] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+
   const formLogin = async (el: any) => {
     el.preventDefault();
     try {
@@ -47,21 +49,36 @@ export default function LoginPage({ API }: any) {
       });
       router.push("/dashboard");
     } catch (error: any) {
-      const { data } = error.response;
-
-      $("#responseMessage").html(`${data.message}`);
-      $("#responseMessage").show(300);
-      setTimeout(() => {
-        $("#responseMessage").hide(300);
-      }, 3000);
-      setPassword("");
+      showError(error);
     } finally {
       setIsLoading(false);
     }
   };
 
+  const loginGuest = async () => {
+    try {
+      setIsGuestLoading(true);
+      const response = await axios.post(`/api/login`, {
+        isGuest: true,
+      });
+      router.push("/dashboard");
+    } catch (error: any) {
+      showError(error);
+    } finally {
+      setIsGuestLoading(false);
+    }
+  };
+
+  const showError = (error: any) => {
+    $("#responseMessage").html(`${error.response.data.message}`);
+    $("#responseMessage").show(300);
+    setTimeout(() => {
+      $("#responseMessage").hide(300);
+    }, 3000);
+  };
+
   return (
-    <div className="h-screen w-full flex">
+    <div className="min-h-screen w-full flex">
       <Head>
         <title>Daily Habit | Login</title>
       </Head>
@@ -127,17 +144,35 @@ export default function LoginPage({ API }: any) {
                 Login
               </button>
             )}
-            <span className="text-center mt-2 font-light text-md text-gray-500">
-              Kamu belum punya akun ? yuk{" "}
-              <Link
-                href="/register"
-                className="font-bold text-ds-blue-100 hover:text-color-cyan20"
-              >
-                Register
-              </Link>
-            </span>
           </div>
         </form>
+        <span className="text-center my-3 font-semibold text-md text-primary-100">
+          Atau
+        </span>
+        <button className="ring-2 background-white, w-full rounded-lg py-2 flex">
+          <Image
+            src="/icons/finish-flag.png"
+            alt="Guest"
+            width="30"
+            height="30"
+            className="ml-2 absolute"
+          />
+          <span
+            className="text-center font-semibold text-md text-black w-full"
+            onClick={loginGuest}
+          >
+            Masuk sebagai tamu
+          </span>
+        </button>
+        <span className="text-center my-2 font-light text-md text-gray-500">
+          Kamu belum punya akun ? yuk{" "}
+          <Link
+            href="/register"
+            className="font-bold text-ds-blue-100 hover:text-color-cyan20"
+          >
+            Register
+          </Link>
+        </span>
       </div>
       <div className="hidden md:block w-1/2 bg-gradient-to-tl from-ds-tosca-200 from-10% via-ds-tosca-100 via-50% to-blue-500 to-90%">
         <div className="flex h-full p-4 justify-center items-center flex-col">
