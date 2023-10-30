@@ -151,11 +151,11 @@ export default function LoginPage({ API }: any) {
         </span>
         <button className="ring-2 background-white, w-full rounded-lg py-2 flex">
           <Image
-            src="/icons/finish-flag.png"
+            src="/icons/profile.svg"
             alt="Guest"
             width="30"
             height="30"
-            className="ml-2 absolute"
+            className="ml-2 absolute my-auto relative"
           />
           <span
             className="text-center font-semibold text-md text-black w-full"
