@@ -1,14 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useAppDispatch } from "@/redux/store";
+import { useSelector } from "react-redux";
 
 import { openModal } from "@/redux/features/modal/modalSlice";
+import guestSlice from "@/redux/features/guest/guestSlice";
 import Gravatar from "../Gravatar";
 import { filterHabits } from "@/redux/features/habits/habitsSlice";
 
 const Header = ({ user }: any) => {
   const dispatch = useAppDispatch();
-  const isGuest = user.name === "Guest";
+  const guest = useSelector((state: any) => state.guest);
 
   return (
     <div className="grid grid-cols-7 items-center">
@@ -91,7 +93,22 @@ const Header = ({ user }: any) => {
                   {user.name}
                 </p>
               </li>
-              {!isGuest && (
+              {guest.isGuest && (
+                <>
+                  <hr />
+                  <li>
+                    <div
+                      className="block px-4 py-2 rounded-lg text-lg hover:bg-gray-100 cursor-pointer"
+                      onClick={() => {
+                        dispatch(openModal({ type: "registerGuest" }));
+                      }}
+                    >
+                      Daftar
+                    </div>
+                  </li>
+                </>
+              )}
+              {!guest.isGuest && (
                 <>
                   <li>
                     <p className="block px-4 my-2 rounded-lg text-sm font-normal">

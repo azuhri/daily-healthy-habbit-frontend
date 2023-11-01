@@ -9,14 +9,16 @@ import { createWrapper } from "next-redux-wrapper";
 import modalSlice from "./features/modal/modalSlice";
 import habitSidebarSlice from "./features/habitSidebar/habitSidebarSlice";
 import timeStateSlice from "./features/time/timeStateSlice";
-import { useDispatch } from "react-redux";
 import habitsSlice from "./features/habits/habitsSlice";
+import guestSlice from "./features/guest/guestSlice";
+import { useDispatch } from "react-redux";
 
 const reducer = combineReducers({
   modal: modalSlice,
   sidebar: habitSidebarSlice,
   time: timeStateSlice,
   habits: habitsSlice,
+  guest: guestSlice,
 });
 
 const makeStore = () =>

@@ -11,9 +11,9 @@ import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import $ from "jquery";
-import { log } from "console";
 import Loading from "@/components/loadingButton";
 import Head from "next/head";
+import { useAppDispatch } from "@/redux/store";
 
 import InputForm from "@/components/forms/InputForm";
 
@@ -32,6 +32,7 @@ const displayNone = {
 };
 
 export default function LoginPage({ API }: any) {
+  const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [isGuestLoading, setIsGuestLoading] = useState(false);
   const [responseMessage, setResponseMessage] = useState("");

@@ -17,6 +17,7 @@ import { closeSidebar } from "@/redux/features/habitSidebar/habitSidebarSlice";
 import { setHabits } from "@/redux/features/habits/habitsSlice";
 import DashboardModal from "@/components/dashboard/DashboardModal";
 import { useEffect } from "react";
+import { setGuest } from "@/redux/features/guest/guestSlice";
 import { requestPermission } from "../../utils/firebase";
 
 const DashboardPage = ({ user }: { user: any }) => {
@@ -42,6 +43,7 @@ const DashboardPage = ({ user }: { user: any }) => {
     try {
       const url = "/api/logout";
       await axios.post(url);
+      dispatch(setGuest(false));
       router.push("/login");
     } catch (error) {
       console.error("Terjadi kesalahan saat logout:", error);
@@ -82,6 +84,10 @@ const DashboardPage = ({ user }: { user: any }) => {
     }
 
     setToken();
+
+    if (user.name == "Guest") {
+      dispatch(setGuest(true));
+    }
   }, []);
 
   return (
@@ -104,9 +110,9 @@ const DashboardPage = ({ user }: { user: any }) => {
         />
       )}
       {modal.isOpen &&
-        (modal.type == "progress" || modal.type == "profile") && (
-          <DashboardModal user={user} />
-        )}
+        (modal.type == "progress" ||
+          modal.type == "profile" ||
+          modal.type == "registerGuest") && <DashboardModal user={user} />}
       <LayoutDashboard user={user} />
     </>
   );
