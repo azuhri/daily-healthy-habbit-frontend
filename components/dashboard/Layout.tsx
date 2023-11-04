@@ -16,7 +16,6 @@ const LayoutDashboard = ({ user }: { user: any }) => {
   const dispatch = useAppDispatch();
   const { date } = useSelector((state: any) => state.time);
   const momentDate = moment(date, "YYYY-MM-DD");
-
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpen = () => {
