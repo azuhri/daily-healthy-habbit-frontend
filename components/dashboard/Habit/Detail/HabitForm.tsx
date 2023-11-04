@@ -13,6 +13,9 @@ import {
 } from "@/redux/features/habitSidebar/habitSidebarSlice";
 import { setHabits } from "@/redux/features/habits/habitsSlice";
 import { openModal } from "@/redux/features/modal/modalSlice";
+import CategoryButton from "./Buttons/CategoryButton";
+import DayButton from "./Buttons/DayButton";
+import DateButton from "./Buttons/DateButton";
 
 const HabitForm = ({ user }: { user: any }) => {
   const dispatch = useAppDispatch();
@@ -20,6 +23,8 @@ const HabitForm = ({ user }: { user: any }) => {
   const { habits, filteredHabits } = useSelector((state: any) => state.habits);
   const { date } = useSelector((state: any) => state.time);
   const isGuest = user.name === "Guest";
+  const API =
+    process.env.API || "https://staging-api-health2023.agileteknik.com";
 
   const [responseMessage, setResponseMessage] = useState("");
   const [isOpen, setIsOpen] = useState({
@@ -36,6 +41,16 @@ const HabitForm = ({ user }: { user: any }) => {
     ["bg-[#d58734]", "Manajemen", "/icons/kategori_manajemen.svg"],
     ["bg-[#46aab9]", "Olahraga", "/icons/kategori_olahraga.svg"],
     ["bg-[#E17055]", "Lainnya", "/icons/kategori_lainnya.svg"],
+  ];
+
+  let days = [
+    ["Sunday", "Minggu"],
+    ["Monday", "Senin"],
+    ["Tuesday", "Selasa"],
+    ["Wednesday", "Rabu"],
+    ["Thursday", "Kamis"],
+    ["Friday", "Jumat"],
+    ["Saturday", "Sabtu"],
   ];
 
   const defaultInputValue = {
@@ -199,12 +214,50 @@ const HabitForm = ({ user }: { user: any }) => {
     };
   };
 
+  const createHabit = async (data: any, config: any) => {
+    return await axios.post(`${API}/api/v2/habbit`, data, config);
+  };
+
+  const editHabit = async (data: any, config: any, id: any) => {
+    return await axios.put(`${API}/api/v2/habbit/${id}`, data, config);
+  };
+
+  const deleteHabit = (id: any) => {
+    dispatch(openModal({ type: "delete", id }));
+  };
+
+  const handleError = (error: any) => {
+    $("#responseMessage").html(`${error.message}`);
+    $("#responseMessage").show(300);
+    setTimeout(() => {
+      $("#responseMessage").hide(300);
+    }, 3000);
+  };
+
+  // Extract API response handling into a separate function
+  const handleApiResponse = async (response: any, config: any) => {
+    if (response && response.status === 200) {
+      dispatch(closeSidebar());
+      setInputValue(defaultInputValue);
+      const response4 = await axios.get(
+        `${API}/api/v2/user?date=${date}`,
+        config
+      );
+
+      if (response4.status === 200) {
+        dispatch(
+          setHabits(response4.data.data.sort((a: any, b: any) => b.id - a.id))
+        );
+      } else {
+        throw new Error(response4.statusText);
+      }
+    }
+  };
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     try {
-      const API =
-        process.env.API || "https://staging-api-health2023.agileteknik.com";
       const access_token = `Bearer ${user.token}`;
       const config = {
         headers: {
@@ -221,144 +274,27 @@ const HabitForm = ({ user }: { user: any }) => {
           if (isGuest && habits.length >= 3)
             throw new Error("Habit Guest maksimal 3");
 
-          response = await axios.post(`${API}/api/v2/habbit`, data, config);
+          response = await createHabit(data, config);
           break;
         case "edit":
-          response = await axios.put(
-            `${API}/api/v2/habbit/${filteredHabits[sidebar.index].id}`,
+          response = await editHabit(
             data,
-            config
+            config,
+            filteredHabits[sidebar.index].id
           );
           break;
         case "delete":
-          dispatch(
-            openModal({ type: "delete", id: filteredHabits[sidebar.index].id })
-          );
+          deleteHabit(filteredHabits[sidebar.index].id);
           break;
         default:
           throw new Error("Terjadi kesalahan");
       }
 
-      if (response && response.status === 200) {
-        dispatch(closeSidebar());
-        setInputValue(defaultInputValue);
-        const response4 = await axios.get(
-          `${API}/api/v2/user?date=${date}`,
-          config
-        );
-
-        if (response4.status === 200) {
-          dispatch(
-            setHabits(response4.data.data.sort((a: any, b: any) => b.id - a.id))
-          );
-        } else {
-          throw new Error(response4.statusText);
-        }
-      }
+      await handleApiResponse(response, config);
     } catch (error: any) {
-      $("#responseMessage").html(`${error.message}`);
-      $("#responseMessage").show(300);
-      setTimeout(() => {
-        $("#responseMessage").hide(300);
-      }, 3000);
+      handleError(error);
     }
   };
-
-  const categorySelector = [];
-  for (let i = 0; i < 8; i++) {
-    categorySelector.push(
-      <div className="my-1">
-        <button
-          type="button"
-          key={i}
-          className={`rounded-lg text-black h-full w-full ${
-            inputValue.color == i && "ring-4"
-          } bg-gray-100 hover:bg-gray-300`}
-          onClick={() =>
-            setInputValue({
-              ...inputValue,
-              color: i,
-            })
-          }
-        >
-          <div className="flex justify-between px-2 items-center">
-            <p className="text-xs lg:text-sm">{category[i][1]}</p>
-            <div
-              className={`${category[i][0]} h-[70%] px-1 flex flex-col justify-center py-1 my-1 rounded`}
-            >
-              <Image
-                src={category[i][2]}
-                alt="Icon category"
-                width={24}
-                height={24}
-              />
-            </div>
-          </div>
-        </button>
-      </div>
-    );
-  }
-
-  const weekSelector = [];
-  for (let i = 0; i < 7; i++) {
-    let day = [
-      ["Sunday", "Minggu"],
-      ["Monday", "Senin"],
-      ["Tuesday", "Selasa"],
-      ["Wednesday", "Rabu"],
-      ["Thursday", "Kamis"],
-      ["Friday", "Jumat"],
-      ["Saturday", "Sabtu"],
-    ];
-    weekSelector.push(
-      <button
-        type="button"
-        key={i}
-        className={`text-xs md:text-sm rounded-lg h-full px-2 py-1 ${
-          inputValue.list_days.includes(day[i][0])
-            ? "text-white bg-primary-100"
-            : "text-black bg-ds-gray"
-        }`}
-        onClick={() =>
-          setInputValue({
-            ...inputValue,
-            list_days: inputValue.list_days.includes(day[i][0])
-              ? inputValue.list_days.filter(
-                  (item: string) => item !== day[i][0]
-                )
-              : [...inputValue.list_days, day[i][0]],
-          })
-        }
-      >
-        <p>{day[i][1].substring(0, 3)}</p>
-      </button>
-    );
-  }
-
-  const monthSelector = [];
-  for (let i = 1; i <= 31; i++) {
-    monthSelector.push(
-      <button
-        type="button"
-        key={i}
-        className={`rounded-lg h-full px-2 py-1 ${
-          inputValue.list_dates.includes(i)
-            ? "text-white bg-primary-100"
-            : "text-black bg-ds-gray"
-        }`}
-        onClick={() =>
-          setInputValue({
-            ...inputValue,
-            list_dates: inputValue.list_dates.includes(i)
-              ? inputValue.list_dates.filter((item: number) => item !== i)
-              : [...inputValue.list_dates, i],
-          })
-        }
-      >
-        <p>{i}</p>
-      </button>
-    );
-  }
 
   const displayNone = {
     display: "none",
@@ -597,7 +533,15 @@ const HabitForm = ({ user }: { user: any }) => {
           isOpen.categoryPicker ? "h-72 my-2 py-6 px-6" : "h-0 invisible"
         } overflow-hidden bg-white grid grid-cols-2 rounded-lg gap-2`}
       >
-        {categorySelector}
+        {category.map((cat, i) => (
+          <CategoryButton
+            key={i}
+            colorIndex={i}
+            category={cat}
+            inputValue={inputValue}
+            setInputValue={setInputValue}
+          />
+        ))}
       </div>
 
       <div className="text-primary-100 group flex justify-between items-center w-full bg-white rounded-lg py-2 px-3 my-2">
@@ -635,12 +579,27 @@ const HabitForm = ({ user }: { user: any }) => {
         <div className="w-full bg-white rounded-lg py-2 px-3 overflow-x-auto">
           {inputValue.type === "weekly" && (
             <div className="w-full h-full flex justify-between">
-              {weekSelector}
+              {days.map((day, i) => (
+                <DayButton
+                  key={i}
+                  dayIndex={i}
+                  day={day}
+                  inputValue={inputValue}
+                  setInputValue={setInputValue}
+                />
+              ))}
             </div>
           )}
           {inputValue.type === "monthly" && (
             <div className="w-full h-full grid grid-cols-7 gap-2">
-              {monthSelector}
+              {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
+                <DateButton
+                  key={day}
+                  day={day}
+                  inputValue={inputValue}
+                  setInputValue={setInputValue}
+                />
+              ))}
             </div>
           )}
           {inputValue.type === "interval_day" && (

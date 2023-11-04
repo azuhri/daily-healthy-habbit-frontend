@@ -4,7 +4,7 @@ import { withSessionRoute } from "@/lib/withSession";
 export default withSessionRoute(async function handler(req, res) {
   switch (req.method) {
     case "POST":
-      const { name, email, password, password_confirmation } = req.body;
+      const { id, name, email, password, password_confirmation } = req.body;
       const API = process.env.API;
       try {
         if (password !== password_confirmation) {
@@ -19,6 +19,28 @@ export default withSessionRoute(async function handler(req, res) {
           res.status(400).json({
             message: "Password minimal 8 karakter",
             status: false,
+          });
+          return;
+        }
+
+        if (req.body.isGuest) {
+          const response = await axios.post(`${API}/api/v1/guest/register`, {
+            guest_id: id.toString(),
+            name,
+            email,
+            password,
+          });
+          const dataUser = {
+            id: response.data.data.id,
+            name: response.data.data.name,
+            email: response.data.data.email,
+            phonenumber: response.data.data.phonenumber,
+            token: response.data.data.access_token,
+          };
+          req.session.user = dataUser;
+          await req.session.save();
+          res.status(200).json({
+            message: response.data.message,
           });
           return;
         }

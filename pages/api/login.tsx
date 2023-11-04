@@ -7,19 +7,18 @@ export default withSessionRoute(async function handler(req, res) {
       const API = process.env.API;
       const { email, password } = req.body;
       try {
-        // check if guest
+        let response;
         if (req.body.isGuest) {
-          const response = await axios.post(`${API}/api/v1/guest/login`);
-          // console.log(response);
+          response = await axios.post(`${API}/api/v1/guest/login`);
 
           const dataUser = {
-            id: response.data.data.id,
+            id: response.data.data.agile_teknik_user.metadata.agileteknik_user
+              .guest_id,
             name: response.data.data.name,
             email: response.data.data.email,
-            phonenumber: null,
+            phonenumber: response.data.data.phonenumber,
             token: response.data.data.access_token,
           };
-          // console.log(dataUser);
 
           req.session.user = dataUser;
           await req.session.save();
@@ -29,11 +28,10 @@ export default withSessionRoute(async function handler(req, res) {
           return;
         }
 
-        const response = await axios.post(`${API}/api/v1/login`, {
+        response = await axios.post(`${API}/api/v1/login`, {
           email,
           password,
         });
-        // console.log(response);
 
         const dataUser = {
           id: response.data.data.id,

@@ -6,6 +6,7 @@ import axios from "axios";
 import $ from "jquery";
 
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const displayNone = {
   display: "none",
@@ -18,6 +19,7 @@ const FormRegister = () => {
   const [password, setPassword] = useState("");
   const [password_confirmation, setPassword_confirmation] = useState("");
   const [responseMessage, setResponseMessage] = useState("");
+  const { isGuest } = useSelector((state: any) => state.guest);
   const router = useRouter();
 
   const handleSubmit = async (e: any) => {
@@ -96,15 +98,17 @@ const FormRegister = () => {
               Daftar
             </button>
           )}
-          <span className="text-center mt-2 font-light text-md text-gray-500">
-            Sudah punya akun ? yuk{" "}
-            <Link
-              href="/login"
-              className="font-bold text-ds-blue-100 hover:text-color-cyan20"
-            >
-              Masuk
-            </Link>
-          </span>
+          {!isGuest && (
+            <span className="text-center mt-2 font-light text-md text-gray-500">
+              Sudah punya akun ? yuk{" "}
+              <Link
+                href="/login"
+                className="font-bold text-ds-blue-100 hover:text-color-cyan20"
+              >
+                Masuk
+              </Link>
+            </span>
+          )}
         </div>
       </form>
     </div>

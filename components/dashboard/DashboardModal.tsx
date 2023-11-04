@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { setHabits } from "@/redux/features/habits/habitsSlice";
 import { useRouter } from "next/router";
+import $ from "jquery";
 
 const DashboardModal = ({ user }: any) => {
   const router = useRouter();
@@ -13,10 +14,17 @@ const DashboardModal = ({ user }: any) => {
   const { filteredHabits } = useSelector((state: any) => state.habits);
   const { date } = useSelector((state: any) => state.time);
   const [progress, setProgress] = useState(0);
-  const [inputValue, setInputValue] = useState({
+  const [inputValueProfile, setInputValueProfile] = useState({
     name: user.name,
     email: user.email,
   });
+  const [inputValueGuestRegister, setInputValueGuestRegister] = useState({
+    name: "",
+    email: "",
+    password: "",
+    password_confirmation: "",
+  });
+  const [responseMessage, setResponseMessage] = useState("");
 
   useEffect(() => {
     if (modal.type === "progress") {
@@ -26,16 +34,25 @@ const DashboardModal = ({ user }: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modal]);
 
+  const displayNone = {
+    display: "none",
+  };
+
   const API =
     process.env.API || "https://staging-api-health2023.agileteknik.com";
   const access_token = `Bearer ${user.token}`;
 
   const handleButtonClick = () => {
-    if (modal.type === "progress") {
-      handleProgress();
-    }
-    if (modal.type === "profile") {
-      handleProfile();
+    switch (modal.type) {
+      case "progress":
+        handleProgress();
+        break;
+      case "profile":
+        handleProfile();
+        break;
+      case "registerGuest":
+        handleRegisterGuest();
+        break;
     }
   };
 
@@ -61,14 +78,14 @@ const DashboardModal = ({ user }: any) => {
         dispatch(closeModal());
       }
     } catch (error) {
-      console.error("Terjadi kesalahan saat update progress:", error);
+      showError(error);
     }
   };
 
   const handleProfile = async () => {
     try {
       const url = `/api/update-profile`;
-      const response = await axios.put(url, inputValue);
+      const response = await axios.put(url, inputValueProfile);
       if (response.status == 200) {
         dispatch(closeModal());
       }
@@ -76,8 +93,38 @@ const DashboardModal = ({ user }: any) => {
         router.reload();
       }, 2000);
     } catch (error) {
-      console.error("Terjadi kesalahan saat update profile:", error);
+      showError(error);
     }
+  };
+
+  const handleRegisterGuest = async () => {
+    try {
+      const url = `/api/register`;
+      const response = await axios.post(url, {
+        isGuest: true,
+        id: user.id,
+        name: inputValueGuestRegister.name,
+        email: inputValueGuestRegister.email,
+        password: inputValueGuestRegister.password,
+        password_confirmation: inputValueGuestRegister.password_confirmation,
+      });
+      if (response.status == 200) {
+        dispatch(closeModal());
+      }
+      setTimeout(() => {
+        router.reload();
+      }, 2000);
+    } catch (error) {
+      showError(error);
+    }
+  };
+
+  const showError = (error: any) => {
+    $("#responseMessage").html(`${error.response.data.message}`);
+    $("#responseMessage").show(300);
+    setTimeout(() => {
+      $("#responseMessage").hide(300);
+    }, 3000);
   };
 
   return (
@@ -142,6 +189,11 @@ const DashboardModal = ({ user }: any) => {
         {modal.type === "profile" && (
           <>
             <p className="text-center text-lg font-semibold">Profil</p>
+            <div
+              id="responseMessage"
+              style={displayNone}
+              className="border-red-500 text-red-400 bg-red-200 mt-2 text-center p-3 border rounded-lg font-bold"
+            ></div>
             <form className="flex flex-col gap-2 pt-2">
               <div className="flex justify-between bg-white rounded-lg items-center px-4">
                 <label className="font-semibold">Nama</label>
@@ -150,10 +202,13 @@ const DashboardModal = ({ user }: any) => {
                   type="text"
                   className="w-[50%] text-center border-0 border-b-2 border-gray-300 px-1 my-1 focus:outline-none focus:ring-0 focus:border-primary-100 placeholder-gray-300"
                   placeholder="Nama"
-                  value={inputValue.name}
+                  value={inputValueProfile.name}
                   onChange={(e) =>
                     e.target.value.length < 50 &&
-                    setInputValue({ ...inputValue, name: e.target.value })
+                    setInputValueProfile({
+                      ...inputValueProfile,
+                      name: e.target.value,
+                    })
                   }
                 />
               </div>
@@ -164,7 +219,7 @@ const DashboardModal = ({ user }: any) => {
                   type="email"
                   className="w-[50%] disabled:text-gray-300 text-center border-0 border-b-2 border-gray-300 px-1 my-1 focus:outline-none focus:ring-0 focus:border-primary-100 placeholder-gray-300"
                   placeholder="Email"
-                  value={inputValue.email}
+                  value={inputValueProfile.email}
                 />
               </div>
               <div className="flex justify-between bg-white rounded-lg items-center px-4">
@@ -175,6 +230,80 @@ const DashboardModal = ({ user }: any) => {
                   className="w-[50%] disabled:text-gray-300 text-center border-0 border-b-2 border-gray-300 px-1 my-1 focus:outline-none focus:ring-0 focus:border-primary-100 placeholder-gray-300"
                   placeholder="Password"
                   value={"**********"}
+                />
+              </div>
+            </form>
+          </>
+        )}
+        {modal.type === "registerGuest" && (
+          <>
+            <p className="text-center text-lg font-semibold">Profil</p>
+            <div
+              id="responseMessage"
+              style={displayNone}
+              className="border-red-500 text-red-400 bg-red-200 mt-2 text-center p-3 border rounded-lg font-bold"
+            ></div>
+            <form className="flex flex-col gap-2 pt-2">
+              <div className="flex justify-between bg-white rounded-lg items-center px-4">
+                <label className="font-semibold">Nama</label>
+                <input
+                  required
+                  type="text"
+                  className="w-[50%] text-center border-0 border-b-2 border-gray-300 px-1 my-1 focus:outline-none focus:ring-0 focus:border-primary-100 placeholder-gray-300"
+                  placeholder="Nama"
+                  value={inputValueGuestRegister.name}
+                  onChange={(e) =>
+                    e.target.value.length < 50 &&
+                    setInputValueGuestRegister({
+                      ...inputValueGuestRegister,
+                      name: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div className="flex justify-between bg-white rounded-lg items-center px-4">
+                <label className="font-semibold">Email</label>
+                <input
+                  type="email"
+                  className="w-[50%] text-center border-0 border-b-2 border-gray-300 px-1 my-1 focus:outline-none focus:ring-0 focus:border-primary-100 placeholder-gray-300"
+                  placeholder="Email"
+                  value={inputValueGuestRegister.email}
+                  onChange={(e) =>
+                    setInputValueGuestRegister({
+                      ...inputValueGuestRegister,
+                      email: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div className="flex justify-between bg-white rounded-lg items-center px-4">
+                <label className="font-semibold">Password</label>
+                <input
+                  type="password"
+                  className="w-[50%] text-center border-0 border-b-2 border-gray-300 px-1 my-1 focus:outline-none focus:ring-0 focus:border-primary-100 placeholder-gray-300"
+                  placeholder="Password"
+                  value={inputValueGuestRegister.password}
+                  onChange={(e) =>
+                    setInputValueGuestRegister({
+                      ...inputValueGuestRegister,
+                      password: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div className="flex justify-between bg-white rounded-lg items-center px-4">
+                <label className="font-semibold">Konfirmasi Password</label>
+                <input
+                  type="password"
+                  className="w-[50%] text-center border-0 border-b-2 border-gray-300 px-1 my-1 focus:outline-none focus:ring-0 focus:border-primary-100 placeholder-gray-300"
+                  placeholder="Konfirmasi Password"
+                  value={inputValueGuestRegister.password_confirmation}
+                  onChange={(e) =>
+                    setInputValueGuestRegister({
+                      ...inputValueGuestRegister,
+                      password_confirmation: e.target.value,
+                    })
+                  }
                 />
               </div>
             </form>
