@@ -13,9 +13,9 @@ import {
 } from "@/redux/features/habitSidebar/habitSidebarSlice";
 import { setHabits } from "@/redux/features/habits/habitsSlice";
 import { openModal } from "@/redux/features/modal/modalSlice";
-import CategoryButton from "./CategoryButton";
-import DayButton from "./DayButton";
-import DateButton from "./DateButton";
+import CategoryButton from "./Buttons/CategoryButton";
+import DayButton from "./Buttons/DayButton";
+import DateButton from "./Buttons/DateButton";
 
 const HabitForm = ({ user }: { user: any }) => {
   const dispatch = useAppDispatch();
@@ -23,6 +23,8 @@ const HabitForm = ({ user }: { user: any }) => {
   const { habits, filteredHabits } = useSelector((state: any) => state.habits);
   const { date } = useSelector((state: any) => state.time);
   const isGuest = user.name === "Guest";
+  const API =
+    process.env.API || "https://staging-api-health2023.agileteknik.com";
 
   const [responseMessage, setResponseMessage] = useState("");
   const [isOpen, setIsOpen] = useState({
@@ -212,12 +214,50 @@ const HabitForm = ({ user }: { user: any }) => {
     };
   };
 
+  const createHabit = async (data: any, config: any) => {
+    return await axios.post(`${API}/api/v2/habbit`, data, config);
+  };
+
+  const editHabit = async (data: any, config: any, id: any) => {
+    return await axios.put(`${API}/api/v2/habbit/${id}`, data, config);
+  };
+
+  const deleteHabit = (id: any) => {
+    dispatch(openModal({ type: "delete", id }));
+  };
+
+  const handleError = (error: any) => {
+    $("#responseMessage").html(`${error.message}`);
+    $("#responseMessage").show(300);
+    setTimeout(() => {
+      $("#responseMessage").hide(300);
+    }, 3000);
+  };
+
+  // Extract API response handling into a separate function
+  const handleApiResponse = async (response: any, config: any) => {
+    if (response && response.status === 200) {
+      dispatch(closeSidebar());
+      setInputValue(defaultInputValue);
+      const response4 = await axios.get(
+        `${API}/api/v2/user?date=${date}`,
+        config
+      );
+
+      if (response4.status === 200) {
+        dispatch(
+          setHabits(response4.data.data.sort((a: any, b: any) => b.id - a.id))
+        );
+      } else {
+        throw new Error(response4.statusText);
+      }
+    }
+  };
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     try {
-      const API =
-        process.env.API || "https://staging-api-health2023.agileteknik.com";
       const access_token = `Bearer ${user.token}`;
       const config = {
         headers: {
@@ -234,46 +274,25 @@ const HabitForm = ({ user }: { user: any }) => {
           if (isGuest && habits.length >= 3)
             throw new Error("Habit Guest maksimal 3");
 
-          response = await axios.post(`${API}/api/v2/habbit`, data, config);
+          response = await createHabit(data, config);
           break;
         case "edit":
-          response = await axios.put(
-            `${API}/api/v2/habbit/${filteredHabits[sidebar.index].id}`,
+          response = await editHabit(
             data,
-            config
+            config,
+            filteredHabits[sidebar.index].id
           );
           break;
         case "delete":
-          dispatch(
-            openModal({ type: "delete", id: filteredHabits[sidebar.index].id })
-          );
+          deleteHabit(filteredHabits[sidebar.index].id);
           break;
         default:
           throw new Error("Terjadi kesalahan");
       }
 
-      if (response && response.status === 200) {
-        dispatch(closeSidebar());
-        setInputValue(defaultInputValue);
-        const response4 = await axios.get(
-          `${API}/api/v2/user?date=${date}`,
-          config
-        );
-
-        if (response4.status === 200) {
-          dispatch(
-            setHabits(response4.data.data.sort((a: any, b: any) => b.id - a.id))
-          );
-        } else {
-          throw new Error(response4.statusText);
-        }
-      }
+      await handleApiResponse(response, config);
     } catch (error: any) {
-      $("#responseMessage").html(`${error.message}`);
-      $("#responseMessage").show(300);
-      setTimeout(() => {
-        $("#responseMessage").hide(300);
-      }, 3000);
+      handleError(error);
     }
   };
 
