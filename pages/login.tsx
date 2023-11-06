@@ -16,7 +16,6 @@ import Head from "next/head";
 import { useAppDispatch } from "@/redux/store";
 import Cookies from 'js-cookie';
 import InputForm from "@/components/forms/InputForm";
-import { Cookie } from "next/font/google";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const API = process.env.API;
