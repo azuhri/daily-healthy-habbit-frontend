@@ -1,15 +1,18 @@
 import axios from "axios";
 import { withSessionRoute } from "../../lib/withSession";
 
+
 export default withSessionRoute(async function handler(req, res) {
   switch (req.method) {
     case "POST":
       const API = process.env.API;
       const { email, password } = req.body;
+      
       try {
         let response;
         if (req.body.isGuest) {
-          response = await axios.post(`${API}/api/v1/guest/login`);
+          let guest_id = req.body.guest_id;
+          response = await axios.post(`${API}/api/v1/guest/login`, {guest_id});
 
           const dataUser = {
             id: response.data.data.agile_teknik_user.metadata.agileteknik_user
@@ -19,11 +22,12 @@ export default withSessionRoute(async function handler(req, res) {
             phonenumber: response.data.data.phonenumber,
             token: response.data.data.access_token,
           };
-
+          
           req.session.user = dataUser;
           await req.session.save();
           res.status(200).json({
             message: response.data.message,
+            guest_id: dataUser.id,
           });
           return;
         }
@@ -40,7 +44,6 @@ export default withSessionRoute(async function handler(req, res) {
           phonenumber: response.data.data.phonenumber,
           token: response.data.data.access_token,
         };
-        // console.log(dataUser);
 
         req.session.user = dataUser;
         await req.session.save();
@@ -49,7 +52,6 @@ export default withSessionRoute(async function handler(req, res) {
         });
       } catch (error: any) {
         const { data } = error.response;
-        console.log(data);
 
         let customMessage = data.message;
         let statusCode = 400;
