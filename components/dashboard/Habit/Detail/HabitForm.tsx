@@ -18,10 +18,14 @@ import DayButton from "./Buttons/DayButton";
 import DateButton from "./Buttons/DateButton";
 import { createHabit, editHabit, getHabitByDate } from "../api";
 import {
+  InputValueType,
+  defaultInputValue,
+  getInitialState,
   handleApiResponse,
   handleDetailParameter,
   handleError,
   handleInvalidData,
+  resetState,
 } from "./HabitFormUtils";
 
 const HabitForm = ({ user }: { user: any }) => {
@@ -57,77 +61,12 @@ const HabitForm = ({ user }: { user: any }) => {
   ];
 
   // Input Value
-  type InputValueType = {
-    id: number;
-    name: string;
-    description: string;
-    start_time: string;
-    type: "daily" | "weekly" | "monthly" | "interval_day";
-    target_perday: number;
-    priority: number;
-    color: number;
-    start_date: moment.Moment;
-    list_days: string[];
-    list_dates: number[];
-    interval_day: number;
-    alarm_code: string;
-  };
-
-  const defaultInputValue: InputValueType = {
-    id: -1,
-    name: "",
-    description: "",
-    start_time: "00:00",
-    type: "daily",
-    target_perday: 1,
-    priority: 0,
-    color: 0,
-    start_date: date,
-    list_days: [],
-    list_dates: [],
-    interval_day: 1,
-    alarm_code: "",
-  };
-
-  const getInitialState = (): InputValueType => {
-    if (filteredHabits[sidebar.index]) {
-      return {
-        id: filteredHabits[sidebar.index].id,
-        name: filteredHabits[sidebar.index].name,
-        description: filteredHabits[sidebar.index].description || "",
-        start_time: filteredHabits[sidebar.index].start_time,
-        type: filteredHabits[sidebar.index].type,
-        target_perday: filteredHabits[sidebar.index].target_perday || 1,
-        priority: filteredHabits[sidebar.index].priority || 0,
-        color: filteredHabits[sidebar.index].color,
-        start_date: date,
-        list_days: filteredHabits[sidebar.index].detail_parameter
-          ? filteredHabits[sidebar.index].detail_parameter.split(",")
-          : [],
-        list_dates: filteredHabits[sidebar.index].detail_parameter
-          ? filteredHabits[sidebar.index].detail_parameter
-              .split(",")
-              .map((item: any) => parseInt(item))
-          : [],
-        interval_day: filteredHabits[sidebar.index].interval_day || 1,
-        alarm_code: filteredHabits[sidebar.index].alarm_code,
-      };
-    } else {
-      return defaultInputValue;
-    }
-  };
-
   const [inputValue, setInputValue] = useState<InputValueType>(
-    getInitialState()
+    getInitialState(filteredHabits, sidebar.index)
   );
 
-  const resetState = () => {
-    setInputValue(getInitialState());
-    setIsOpen({ ...isOpen, timePicker: false, categoryPicker: false });
-  };
-
   useEffect(() => {
-    resetState();
+    resetState(filteredHabits, sidebar.index, setInputValue, setIsOpen, isOpen);
 
     if (!filteredHabits[sidebar.index] && sidebar.type === "edit") {
       dispatch(closeSidebar());
