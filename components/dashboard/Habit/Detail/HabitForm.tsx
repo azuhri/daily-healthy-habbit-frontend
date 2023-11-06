@@ -17,27 +17,25 @@ import CategoryButton from "./Buttons/CategoryButton";
 import DayButton from "./Buttons/DayButton";
 import DateButton from "./Buttons/DateButton";
 import { createHabit, editHabit, getHabitByDate } from "../api";
+import {
+  handleApiResponse,
+  handleDetailParameter,
+  handleError,
+  handleInvalidData,
+} from "./HabitFormUtils";
 
 const HabitForm = ({ user }: { user: any }) => {
   const dispatch = useAppDispatch();
   const sidebar = useSelector((state: any) => state.sidebar);
   const { habits, filteredHabits } = useSelector((state: any) => state.habits);
   const { date } = useSelector((state: any) => state.time);
+
   const isGuest = user.name === "Guest";
-
-  const access_token = `Bearer ${user.token}`;
-  const config = {
-    headers: {
-      Authorization: access_token,
-    },
-  };
-
   const [responseMessage, setResponseMessage] = useState("");
   const [isOpen, setIsOpen] = useState({
     timePicker: false,
     categoryPicker: false,
   });
-
   let category = [
     ["bg-[#60a588]", "Keagamaan", "/icons/kategori_keagamaan.svg"],
     ["bg-[#8373a0]", "Belajar", "/icons/kategori_belajar.png"],
@@ -48,7 +46,6 @@ const HabitForm = ({ user }: { user: any }) => {
     ["bg-[#46aab9]", "Olahraga", "/icons/kategori_olahraga.svg"],
     ["bg-[#E17055]", "Lainnya", "/icons/kategori_lainnya.svg"],
   ];
-
   let days = [
     ["Sunday", "Minggu"],
     ["Monday", "Senin"],
@@ -59,6 +56,7 @@ const HabitForm = ({ user }: { user: any }) => {
     ["Saturday", "Sabtu"],
   ];
 
+  // Input Value
   type InputValueType = {
     id: number;
     name: string;
@@ -119,7 +117,6 @@ const HabitForm = ({ user }: { user: any }) => {
     }
   };
 
-  // inputValue is InputValueType
   const [inputValue, setInputValue] = useState<InputValueType>(
     getInitialState()
   );
@@ -153,71 +150,16 @@ const HabitForm = ({ user }: { user: any }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputValue.type]);
 
-  const handleInvalidData = () => {
-    if (!inputValue.start_time) throw new Error("Pengingat belum diisi");
-    if (
-      habits.some((habit: any) => habit.name === inputValue.name) &&
-      (sidebar.type === "create" ||
-        (sidebar.type === "edit" &&
-          habits[sidebar.index].name !== inputValue.name))
-    )
-      throw new Error("Nama habit sudah ada");
-    if (
-      inputValue.type != "daily" &&
-      inputValue.list_days.length < 1 &&
-      inputValue.list_dates.length < 1 &&
-      (inputValue.interval_day < 1 || inputValue.type != "interval_day")
-    )
-      throw new Error("Frekuensi belum diisi");
-    if (inputValue.target_perday < 1)
-      throw new Error("Target perhari tidak boleh kosong");
-    if (inputValue.priority < 0)
-      throw new Error("Prioritas tidak boleh kurang dari 0");
-  };
-
-  const handleDetailParameter = () => {
-    let list_days = "";
-    let list_dates = "";
-
-    if (inputValue.list_days.length > 0)
-      list_days = inputValue.list_days.join(",");
-
-    if (inputValue.list_dates.length > 0)
-      list_dates = inputValue.list_dates.join(",");
-
-    return {
-      ...inputValue,
-      list_days,
-      list_dates,
-    };
+  // Submit Form
+  const access_token = `Bearer ${user.token}`;
+  const config = {
+    headers: {
+      Authorization: access_token,
+    },
   };
 
   const deleteHabit = (id: any) => {
     dispatch(openModal({ type: "delete", id }));
-  };
-
-  const handleError = (error: any) => {
-    $("#responseMessage").html(`${error.message}`);
-    $("#responseMessage").show(300);
-    setTimeout(() => {
-      $("#responseMessage").hide(300);
-    }, 3000);
-  };
-
-  const handleApiResponse = async (response: any) => {
-    if (response && response.status === 200) {
-      dispatch(closeSidebar());
-      setInputValue(defaultInputValue);
-      const response = await getHabitByDate(date, config);
-
-      if (response.status === 200) {
-        dispatch(
-          setHabits(response.data.data.sort((a: any, b: any) => b.id - a.id))
-        );
-      } else {
-        throw new Error(response.statusText);
-      }
-    }
   };
 
   const handleSubmit = async (e: any) => {
@@ -225,8 +167,9 @@ const HabitForm = ({ user }: { user: any }) => {
 
     try {
       let response;
-      const data = handleDetailParameter();
-      if (e.nativeEvent.submitter.name !== "delete") handleInvalidData();
+      const data = handleDetailParameter(inputValue);
+      if (e.nativeEvent.submitter.name !== "delete")
+        handleInvalidData(data, habits, sidebar, data.name);
 
       switch (e.nativeEvent.submitter.name) {
         case "create":
@@ -249,7 +192,16 @@ const HabitForm = ({ user }: { user: any }) => {
           throw new Error("Terjadi kesalahan");
       }
 
-      await handleApiResponse(response);
+      await handleApiResponse(
+        response,
+        dispatch,
+        setInputValue,
+        getHabitByDate,
+        date,
+        config,
+        defaultInputValue,
+        setHabits
+      );
     } catch (error: any) {
       handleError(error);
     }
