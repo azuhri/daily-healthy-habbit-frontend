@@ -16,6 +16,7 @@ import { openModal } from "@/redux/features/modal/modalSlice";
 import CategoryButton from "./Buttons/CategoryButton";
 import DayButton from "./Buttons/DayButton";
 import DateButton from "./Buttons/DateButton";
+import { createHabit, editHabit, getHabitByDate } from "../api";
 
 const HabitForm = ({ user }: { user: any }) => {
   const dispatch = useAppDispatch();
@@ -23,8 +24,13 @@ const HabitForm = ({ user }: { user: any }) => {
   const { habits, filteredHabits } = useSelector((state: any) => state.habits);
   const { date } = useSelector((state: any) => state.time);
   const isGuest = user.name === "Guest";
-  const API =
-    process.env.API || "https://staging-api-health2023.agileteknik.com";
+
+  const access_token = `Bearer ${user.token}`;
+  const config = {
+    headers: {
+      Authorization: access_token,
+    },
+  };
 
   const [responseMessage, setResponseMessage] = useState("");
   const [isOpen, setIsOpen] = useState({
@@ -53,11 +59,27 @@ const HabitForm = ({ user }: { user: any }) => {
     ["Saturday", "Sabtu"],
   ];
 
-  const defaultInputValue = {
-    id: null,
+  type InputValueType = {
+    id: number;
+    name: string;
+    description: string;
+    start_time: string;
+    type: "daily" | "weekly" | "monthly" | "interval_day";
+    target_perday: number;
+    priority: number;
+    color: number;
+    start_date: moment.Moment;
+    list_days: string[];
+    list_dates: number[];
+    interval_day: number;
+    alarm_code: string;
+  };
+
+  const defaultInputValue: InputValueType = {
+    id: -1,
     name: "",
     description: "",
-    start_time: null,
+    start_time: "00:00",
     type: "daily",
     target_perday: 1,
     priority: 0,
@@ -66,74 +88,49 @@ const HabitForm = ({ user }: { user: any }) => {
     list_days: [],
     list_dates: [],
     interval_day: 1,
-    alarm_code: null,
+    alarm_code: "",
   };
 
-  const [inputValue, setInputValue] = useState(
-    filteredHabits[sidebar.index]
-      ? {
-          id: filteredHabits[sidebar.index].id,
-          name: filteredHabits[sidebar.index].name,
-          description: filteredHabits[sidebar.index].description
-            ? filteredHabits[sidebar.index].description
-            : "",
-          start_time: filteredHabits[sidebar.index].start_time,
-          type: filteredHabits[sidebar.index].type,
-          target_perday: filteredHabits[sidebar.index].target_perday
-            ? filteredHabits[sidebar.index].target_perday
-            : 1,
-          priority: filteredHabits[sidebar.index].priority
-            ? filteredHabits[sidebar.index].priority
-            : 0,
-          color: filteredHabits[sidebar.index].color,
-          start_date: date,
-          list_days: filteredHabits[sidebar.index].detail_parameter
-            ? filteredHabits[sidebar.index].detail_parameter.split(",")
-            : [],
-          list_dates: filteredHabits[sidebar.index].detail_parameter
-            ? filteredHabits[sidebar.index].detail_parameter
-                .split(",")
-                .map((item: any) => parseInt(item))
-            : [],
-          interval_day: filteredHabits[sidebar.index].interval_day
-            ? filteredHabits[sidebar.index].interval_day
-            : 1,
-          alarm_code: filteredHabits[sidebar.index].alarm_code,
-        }
-      : defaultInputValue
+  const getInitialState = (): InputValueType => {
+    if (filteredHabits[sidebar.index]) {
+      return {
+        id: filteredHabits[sidebar.index].id,
+        name: filteredHabits[sidebar.index].name,
+        description: filteredHabits[sidebar.index].description || "",
+        start_time: filteredHabits[sidebar.index].start_time,
+        type: filteredHabits[sidebar.index].type,
+        target_perday: filteredHabits[sidebar.index].target_perday || 1,
+        priority: filteredHabits[sidebar.index].priority || 0,
+        color: filteredHabits[sidebar.index].color,
+        start_date: date,
+        list_days: filteredHabits[sidebar.index].detail_parameter
+          ? filteredHabits[sidebar.index].detail_parameter.split(",")
+          : [],
+        list_dates: filteredHabits[sidebar.index].detail_parameter
+          ? filteredHabits[sidebar.index].detail_parameter
+              .split(",")
+              .map((item: any) => parseInt(item))
+          : [],
+        interval_day: filteredHabits[sidebar.index].interval_day || 1,
+        alarm_code: filteredHabits[sidebar.index].alarm_code,
+      };
+    } else {
+      return defaultInputValue;
+    }
+  };
+
+  // inputValue is InputValueType
+  const [inputValue, setInputValue] = useState<InputValueType>(
+    getInitialState()
   );
 
-  useEffect(() => {
-    filteredHabits[sidebar.index]
-      ? setInputValue({
-          id: filteredHabits[sidebar.index].id,
-          name: filteredHabits[sidebar.index].name,
-          description: filteredHabits[sidebar.index].description
-            ? filteredHabits[sidebar.index].description
-            : "",
-          start_time: filteredHabits[sidebar.index].start_time,
-          type: filteredHabits[sidebar.index].type,
-          target_perday: filteredHabits[sidebar.index].target_perday
-            ? filteredHabits[sidebar.index].target_perday
-            : 1,
-          priority: filteredHabits[sidebar.index].priority
-            ? filteredHabits[sidebar.index].priority
-            : 0,
-          color: filteredHabits[sidebar.index].color,
-          start_date: date,
-          list_days: filteredHabits[sidebar.index].detail_parameter
-            ? filteredHabits[sidebar.index].detail_parameter.split(",")
-            : [],
-          list_dates: filteredHabits[sidebar.index].detail_parameter
-            ? filteredHabits[sidebar.index].detail_parameter
-                .split(",")
-                .map((item: any) => parseInt(item))
-            : [],
-          interval_day: filteredHabits[sidebar.index].interval_day,
-          alarm_code: filteredHabits[sidebar.index].alarm_code,
-        })
-      : setInputValue(defaultInputValue);
+  const resetState = () => {
+    setInputValue(getInitialState());
     setIsOpen({ ...isOpen, timePicker: false, categoryPicker: false });
+  };
+
+  useEffect(() => {
+    resetState();
 
     if (!filteredHabits[sidebar.index] && sidebar.type === "edit") {
       dispatch(closeSidebar());
@@ -143,36 +140,15 @@ const HabitForm = ({ user }: { user: any }) => {
   }, [filteredHabits[sidebar.index], sidebar.isOpen]);
 
   useEffect(() => {
-    switch (inputValue.type) {
-      case "daily":
-        setInputValue({
-          ...inputValue,
-          list_days: [],
-          list_dates: [],
-          interval_day: 1,
-        });
-        break;
-      case "weekly":
-        setInputValue({
-          ...inputValue,
-          list_dates: [],
-          interval_day: 1,
-        });
-        break;
-      case "monthly":
-        setInputValue({
-          ...inputValue,
-          list_days: [],
-          interval_day: 1,
-        });
-        break;
-      case "interval_day":
-        setInputValue({
-          ...inputValue,
-          list_days: [],
-          list_dates: [],
-        });
-        break;
+    const resetFields = {
+      daily: { list_days: [], list_dates: [], interval_day: 1 },
+      weekly: { list_dates: [], interval_day: 1 },
+      monthly: { list_days: [], interval_day: 1 },
+      interval_day: { list_days: [], list_dates: [] },
+    };
+
+    if (resetFields[inputValue.type]) {
+      setInputValue({ ...inputValue, ...resetFields[inputValue.type] });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputValue.type]);
@@ -181,7 +157,9 @@ const HabitForm = ({ user }: { user: any }) => {
     if (!inputValue.start_time) throw new Error("Pengingat belum diisi");
     if (
       habits.some((habit: any) => habit.name === inputValue.name) &&
-      habits[sidebar.index].name !== inputValue.name
+      (sidebar.type === "create" ||
+        (sidebar.type === "edit" &&
+          habits[sidebar.index].name !== inputValue.name))
     )
       throw new Error("Nama habit sudah ada");
     if (
@@ -192,9 +170,9 @@ const HabitForm = ({ user }: { user: any }) => {
     )
       throw new Error("Frekuensi belum diisi");
     if (inputValue.target_perday < 1)
-      throw new Error("Target perhari harus lebih dari 0");
-    if (isNaN(inputValue.priority.toString()) || inputValue.priority === "")
-      throw new Error("Prioritas harus berupa angka");
+      throw new Error("Target perhari tidak boleh kosong");
+    if (inputValue.priority < 0)
+      throw new Error("Prioritas tidak boleh kurang dari 0");
   };
 
   const handleDetailParameter = () => {
@@ -214,14 +192,6 @@ const HabitForm = ({ user }: { user: any }) => {
     };
   };
 
-  const createHabit = async (data: any, config: any) => {
-    return await axios.post(`${API}/api/v2/habbit`, data, config);
-  };
-
-  const editHabit = async (data: any, config: any, id: any) => {
-    return await axios.put(`${API}/api/v2/habbit/${id}`, data, config);
-  };
-
   const deleteHabit = (id: any) => {
     dispatch(openModal({ type: "delete", id }));
   };
@@ -234,22 +204,18 @@ const HabitForm = ({ user }: { user: any }) => {
     }, 3000);
   };
 
-  // Extract API response handling into a separate function
-  const handleApiResponse = async (response: any, config: any) => {
+  const handleApiResponse = async (response: any) => {
     if (response && response.status === 200) {
       dispatch(closeSidebar());
       setInputValue(defaultInputValue);
-      const response4 = await axios.get(
-        `${API}/api/v2/user?date=${date}`,
-        config
-      );
+      const response = await getHabitByDate(date, config);
 
-      if (response4.status === 200) {
+      if (response.status === 200) {
         dispatch(
-          setHabits(response4.data.data.sort((a: any, b: any) => b.id - a.id))
+          setHabits(response.data.data.sort((a: any, b: any) => b.id - a.id))
         );
       } else {
-        throw new Error(response4.statusText);
+        throw new Error(response.statusText);
       }
     }
   };
@@ -258,13 +224,6 @@ const HabitForm = ({ user }: { user: any }) => {
     e.preventDefault();
 
     try {
-      const access_token = `Bearer ${user.token}`;
-      const config = {
-        headers: {
-          Authorization: access_token,
-        },
-      };
-
       let response;
       const data = handleDetailParameter();
       if (e.nativeEvent.submitter.name !== "delete") handleInvalidData();
@@ -290,7 +249,7 @@ const HabitForm = ({ user }: { user: any }) => {
           throw new Error("Terjadi kesalahan");
       }
 
-      await handleApiResponse(response, config);
+      await handleApiResponse(response);
     } catch (error: any) {
       handleError(error);
     }
@@ -374,24 +333,28 @@ const HabitForm = ({ user }: { user: any }) => {
                     className="bg-transparent text-center w-8 h-4 border-0 border-b-2 border-gray-300 px-1 my-1 focus:outline-none focus:ring-0 focus:border-primary-100 placeholder-gray-300"
                     placeholder="00"
                     value={inputValue.target_perday}
-                    onChange={(e) =>
-                      e.target.value.length <= 2 &&
-                      (e.target.value === "" ||
-                        !isNaN(parseInt(e.target.value))) &&
-                      setInputValue({
-                        ...inputValue,
-                        target_perday: e.target.value,
-                      })
-                    }
+                    onChange={(e) => {
+                      if (e.target.value === "") {
+                        setInputValue({ ...inputValue, target_perday: 1 });
+                        return;
+                      }
+                      if (e.target.value.length <= 2) {
+                        setInputValue({
+                          ...inputValue,
+                          target_perday: parseInt(e.target.value),
+                        });
+                      }
+                    }}
                   />
                   <button
                     type="button"
                     className="bg-primary-100 rounded-lg px-2 mx-1 text-white"
                     onClick={() => {
-                      setInputValue({
-                        ...inputValue,
-                        target_perday: inputValue.target_perday + 1,
-                      });
+                      if (inputValue.target_perday < 99)
+                        setInputValue({
+                          ...inputValue,
+                          target_perday: inputValue.target_perday + 1,
+                        });
                     }}
                   >
                     +
@@ -426,11 +389,12 @@ const HabitForm = ({ user }: { user: any }) => {
                   type="button"
                   className="ring-1 ring-primary-100 rounded-lg px-2 mx-1 text-black"
                   onClick={() => {
-                    if (inputValue.priority > 0)
+                    if (inputValue.priority > 0) {
                       setInputValue({
                         ...inputValue,
                         priority: inputValue.priority - 1,
                       });
+                    }
                   }}
                 >
                   -
@@ -440,30 +404,29 @@ const HabitForm = ({ user }: { user: any }) => {
                   className="bg-transparent text-center w-8 h-4 border-0 border-b-2 border-gray-300 px-1 my-1 focus:outline-none focus:ring-0 focus:border-primary-100 placeholder-gray-300"
                   placeholder="00"
                   value={inputValue.priority}
-                  onChange={(e) =>
-                    e.target.value.length <= 2 &&
-                    (e.target.value === "" ||
-                      !isNaN(parseInt(e.target.value))) &&
-                    setInputValue({
-                      ...inputValue,
-                      priority: e.target.value,
-                    })
-                  }
+                  onChange={(e) => {
+                    if (e.target.value === "") {
+                      setInputValue({ ...inputValue, priority: 0 });
+                      return;
+                    }
+                    if (e.target.value.length <= 2) {
+                      setInputValue({
+                        ...inputValue,
+                        priority: parseInt(e.target.value),
+                      });
+                    }
+                  }}
                 />
                 <button
                   type="button"
                   className="bg-primary-100 rounded-lg px-2 mx-1 text-white"
                   onClick={() => {
-                    if (inputValue.priority == "")
-                      setInputValue({
-                        ...inputValue,
-                        priority: 1,
-                      });
-                    else
+                    if (inputValue.priority < 99) {
                       setInputValue({
                         ...inputValue,
                         priority: inputValue.priority + 1,
                       });
+                    }
                   }}
                 >
                   +
@@ -550,7 +513,10 @@ const HabitForm = ({ user }: { user: any }) => {
           id="underline_select"
           className="block px-0 text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
           onChange={(e) => {
-            setInputValue({ ...inputValue, type: e.target.value });
+            setInputValue({
+              ...inputValue,
+              type: e.target.value as "daily" | "weekly" | "monthly",
+            });
           }}
           value={inputValue.type}
         >
@@ -613,7 +579,10 @@ const HabitForm = ({ user }: { user: any }) => {
                 onChange={(e) =>
                   e.target.value.length <= 2 &&
                   (e.target.value === "" || !isNaN(parseInt(e.target.value))) &&
-                  setInputValue({ ...inputValue, interval_day: e.target.value })
+                  setInputValue({
+                    ...inputValue,
+                    interval_day: parseInt(e.target.value),
+                  })
                 }
               />
               <p>Hari</p>
