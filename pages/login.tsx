@@ -14,7 +14,7 @@ import $ from "jquery";
 import Loading from "@/components/loadingButton";
 import Head from "next/head";
 import { useAppDispatch } from "@/redux/store";
-
+import Cookies from 'js-cookie';
 import InputForm from "@/components/forms/InputForm";
 
 export const getServerSideProps: GetServerSideProps = async () => {
@@ -58,10 +58,15 @@ export default function LoginPage({ API }: any) {
 
   const loginGuest = async () => {
     try {
+      const guest_id  = Cookies.get("guest_id");
+      
       setIsGuestLoading(true);
       const response = await axios.post(`/api/login`, {
         isGuest: true,
+        guest_id
       });
+
+      Cookies.set("guest_id", response.data.guest_id, {expires: 90});
       router.push("/dashboard");
     } catch (error: any) {
       showError(error);

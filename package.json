@@ -28,6 +28,7 @@
     "flowbite-react": "^0.6.1",
     "iron-session": "^6.3.1",
     "jquery": "^3.7.1",
+    "js-cookie": "^3.0.5",
     "moment": "^2.29.4",
     "next": "13.4.19",
     "next-redux-wrapper": "^8.1.0",
@@ -44,6 +45,7 @@
   },
   "devDependencies": {
     "@types/aos": "^3.0.4",
-    "@types/jquery": "^3.5.17"
+    "@types/jquery": "^3.5.17",
+    "@types/js-cookie": "^3.0.5"
   }
 }
