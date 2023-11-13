@@ -6,6 +6,7 @@ import axios from "axios";
 import { setHabits } from "@/redux/features/habits/habitsSlice";
 import { useRouter } from "next/router";
 import $ from "jquery";
+import Cookies from "js-cookie";
 
 const DashboardModal = ({ user }: any) => {
   const router = useRouter();
@@ -110,6 +111,7 @@ const DashboardModal = ({ user }: any) => {
       });
       if (response.status == 200) {
         dispatch(closeModal());
+        Cookies.remove("guest_id");
       }
       setTimeout(() => {
         router.reload();
