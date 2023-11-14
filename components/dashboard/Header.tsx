@@ -10,7 +10,7 @@ import { filterHabits } from "@/redux/features/habits/habitsSlice";
 
 const Header = ({ user }: any) => {
   const dispatch = useAppDispatch();
-  const guest = useSelector((state: any) => state.guest);
+  const { isGuest } = useSelector((state: any) => state.guest);
 
   return (
     <div className="grid grid-cols-7 items-center">
@@ -53,23 +53,6 @@ const Header = ({ user }: any) => {
       </form>
 
       <div className="col-span-1 flex space-x-5 justify-end">
-        {/* <button>
-          <Image
-            src="/icons/question.svg"
-            alt="Question Icon"
-            width={20}
-            height={20}
-          />
-        </button>
-        <button>
-          <Image
-            src="/icons/notif-bell.svg"
-            alt="Notification Bell Icon"
-            width={20}
-            height={20}
-          />
-        </button>
-        <div className="border min-h-10 border-black" /> */}
         <div className="group relative text-black">
           <button className="flex items-center space-x-2">
             <span className="flex">
@@ -82,23 +65,13 @@ const Header = ({ user }: any) => {
               />
             </span>
           </button>
-          <nav className="invisible w-fit w-56 absolute right-0 top-full transition-all opacity-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-1 z-20">
+          <nav className="invisible w-fit absolute right-0 top-full transition-all opacity-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-1 z-20">
             <ul className="my-2 bg-white rounded-lg font-semibold">
-              <li>
-                <h1 className="block px-4 py-2 rounded-lg text-lg">Akun</h1>
-              </li>
-              <hr />
-              <li>
-                <p className="block px-4 my-2 rounded-lg text-sm w-56">
-                  {user.name}
-                </p>
-              </li>
-              {guest.isGuest && (
+              {isGuest ? (
                 <>
-                  <hr />
                   <li>
                     <div
-                      className="block px-4 py-2 rounded-lg text-lg hover:bg-gray-100 cursor-pointer"
+                      className="w-44 block px-4 py-2 rounded-lg text-lg hover:bg-gray-100 cursor-pointer"
                       onClick={() => {
                         dispatch(openModal({ type: "registerGuest" }));
                       }}
@@ -107,9 +80,17 @@ const Header = ({ user }: any) => {
                     </div>
                   </li>
                 </>
-              )}
-              {!guest.isGuest && (
+              ) : (
                 <>
+                  <li>
+                    <h1 className="block px-4 py-2 rounded-lg text-lg">Akun</h1>
+                  </li>
+                  <hr />
+                  <li>
+                    <p className="block px-4 my-2 rounded-lg text-sm w-56">
+                      {user.name}
+                    </p>
+                  </li>
                   <li>
                     <p className="block px-4 my-2 rounded-lg text-sm font-normal">
                       {user.email}

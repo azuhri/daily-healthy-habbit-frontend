@@ -156,11 +156,11 @@ export default function LoginPage({ API }: any) {
           Atau
         </span>
         <button
-          className="ring-2 background-white w-full rounded-lg py-2 flex"
+          className="ring-2 bg-white w-full rounded-lg py-2 flex"
           onClick={loginGuest}
         >
           <span className="text-center font-semibold text-md text-black w-full">
-            {isGuestLoading ? <Loading /> : "Login sebagai Guest"}
+            {isGuestLoading ? <Loading color="black" /> : "Login sebagai Guest"}
           </span>
         </button>
         <span className="text-center my-2 font-light text-md text-gray-500">
