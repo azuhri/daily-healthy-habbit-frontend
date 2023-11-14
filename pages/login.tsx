@@ -14,7 +14,7 @@ import $ from "jquery";
 import Loading from "@/components/loadingButton";
 import Head from "next/head";
 import { useAppDispatch } from "@/redux/store";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 import InputForm from "@/components/forms/InputForm";
 
 export const getServerSideProps: GetServerSideProps = async () => {
@@ -58,15 +58,15 @@ export default function LoginPage({ API }: any) {
 
   const loginGuest = async () => {
     try {
-      const guest_id  = Cookies.get("guest_id");
-      
+      const guest_id = Cookies.get("guest_id");
+
       setIsGuestLoading(true);
       const response = await axios.post(`/api/login`, {
         isGuest: true,
-        guest_id
+        guest_id,
       });
 
-      Cookies.set("guest_id", response.data.guest_id, {expires: 90});
+      Cookies.set("guest_id", response.data.guest_id, { expires: 90 });
       router.push("/dashboard");
     } catch (error: any) {
       showError(error);
@@ -155,19 +155,12 @@ export default function LoginPage({ API }: any) {
         <span className="text-center my-3 font-semibold text-md text-primary-100">
           Atau
         </span>
-        <button className="ring-2 background-white, w-full rounded-lg py-2 flex">
-          <Image
-            src="/icons/profile.svg"
-            alt="Guest"
-            width="30"
-            height="30"
-            className="ml-2 absolute my-auto relative"
-          />
-          <span
-            className="text-center font-semibold text-md text-black w-full"
-            onClick={loginGuest}
-          >
-            Masuk sebagai tamu
+        <button
+          className="ring-2 background-white w-full rounded-lg py-2 flex"
+          onClick={loginGuest}
+        >
+          <span className="text-center font-semibold text-md text-black w-full">
+            {isGuestLoading ? <Loading /> : "Login sebagai Guest"}
           </span>
         </button>
         <span className="text-center my-2 font-light text-md text-gray-500">

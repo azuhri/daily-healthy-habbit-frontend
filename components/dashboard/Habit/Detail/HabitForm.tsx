@@ -1,21 +1,10 @@
-import { StaticTimePicker } from "@mui/x-date-pickers";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import moment from "moment";
-import axios from "axios";
-import $ from "jquery";
-import Image from "next/image";
 
 import { useAppDispatch } from "@/redux/store";
-import {
-  closeSidebar,
-  openSidebar,
-} from "@/redux/features/habitSidebar/habitSidebarSlice";
+import { closeSidebar } from "@/redux/features/habitSidebar/habitSidebarSlice";
 import { setHabits } from "@/redux/features/habits/habitsSlice";
 import { openModal } from "@/redux/features/modal/modalSlice";
-import CategoryButton from "./Buttons/CategoryButton";
-import DayButton from "./Buttons/DayButton";
-import DateButton from "./Buttons/DateButton";
 import { createHabit, editHabit, getHabitByDate } from "../api";
 import {
   InputValueType,

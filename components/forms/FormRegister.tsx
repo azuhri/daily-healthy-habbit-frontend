@@ -64,7 +64,9 @@ const FormRegister = () => {
           label="Nama"
           type="text"
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) => {
+            if (e.target.value.length < 25) setName(e.target.value);
+          }}
           placeholder="Masukan nama disini yah..."
         />
         <InputForm

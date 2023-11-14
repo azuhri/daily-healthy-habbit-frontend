@@ -10,19 +10,36 @@ import axios from "axios";
 import { setHabits } from "@/redux/features/habits/habitsSlice";
 import moment from "moment";
 import "moment/locale/id";
-import { is } from "immer/dist/internal.js";
+import Loading from "@/components/loadingButton";
+
+type HabitItemProps = {
+  data: {
+    id: number;
+    name: string;
+    description: string;
+    type: string;
+    start_time: string;
+    target_perday: number;
+    progress: number | string;
+    color: number;
+  };
+  index: number;
+  access_token: string;
+  isHabitLoading: boolean;
+  isLoading: boolean;
+  setIsLoading: Function;
+  progressLoadingStates: boolean[];
+};
 
 const HabitItem = ({
   data,
   index,
   access_token,
+  isHabitLoading,
   isLoading,
-}: {
-  data: any;
-  index: number;
-  access_token: string;
-  isLoading: boolean;
-}) => {
+  setIsLoading,
+  progressLoadingStates,
+}: HabitItemProps) => {
   const [color, setColor] = useState("");
   const [colorLabel, setColorLabel] = useState("");
   const [label, setLabel] = useState("");
@@ -89,6 +106,10 @@ const HabitItem = ({
     };
     const url = `${API}/api/v2/habbit/progress/${data.id}?date=${date}`;
 
+    if (progressLoadingStates.includes(true)) return;
+    console.log(data.progress);
+    setIsLoading(true);
+
     switch (data.progress) {
       case "completed":
         moment(date).isSame(today) &&
@@ -106,6 +127,9 @@ const HabitItem = ({
         break;
     }
     const response = await axios.get(`${API}/api/v2/user?date=${date}`, config);
+    await new Promise((resolve) => setTimeout(resolve, 400));
+    setIsLoading(false);
+    console.log(response);
     if (response.status === 200) {
       dispatch(
         setHabits(response.data.data.sort((a: any, b: any) => b.id - a.id))
@@ -116,12 +140,12 @@ const HabitItem = ({
   };
 
   useEffect(() => {
-    if (isLoading) return;
+    if (isHabitLoading) return;
     if (data.progress == "pending" && moment(date).isBefore(today)) {
       handleProgressNoTarget();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoading]);
+  }, [isHabitLoading]);
 
   return (
     <div
@@ -193,87 +217,99 @@ const HabitItem = ({
         <p className="pt-3 text-xs line-clamp-2">{data.description}</p>
       </div>
       <div className="w-1/6 flex justify-center items-center text-black rounded-r-lg">
-        {(typeof data.progress == "string" && data.progress == "completed") ||
-        data.progress >= data.target_perday ? (
-          <button className="p-[3px] shadow border border-mobile-green-200 bg-mobile-green-200 text-mobile-green-100 rounded-full">
-            <svg
-              viewBox="0 0 24 24"
-              width="15"
-              height="15"
-              stroke="currentColor"
-              strokeWidth="4"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="css-i6dzq1"
-            >
-              <polyline points="20 6 9 17 4 12"></polyline>
-            </svg>
-          </button>
+        {isLoading ? (
+          <Loading />
         ) : (
-          ""
-        )}
-        {((typeof data.progress == "string" && data.progress == "pending") ||
-          (typeof data.progress == "number" &&
-            data.progress < data.target_perday)) &&
-        moment(date).isSame(today) ? (
-          <button className="p-[4px] shadow border border-yellow-300 bg-yellow-300 text-white rounded-full">
-            <svg
-              viewBox="0 0 24 24"
-              width="15"
-              height="15"
-              stroke="currentColor"
-              strokeWidth="3"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="css-i6dzq1"
-            >
-              <circle cx="12" cy="12" r="10"></circle>
-              <polyline points="12 6 12 12 16 14"></polyline>
-            </svg>
-          </button>
-        ) : (
-          ""
-        )}
-        {(typeof data.progress == "string" && data.progress == "incompleted") ||
-        (typeof data.progress == "number" &&
-          data.progress < data.target_perday &&
-          moment(date).isBefore(today)) ? (
-          <button className="p-[4px] shadow border border-red-200 bg-red-200 text-mobile-red-200 rounded-full">
-            <svg
-              viewBox="0 0 24 24"
-              width="15"
-              height="15"
-              stroke="currentColor"
-              strokeWidth="3"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="css-i6dzq1"
-            >
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-          </button>
-        ) : (
-          ""
-        )}
-        {isAfterToday && (
-          <div className="p-[4px] shadow border border-gray-200 bg-gray-200 text-gray-200 rounded-full">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="gray"
-              className="w-6 h-6"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M12 1.5a5.25 5.25 0 00-5.25 5.25v3a3 3 0 00-3 3v6.75a3 3 0 003 3h10.5a3 3 0 003-3v-6.75a3 3 0 00-3-3v-3c0-2.9-2.35-5.25-5.25-5.25zm3.75 8.25v-3a3.75 3.75 0 10-7.5 0v3h7.5z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          </div>
+          {
+            completed: (
+              <button className="p-[3px] shadow border border-mobile-green-200 bg-mobile-green-200 text-mobile-green-100 rounded-full">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="15"
+                  height="15"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="css-i6dzq1"
+                >
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </button>
+            ),
+            pending: (
+              <button className="p-[4px] shadow border border-yellow-300 bg-yellow-300 text-white rounded-full">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="15"
+                  height="15"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="css-i6dzq1"
+                >
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+              </button>
+            ),
+            incompleted: (
+              <button className="p-[4px] shadow border border-red-200 bg-red-200 text-mobile-red-200 rounded-full">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="15"
+                  height="15"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="css-i6dzq1"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            ),
+            afterToday: (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="gray"
+                className="w-6 h-6"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M12 1.5a5.25 5.25 0 00-5.25 5.25v3a3 3 0 00-3 3v6.75a3 3 0 003 3h10.5a3 3 0 003-3v-6.75a3 3 0 00-3-3v-3c0-2.9-2.35-5.25-5.25-5.25zm3.75 8.25v-3a3.75 3.75 0 10-7.5 0v3h7.5z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            ),
+          }[
+            (() => {
+              if (isAfterToday) {
+                return "afterToday";
+              }
+
+              if (typeof data.progress === "number") {
+                if (data.progress >= data.target_perday) {
+                  return "completed";
+                } else if (
+                  data.progress < data.target_perday &&
+                  moment(date).isBefore(today)
+                ) {
+                  return "incompleted";
+                } else {
+                  return "pending";
+                }
+              } else {
+                return data.progress as "completed" | "pending" | "incompleted";
+              }
+            })()
+          ]
         )}
       </div>
       <div className="absolute top-2 right-2">
