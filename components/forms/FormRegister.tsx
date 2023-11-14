@@ -42,8 +42,6 @@ const FormRegister = () => {
       setTimeout(() => {
         $("#responseMessage").hide(300);
       }, 3000);
-      setPassword("");
-      setPassword_confirmation("");
     } finally {
       setIsLoading(false);
     }
