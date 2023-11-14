@@ -4,7 +4,6 @@ import { useAppDispatch } from "@/redux/store";
 import { useSelector } from "react-redux";
 
 import { openModal } from "@/redux/features/modal/modalSlice";
-import guestSlice from "@/redux/features/guest/guestSlice";
 import Gravatar from "../Gravatar";
 import { filterHabits } from "@/redux/features/habits/habitsSlice";
 
