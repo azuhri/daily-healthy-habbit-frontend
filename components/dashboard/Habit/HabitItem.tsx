@@ -112,8 +112,7 @@ const HabitItem = ({
 
     switch (data.progress) {
       case "completed":
-        moment(date).isSame(today) &&
-          (await axios.post(url, { status_progress: "incompleted" }, config));
+        await axios.post(url, { status_progress: "incompleted" }, config);
         break;
       case "pending":
         moment(date).isBefore(today)

@@ -146,36 +146,39 @@ const HabitForm = ({ user }: { user: any }) => {
   };
 
   return (
-    <form className="pt-8" onSubmit={handleSubmit}>
-      <NameDesc inputValue={inputValue} setInputValue={setInputValue} />
+    <form className="h-full" onSubmit={handleSubmit}>
+      <div className="h-[80%] overflow-scroll">
+        <h1 className="font-semibold text-xl pb-4">Definisikan Habitmu!</h1>
+        <NameDesc inputValue={inputValue} setInputValue={setInputValue} />
 
-      <TargetPrio
-        inputValue={inputValue}
-        setInputValue={setInputValue}
-        filteredHabits={filteredHabits}
-        sidebar={sidebar}
-      />
+        <TargetPrio
+          inputValue={inputValue}
+          setInputValue={setInputValue}
+          filteredHabits={filteredHabits}
+          sidebar={sidebar}
+        />
 
-      <Reminder
-        inputValue={inputValue}
-        setInputValue={setInputValue}
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-      />
+        <Reminder
+          inputValue={inputValue}
+          setInputValue={setInputValue}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+        />
 
-      <Category
-        inputValue={inputValue}
-        setInputValue={setInputValue}
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        category={category}
-      />
+        <Category
+          inputValue={inputValue}
+          setInputValue={setInputValue}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          category={category}
+        />
 
-      <Frequency
-        inputValue={inputValue}
-        setInputValue={setInputValue}
-        days={days}
-      />
+        <Frequency
+          inputValue={inputValue}
+          setInputValue={setInputValue}
+          days={days}
+        />
+      </div>
 
       <div className="flex w-full justify-center z-1000 w-full fixed top-0 left-0">
         <div
