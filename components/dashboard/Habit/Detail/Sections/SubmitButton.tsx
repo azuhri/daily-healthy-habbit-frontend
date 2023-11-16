@@ -11,7 +11,7 @@ export const SubmitButtons: React.FC<SubmitButtonsProps> = ({ sidebar }) => {
   return (
     <>
       {sidebar.type === "create" && (
-        <div className="w-full flex justify-center mt-8 mb-4">
+        <div className="w-full flex justify-center">
           <button
             type="submit"
             name="create"
@@ -22,7 +22,7 @@ export const SubmitButtons: React.FC<SubmitButtonsProps> = ({ sidebar }) => {
         </div>
       )}
       {sidebar.type === "edit" && (
-        <div className="flex gap-1 w-full mt-8 mb-4">
+        <div className="flex gap-1 w-full mb-4">
           <button
             type="submit"
             name="edit"

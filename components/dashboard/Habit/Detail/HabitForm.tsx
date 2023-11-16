@@ -1,21 +1,10 @@
-import { StaticTimePicker } from "@mui/x-date-pickers";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import moment from "moment";
-import axios from "axios";
-import $ from "jquery";
-import Image from "next/image";
 
 import { useAppDispatch } from "@/redux/store";
-import {
-  closeSidebar,
-  openSidebar,
-} from "@/redux/features/habitSidebar/habitSidebarSlice";
+import { closeSidebar } from "@/redux/features/habitSidebar/habitSidebarSlice";
 import { setHabits } from "@/redux/features/habits/habitsSlice";
 import { openModal } from "@/redux/features/modal/modalSlice";
-import CategoryButton from "./Buttons/CategoryButton";
-import DayButton from "./Buttons/DayButton";
-import DateButton from "./Buttons/DateButton";
 import { createHabit, editHabit, getHabitByDate } from "../api";
 import {
   InputValueType,
@@ -157,36 +146,39 @@ const HabitForm = ({ user }: { user: any }) => {
   };
 
   return (
-    <form className="pt-8" onSubmit={handleSubmit}>
-      <NameDesc inputValue={inputValue} setInputValue={setInputValue} />
+    <form className="h-full" onSubmit={handleSubmit}>
+      <div className="h-[80%] overflow-scroll">
+        <h1 className="font-semibold text-xl pb-4">Definisikan Habitmu!</h1>
+        <NameDesc inputValue={inputValue} setInputValue={setInputValue} />
 
-      <TargetPrio
-        inputValue={inputValue}
-        setInputValue={setInputValue}
-        filteredHabits={filteredHabits}
-        sidebar={sidebar}
-      />
+        <TargetPrio
+          inputValue={inputValue}
+          setInputValue={setInputValue}
+          filteredHabits={filteredHabits}
+          sidebar={sidebar}
+        />
 
-      <Reminder
-        inputValue={inputValue}
-        setInputValue={setInputValue}
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-      />
+        <Reminder
+          inputValue={inputValue}
+          setInputValue={setInputValue}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+        />
 
-      <Category
-        inputValue={inputValue}
-        setInputValue={setInputValue}
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        category={category}
-      />
+        <Category
+          inputValue={inputValue}
+          setInputValue={setInputValue}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          category={category}
+        />
 
-      <Frequency
-        inputValue={inputValue}
-        setInputValue={setInputValue}
-        days={days}
-      />
+        <Frequency
+          inputValue={inputValue}
+          setInputValue={setInputValue}
+          days={days}
+        />
+      </div>
 
       <div className="flex w-full justify-center z-1000 w-full fixed top-0 left-0">
         <div

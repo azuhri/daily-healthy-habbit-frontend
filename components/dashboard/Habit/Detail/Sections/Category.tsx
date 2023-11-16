@@ -56,6 +56,7 @@ export const Category: React.FC<CategoryProps> = ({
             category={cat}
             inputValue={inputValue}
             setInputValue={setInputValue}
+            setIsOpen={setIsOpen}
           />
         ))}
       </div>

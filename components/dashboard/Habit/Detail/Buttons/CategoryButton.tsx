@@ -5,6 +5,7 @@ interface CategoryButtonProps {
   category: string[];
   inputValue: any;
   setInputValue: Function;
+  setIsOpen: Function;
 }
 
 const CategoryButton: React.FC<CategoryButtonProps> = ({
@@ -12,6 +13,7 @@ const CategoryButton: React.FC<CategoryButtonProps> = ({
   category,
   inputValue,
   setInputValue,
+  setIsOpen,
 }) => {
   return (
     <button
@@ -19,12 +21,13 @@ const CategoryButton: React.FC<CategoryButtonProps> = ({
       className={`rounded-lg text-black h-full w-full ${
         inputValue.color == colorIndex && "ring-4"
       } bg-gray-100 hover:bg-gray-300`}
-      onClick={() =>
+      onClick={() => {
+        setIsOpen({ ...setIsOpen, categoryPicker: false });
         setInputValue({
           ...inputValue,
           color: colorIndex,
-        })
-      }
+        });
+      }}
     >
       <div className="flex justify-between px-2 items-center">
         <p className="text-xs lg:text-sm">{category[1]}</p>

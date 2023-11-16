@@ -17,6 +17,16 @@ const LayoutDashboard = ({ user }: { user: any }) => {
   const { date } = useSelector((state: any) => state.time);
   const momentDate = moment(date, "YYYY-MM-DD");
   const [isOpen, setIsOpen] = useState(false);
+  const [showNotificationRequest, setShowNotificationRequest] = useState(false);
+
+  useEffect(() => {
+    if (
+      typeof Notification !== "undefined" &&
+      Notification.permission !== "granted"
+    ) {
+      setShowNotificationRequest(true);
+    }
+  }, []);
 
   const handleOpen = () => {
     setIsOpen(!isOpen);
@@ -97,7 +107,24 @@ const LayoutDashboard = ({ user }: { user: any }) => {
     <>
       <div className="bg-gradient-dashboard min-h-screen w-full px-8 flex flex-col py-8">
         <Header user={user} />
-        <div className="flex justify-between pt-8 text-black hidden md:block w-full">
+        <div className="flex justify-between pt-4 text-black hidden md:block w-full">
+          {showNotificationRequest && (
+            <div className="flex justify-center items-center border-solid border-red-600 border-2 bg-red-100 text-red-600 font-semibold text-sm py-2 mb-2 px-4 rounded-lg">
+              <p className="mr-2">Notifikasi tidak diaktifkan</p>
+              <button
+                onClick={() => {
+                  Notification.requestPermission().then((permission) => {
+                    if (permission === "granted") {
+                      setShowNotificationRequest(false);
+                    }
+                  });
+                }}
+                className="text-xs font-normal underline"
+              >
+                Aktifkan
+              </button>
+            </div>
+          )}
           <div>
             <p className="text-xs text-gray-400">Daftar Habit pada </p>
             <h1 className="text-2xl font-bold text-primary-100">

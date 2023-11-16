@@ -17,6 +17,8 @@ export const Reminder: React.FC<Reminder> = ({
   isOpen,
   setIsOpen,
 }) => {
+  const unmodifiedTime = inputValue.start_time;
+
   return (
     <>
       <div
@@ -26,21 +28,31 @@ export const Reminder: React.FC<Reminder> = ({
         <p className="">Pengingat</p>
         <div className="flex gap-2">
           <div className="h-full bg-primary-100 rounded-lg px-2 text-white group-hover:bg-primary-hover">
-            {inputValue.start_time != null ? inputValue.start_time : "+"}
+            {inputValue.start_time}
           </div>
         </div>
       </div>
       <div
         className={`w-full transition-all duration-300 ease-in-out ${
-          isOpen.timePicker ? "h-96 my-2" : "h-0 invisible"
+          isOpen.timePicker ? "h-[27rem] my-2" : "h-0 invisible"
         } overflow-hidden`}
       >
         <StaticTimePicker
+          className="rounded-lg"
           value={moment(inputValue.start_time, "HH:mm")}
           onChange={(newValue) => {
             setInputValue({
               ...inputValue,
               start_time: moment(newValue).format("HH:mm"),
+            });
+          }}
+          onAccept={() => {
+            setIsOpen({ ...isOpen, timePicker: false });
+          }}
+          onError={() => {
+            setInputValue({
+              ...inputValue,
+              start_time: moment(unmodifiedTime, "HH:mm").format("HH:mm"),
             });
           }}
         />

@@ -13,17 +13,16 @@ const HabitSidebar = ({ user }: { user: any }) => {
       ${sidebar.isOpen ? "w-[100%] overflow-visible" : "w-0 overflow-hidden"}`}
     >
       <div
-        className={`fixed top-0 right-0 h-screen overflow-y-auto bg-ds-gray rounded-l-lg transition-all duration-300 ease-in-out text-black ${
+        className={`fixed top-0 right-0 h-screen bg-ds-gray rounded-l-lg transition-all duration-300 ease-in-out text-black ${
           sidebar.isOpen
-            ? "w-[100%] md:w-[35%] overflow-visible"
+            ? "w-[100%] md:w-[40%] overflow-visible"
             : "w-0 overflow-hidden"
         }`}
       >
         <button className="my-4 mx-4" onClick={() => dispatch(closeSidebar())}>
           <Image src="/icons/x-icon.svg" alt="X" width={20} height={0} />
         </button>
-        <div className="px-8 w-full mt-4">
-          <h1 className="font-semibold text-xl">Definisikan Habitmu!</h1>
+        <div className="h-full px-8 w-full">
           <HabitForm user={user} />
         </div>
       </div>

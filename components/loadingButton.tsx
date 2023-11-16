@@ -1,4 +1,11 @@
-export default function Loading() {
+type LoadingProps = {
+  color?: string;
+};
+
+export default function Loading({ color }: LoadingProps) {
+  let borderColor = "#fff";
+  if (color == "black") borderColor = "#000";
+
   return (
     <>
       <div className="">
@@ -6,7 +13,7 @@ export default function Loading() {
           .loader {
             width: 28px;
             height: 28px;
-            border: 3px solid #fff;
+            border: 3px solid ${borderColor};
             border-bottom-color: transparent;
             border-radius: 50%;
             display: inline-block;
